@@ -1,1 +1,26 @@
 .DS_Store
+
+# Local environments and secrets
+.env
+.env.*
+!.env.example
+.venv/
+__pycache__/
+*.py[cod]
+
+# Local caches and experiment trackers
+.cache/
+wandb/
+
+# Large/generated research artifacts
+runs/
+artifacts/
+checkpoints/
+models/
+data/raw/
+data/processed/
+*.safetensors
+*.ckpt
+*.pt
+*.pth
+*.gguf

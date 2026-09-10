@@ -763,6 +763,8 @@ MoE routed experts dominate writing
 
 # 10. 后续行动项：每一步为什么存在
 
+> 可并行、可验收的 agent 任务拆分见 [`TODO.md`](TODO.md)。本节保留研究阶段与因果依赖，`TODO.md` 作为执行状态的唯一来源。
+
 ## Phase 0 — 读懂研究对象
 
 **读：**
