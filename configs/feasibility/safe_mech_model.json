@@ -1,0 +1,18 @@
+{
+  "role": "SAFE_MECH_MODEL",
+  "model_id": "Qwen/Qwen2.5-1.5B-Instruct",
+  "snapshot_hash": "989aa7980e4cf806f80c7fef2b1adb7bc71aa306",
+  "hidden_size": 1536,
+  "num_hidden_layers": 28,
+  "dtype": "float16",
+  "chat_template_ok": true,
+  "peak_memory_bytes_benign_smoke": 3102289920,
+  "decoder_layer_class": "Qwen2DecoderLayer",
+  "attn_module": "self_attn",
+  "mlp_module": "mlp",
+  "attn_output_shape_note": "tuple, first element is [batch, seq, hidden]",
+  "mlp_output_shape_note": "tensor [batch, seq, hidden]",
+  "fallback_model_id": "Qwen/Qwen2.5-0.5B-Instruct",
+  "fallback_reason": "not needed; 1.5B loaded, hooked, and generated correctly on first attempt",
+  "notes": "This freeze is for the SAFE_MECH benign methodology-validation task only. It does not constitute the TODO P04 capability-qualified aligned checkpoint decision, which still requires a human-approved harmful-prompt/evaluator contract."
+}
