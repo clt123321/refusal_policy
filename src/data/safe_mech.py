@@ -121,16 +121,20 @@ TOPICS = (("astronomy", 0, ASTRONOMY_QUESTIONS), ("cooking", 1, COOKING_QUESTION
 ROLE = "SAFE_MECH_BENIGN_PROXY"
 
 
-def _split_questions(questions: list[str], n_per_split: int = 16) -> dict[str, list[str]]:
+def _split_questions(questions: list[str], n_per_split: int = 16, shuffle_seed: int | None = None) -> dict[str, list[str]]:
     if len(questions) < n_per_split * len(SPLITS):
         raise ValueError("not enough questions to fill all splits without overlap")
+    questions = list(questions)
+    if shuffle_seed is not None:
+        import random
+        random.Random(shuffle_seed).shuffle(questions)
     return {split: questions[i * n_per_split:(i + 1) * n_per_split] for i, split in enumerate(SPLITS)}
 
 
-def build_safe_mech_assay(n_per_split: int = 16) -> list[dict[str, Any]]:
+def build_safe_mech_assay(n_per_split: int = 16, shuffle_seed: int | None = None) -> list[dict[str, Any]]:
     rows: list[dict[str, Any]] = []
     for topic, h, questions in TOPICS:
-        split_questions = _split_questions(questions, n_per_split)
+        split_questions = _split_questions(questions, n_per_split, shuffle_seed)
         for split in SPLITS:
             for qi, question in enumerate(split_questions[split]):
                 for policy, p, templates in (("answer", 0, ANSWER_TEMPLATES), ("abstain", 1, ABSTAIN_TEMPLATES)):

@@ -8,7 +8,7 @@ from src.models.runtime import layer_modules
 
 @contextmanager
 def steer_module(module: Any, mode: str, direction: torch.Tensor, alpha: float = 1.0, first_token_only: bool = False, token_scope: str | None = None):
-    if mode not in ("remove", "add", "patch"):
+    if mode not in ("remove", "add", "patch", "scale"):
         raise ValueError(f"unknown mode {mode}")
     unit = direction / direction.norm()
     scope = token_scope or ("prompt_first" if first_token_only else "all")
@@ -40,6 +40,9 @@ def steer_module(module: Any, mode: str, direction: torch.Tensor, alpha: float =
         if mode == "remove":
             projection = torch.einsum("bsd,d->bs", hidden, target_direction)
             delta = -torch.einsum("bs,d->bsd", projection * mask, target_direction)
+        elif mode == "scale":
+            projection = torch.einsum("bsd,d->bs", hidden, target_direction)
+            delta = -alpha * torch.einsum("bs,d->bsd", projection * mask, target_direction)
         else:
             delta = alpha * mask.view(1, -1, 1) * target_direction.view(1, 1, -1)
         new_hidden = hidden + delta
