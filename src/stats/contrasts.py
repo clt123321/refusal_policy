@@ -113,6 +113,21 @@ def cosine(a: torch.Tensor, b: torch.Tensor) -> float:
     return float(torch.nn.functional.cosine_similarity(a.flatten(), b.flatten(), dim=0))
 
 
+def policy_subspace_directions(cells: dict[str, list[torch.Tensor]], k: int) -> torch.Tensor:
+    h_groups: dict[int, list[torch.Tensor]] = {}
+    for key, vectors in cells.items():
+        h_val = int(key.split("_")[0][1:])
+        h_groups.setdefault(h_val, []).extend(vectors)
+    residuals = []
+    for h_val, vectors in h_groups.items():
+        stacked = torch.stack(vectors)
+        mean = stacked.mean(dim=0)
+        residuals.append(stacked - mean)
+    matrix = torch.cat(residuals, dim=0)
+    _, _, vt = torch.linalg.svd(matrix, full_matrices=False)
+    return vt[:k]
+
+
 def bootstrap_mean(values: list[float], seed: int = 17, draws: int = 1000) -> dict[str, float]:
     if not values:
         raise ValueError("bootstrap requires values")
