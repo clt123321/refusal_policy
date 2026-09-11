@@ -16,7 +16,7 @@ wandb/
 runs/
 artifacts/
 checkpoints/
-models/
+/models/
 data/raw/
 data/processed/
 *.safetensors
