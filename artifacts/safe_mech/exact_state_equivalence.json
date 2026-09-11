@@ -1,0 +1,194 @@
+{
+  "role": "SAFE_MECH_BENIGN_PROXY",
+  "layer": 27,
+  "n_examples": 8,
+  "n_top1_agree": 8,
+  "max_logits_diff": 1.049041748046875e-05,
+  "verdict": "STATE_EQUIVALENCE_CONFIRMED",
+  "per_example": [
+    {
+      "example_id": "astronomy-carrier-test-0-abstain",
+      "residual_diff_norm": 7.590584118588595e-06,
+      "normed_state_diff_norm": 1.8963053662446328e-05,
+      "logits_max_abs_diff": 1.049041748046875e-05,
+      "top5_token_ids_mlp_hook": [
+        4710,
+        715,
+        358,
+        3555,
+        2160
+      ],
+      "top5_token_ids_residual_overwrite": [
+        4710,
+        715,
+        358,
+        3555,
+        2160
+      ],
+      "top1_agrees": true,
+      "argmax_mlp_hook": 4710,
+      "argmax_residual_overwrite": 4710
+    },
+    {
+      "example_id": "astronomy-carrier-test-1-abstain",
+      "residual_diff_norm": 9.404980119143147e-06,
+      "normed_state_diff_norm": 1.2508678992162459e-05,
+      "logits_max_abs_diff": 4.76837158203125e-06,
+      "top5_token_ids_mlp_hook": [
+        715,
+        576,
+        4710,
+        14566,
+        362
+      ],
+      "top5_token_ids_residual_overwrite": [
+        715,
+        576,
+        4710,
+        14566,
+        362
+      ],
+      "top1_agrees": true,
+      "argmax_mlp_hook": 715,
+      "argmax_residual_overwrite": 715
+    },
+    {
+      "example_id": "astronomy-carrier-test-2-abstain",
+      "residual_diff_norm": 8.937495294958353e-06,
+      "normed_state_diff_norm": 1.436545790056698e-05,
+      "logits_max_abs_diff": 9.5367431640625e-06,
+      "top5_token_ids_mlp_hook": [
+        576,
+        2014,
+        358,
+        1084,
+        2980
+      ],
+      "top5_token_ids_residual_overwrite": [
+        576,
+        2014,
+        358,
+        1084,
+        2980
+      ],
+      "top1_agrees": true,
+      "argmax_mlp_hook": 576,
+      "argmax_residual_overwrite": 576
+    },
+    {
+      "example_id": "astronomy-carrier-test-3-abstain",
+      "residual_diff_norm": 8.301501111418474e-06,
+      "normed_state_diff_norm": 8.82135282154195e-06,
+      "logits_max_abs_diff": 4.76837158203125e-06,
+      "top5_token_ids_mlp_hook": [
+        576,
+        715,
+        4710,
+        362,
+        21806
+      ],
+      "top5_token_ids_residual_overwrite": [
+        576,
+        715,
+        4710,
+        362,
+        21806
+      ],
+      "top1_agrees": true,
+      "argmax_mlp_hook": 576,
+      "argmax_residual_overwrite": 576
+    },
+    {
+      "example_id": "astronomy-carrier-test-4-abstain",
+      "residual_diff_norm": 6.810674221924273e-06,
+      "normed_state_diff_norm": 7.027463652775623e-06,
+      "logits_max_abs_diff": 4.76837158203125e-06,
+      "top5_token_ids_mlp_hook": [
+        362,
+        4710,
+        715,
+        3555,
+        358
+      ],
+      "top5_token_ids_residual_overwrite": [
+        362,
+        4710,
+        715,
+        3555,
+        358
+      ],
+      "top1_agrees": true,
+      "argmax_mlp_hook": 362,
+      "argmax_residual_overwrite": 362
+    },
+    {
+      "example_id": "astronomy-carrier-test-5-abstain",
+      "residual_diff_norm": 7.843710591259878e-06,
+      "normed_state_diff_norm": 1.567881008668337e-05,
+      "logits_max_abs_diff": 5.7220458984375e-06,
+      "top5_token_ids_mlp_hook": [
+        362,
+        39632,
+        21806,
+        715,
+        576
+      ],
+      "top5_token_ids_residual_overwrite": [
+        362,
+        39632,
+        21806,
+        715,
+        576
+      ],
+      "top1_agrees": true,
+      "argmax_mlp_hook": 362,
+      "argmax_residual_overwrite": 362
+    },
+    {
+      "example_id": "astronomy-carrier-test-6-abstain",
+      "residual_diff_norm": 8.329837328346912e-06,
+      "normed_state_diff_norm": 1.5611076378263533e-05,
+      "logits_max_abs_diff": 7.62939453125e-06,
+      "top5_token_ids_mlp_hook": [
+        576,
+        2014,
+        358,
+        49153,
+        1084
+      ],
+      "top5_token_ids_residual_overwrite": [
+        576,
+        2014,
+        358,
+        49153,
+        1084
+      ],
+      "top1_agrees": true,
+      "argmax_mlp_hook": 576,
+      "argmax_residual_overwrite": 576
+    },
+    {
+      "example_id": "astronomy-carrier-test-7-abstain",
+      "residual_diff_norm": 8.666277608426753e-06,
+      "normed_state_diff_norm": 6.7753267103398684e-06,
+      "logits_max_abs_diff": 3.814697265625e-06,
+      "top5_token_ids_mlp_hook": [
+        576,
+        2014,
+        1597,
+        21806,
+        715
+      ],
+      "top5_token_ids_residual_overwrite": [
+        576,
+        2014,
+        1597,
+        21806,
+        715
+      ],
+      "top1_agrees": true,
+      "argmax_mlp_hook": 576,
+      "argmax_residual_overwrite": 576
+    }
+  ]
+}

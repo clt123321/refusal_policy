@@ -1,0 +1,7 @@
+control,necessity_effect_pp,necessity_ci_low_pp,necessity_ci_high_pp,sufficiency_effect_pp,sufficiency_ci_low_pp,sufficiency_ci_high_pp
+random_norm_matched,0.0,0.0,0.0,0.0,0.0,0.0
+orthogonal,0.0,0.0,0.0,0.0,0.0,0.0
+h_content_direction,0.0,0.0,0.0,0.0,0.0,0.0
+shuffled_label,6.25,0.0,15.625,0.0,0.0,0.0
+wrong_layer,-3.125,-9.375,0.0,0.0,0.0,0.0
+wrong_token,0.0,0.0,0.0,0.0,0.0,0.0

@@ -1,0 +1,83 @@
+[
+  {
+    "alpha": -2.0,
+    "abstain_rate": 1.0,
+    "compliant_rate": 0.0,
+    "invalid_rate": 0.0,
+    "mean_logit_margin": 0.94873046875,
+    "logit_margin_ci_low": 0.202337646484375,
+    "logit_margin_ci_high": 1.7049438476562497
+  },
+  {
+    "alpha": -1.5,
+    "abstain_rate": 0.96875,
+    "compliant_rate": 0.03125,
+    "invalid_rate": 0.0,
+    "mean_logit_margin": 0.69970703125,
+    "logit_margin_ci_low": -0.03076171875,
+    "logit_margin_ci_high": 1.4421264648437497
+  },
+  {
+    "alpha": -1.0,
+    "abstain_rate": 0.9375,
+    "compliant_rate": 0.0625,
+    "invalid_rate": 0.0,
+    "mean_logit_margin": 0.4375,
+    "logit_margin_ci_low": -0.27003173828125,
+    "logit_margin_ci_high": 1.15091552734375
+  },
+  {
+    "alpha": -0.5,
+    "abstain_rate": 0.90625,
+    "compliant_rate": 0.09375,
+    "invalid_rate": 0.0,
+    "mean_logit_margin": 0.16259765625,
+    "logit_margin_ci_low": -0.51578369140625,
+    "logit_margin_ci_high": 0.8254394531249998
+  },
+  {
+    "alpha": 0.0,
+    "abstain_rate": 0.90625,
+    "compliant_rate": 0.09375,
+    "invalid_rate": 0.0,
+    "mean_logit_margin": -0.1103515625,
+    "logit_margin_ci_low": -0.751708984375,
+    "logit_margin_ci_high": 0.5218994140624996
+  },
+  {
+    "alpha": 0.5,
+    "abstain_rate": 0.65625,
+    "compliant_rate": 0.34375,
+    "invalid_rate": 0.0,
+    "mean_logit_margin": -0.38134765625,
+    "logit_margin_ci_low": -0.98492431640625,
+    "logit_margin_ci_high": 0.2318969726562496
+  },
+  {
+    "alpha": 1.0,
+    "abstain_rate": 0.6875,
+    "compliant_rate": 0.3125,
+    "invalid_rate": 0.0,
+    "mean_logit_margin": -0.6455078125,
+    "logit_margin_ci_low": -1.21827392578125,
+    "logit_margin_ci_high": -0.0739990234375002
+  },
+  {
+    "alpha": 1.5,
+    "abstain_rate": 0.625,
+    "compliant_rate": 0.375,
+    "invalid_rate": 0.0,
+    "mean_logit_margin": -0.89208984375,
+    "logit_margin_ci_low": -1.4478271484375,
+    "logit_margin_ci_high": -0.3460571289062501
+  },
+  {
+    "alpha": 2.0,
+    "abstain_rate": 0.5625,
+    "compliant_rate": 0.4375,
+    "invalid_rate": 0.0,
+    "mean_logit_margin": -1.1201171875,
+    "logit_margin_ci_low": -1.6691162109375,
+    "logit_margin_ci_high": -0.590771484375
+  }
+]

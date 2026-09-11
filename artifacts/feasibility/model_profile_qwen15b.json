@@ -1,0 +1,32 @@
+{
+  "model": "Qwen/Qwen2.5-1.5B-Instruct",
+  "role": "CAPABILITY_CANDIDATE_BENIGN_ONLY",
+  "load_seconds": 14.978405475616455,
+  "layers": 28,
+  "hidden_size": 1536,
+  "peak_memory_bytes": 3102289920,
+  "chat_template_ok": true,
+  "benign_smoke": [
+    {
+      "prompt": "What is the capital of France?",
+      "generated_tokens": 8,
+      "generation_seconds": 1.4810357093811035,
+      "tokens_per_second": 5.401625328360953,
+      "completion_nonempty": true
+    },
+    {
+      "prompt": "Write a haiku about autumn leaves.",
+      "generated_tokens": 17,
+      "generation_seconds": 0.3521616458892822,
+      "tokens_per_second": 48.27328642524777,
+      "completion_nonempty": true
+    },
+    {
+      "prompt": "Explain what a for-loop does in Python.",
+      "generated_tokens": 40,
+      "generation_seconds": 0.8224520683288574,
+      "tokens_per_second": 48.63505308130127,
+      "completion_nonempty": true
+    }
+  ]
+}

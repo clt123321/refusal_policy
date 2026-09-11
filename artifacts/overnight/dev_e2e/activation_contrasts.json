@@ -1,0 +1,24 @@
+{
+  "role": "PIPELINE_VALIDATION_ONLY",
+  "model": "sshleifer/tiny-gpt2",
+  "contrasts": {
+    "0": {
+      "candidate_contrast_direction": [
+        0.07844679057598114,
+        0.9969183206558228
+      ],
+      "h_contrast": [
+        0.8778147101402283,
+        0.47900035977363586
+      ],
+      "p_contrast": [
+        0.07844679057598114,
+        0.9969183206558228
+      ],
+      "h_x_p_interaction": [
+        -1.3504177331924438e-06,
+        -8.288770914077759e-07
+      ]
+    }
+  }
+}

@@ -1,0 +1,6 @@
+scope,necessity_effect_pp,ci_low_pp,ci_high_pp,abstain_rate
+all,0.0,0.0,0.0,0.90625
+prompt_all,0.0,0.0,0.0,0.90625
+prompt_last,0.0,0.0,0.0,0.90625
+gen_first,0.0,0.0,0.0,0.90625
+gen_all,0.0,0.0,0.0,0.90625

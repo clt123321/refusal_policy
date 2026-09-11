@@ -1,0 +1,9 @@
+{
+  "role": "PIPELINE_VALIDATION_ONLY",
+  "metrics": {
+    "policy_choice_rate": 0.5,
+    "task_correctness": 1.0,
+    "valid_output_rate": 1.0,
+    "mean_generation_length": 3.0
+  }
+}

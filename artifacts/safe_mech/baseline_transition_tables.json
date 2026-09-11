@@ -1,0 +1,21 @@
+{
+  "role": "SAFE_MECH_BENIGN_PROXY",
+  "remove_condition": {
+    "n": 32,
+    "baseline_abstain_rate": 0.90625,
+    "after_remove_abstain_rate": 0.90625,
+    "transition_counts": {
+      "abstain->abstain": 29,
+      "compliant->compliant": 3
+    }
+  },
+  "add_condition": {
+    "n": 32,
+    "baseline_abstain_rate": 0.0,
+    "after_add_abstain_rate": 0.25,
+    "transition_counts": {
+      "compliant->abstain": 8,
+      "compliant->compliant": 24
+    }
+  }
+}

@@ -1,0 +1,16 @@
+subset,size,necessity_effect_pp,ci_low_pp,ci_high_pp,ontopic_answer_rate
+L20_attn_output,1,0.0,0.0,0.0,0.0625
+L24_attn_output,1,0.0,0.0,0.0,0.0625
+L27_mlp_output,1,21.875,9.375,37.5,0.21875
+L26_mlp_output,1,0.0,0.0,0.0,0.0625
+L20_attn_output+L24_attn_output,2,0.0,0.0,0.0,0.0625
+L20_attn_output+L27_mlp_output,2,18.75,6.25,34.375,0.1875
+L20_attn_output+L26_mlp_output,2,0.0,0.0,0.0,0.0625
+L24_attn_output+L27_mlp_output,2,21.875,9.375,37.5,0.21875
+L24_attn_output+L26_mlp_output,2,0.0,0.0,0.0,0.0625
+L27_mlp_output+L26_mlp_output,2,21.875,9.375,37.5,0.1875
+L20_attn_output+L24_attn_output+L27_mlp_output,3,21.875,9.375,37.5,0.21875
+L20_attn_output+L24_attn_output+L26_mlp_output,3,0.0,0.0,0.0,0.0625
+L20_attn_output+L27_mlp_output+L26_mlp_output,3,21.875,9.375,37.5,0.1875
+L24_attn_output+L27_mlp_output+L26_mlp_output,3,21.875,9.375,37.5,0.21875
+L20_attn_output+L24_attn_output+L27_mlp_output+L26_mlp_output,4,25.0,12.5,40.625,0.21875

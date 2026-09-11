@@ -1,0 +1,43 @@
+{
+  "role": "SAFE_MECH_BENIGN_PROXY",
+  "candidate_layer": 18,
+  "patch_layer": 23,
+  "candidate_alpha": 6.813572883605957,
+  "patch_alpha": 20.23063087463379,
+  "necessity_effect_pp": 0.0,
+  "necessity_ci_pp": [
+    0.0,
+    0.0
+  ],
+  "sufficiency_effect_pp": 0.0,
+  "sufficiency_ci_pp": [
+    0.0,
+    0.0
+  ],
+  "baseline_abstain_rate": {
+    "mean": 0.90625,
+    "ci_low": 0.8125,
+    "ci_high": 1.0
+  },
+  "remove_abstain_rate": {
+    "mean": 0.90625,
+    "ci_low": 0.8125,
+    "ci_high": 1.0
+  },
+  "rescue_abstain_rate": {
+    "mean": 0.90625,
+    "ci_low": 0.8125,
+    "ci_high": 1.0
+  },
+  "rescue_fraction": NaN,
+  "baseline_answer_ontopic_rate": {
+    "mean": 0.75,
+    "ci_low": 0.59375,
+    "ci_high": 0.90625
+  },
+  "baseline_natural_ontopic_rate": {
+    "mean": 0.875,
+    "ci_low": 0.75,
+    "ci_high": 0.96875
+  }
+}

@@ -1,0 +1,9 @@
+layer,module,projection_strength,single_removal_necessity_pp,necessity_ci_low_pp,necessity_ci_high_pp,ontopic_answer_rate
+20,attn_output,3.5321741104125977,0.0,0.0,0.0,0.0625
+24,attn_output,2.81052565574646,0.0,0.0,0.0,0.0625
+26,attn_output,2.7021024227142334,0.0,0.0,0.0,0.0625
+25,attn_output,2.3350939750671387,0.0,0.0,0.0,0.0625
+27,mlp_output,10.591526985168457,21.875,9.375,37.5,0.21875
+26,mlp_output,5.595483779907227,0.0,0.0,0.0,0.0625
+21,mlp_output,4.277975559234619,0.0,0.0,0.0,0.0625
+20,mlp_output,4.240912914276123,0.0,0.0,0.0,0.0625

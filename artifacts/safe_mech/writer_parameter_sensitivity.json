@@ -1,0 +1,110 @@
+[
+  {
+    "block": "L10_mlp.down_proj",
+    "writer_a": "L20_attn_output",
+    "writer_b": "L24_attn_output",
+    "cosine": 0.620622992515564
+  },
+  {
+    "block": "L10_mlp.down_proj",
+    "writer_a": "L20_attn_output",
+    "writer_b": "L27_mlp_output",
+    "cosine": -0.15291178226470947
+  },
+  {
+    "block": "L10_mlp.down_proj",
+    "writer_a": "L20_attn_output",
+    "writer_b": "L26_mlp_output",
+    "cosine": 0.6017868518829346
+  },
+  {
+    "block": "L10_mlp.down_proj",
+    "writer_a": "L24_attn_output",
+    "writer_b": "L27_mlp_output",
+    "cosine": -0.04542890936136246
+  },
+  {
+    "block": "L10_mlp.down_proj",
+    "writer_a": "L24_attn_output",
+    "writer_b": "L26_mlp_output",
+    "cosine": 0.4865911602973938
+  },
+  {
+    "block": "L10_mlp.down_proj",
+    "writer_a": "L27_mlp_output",
+    "writer_b": "L26_mlp_output",
+    "cosine": -0.3122629225254059
+  },
+  {
+    "block": "L15_self_attn.o_proj",
+    "writer_a": "L20_attn_output",
+    "writer_b": "L24_attn_output",
+    "cosine": 0.5971586108207703
+  },
+  {
+    "block": "L15_self_attn.o_proj",
+    "writer_a": "L20_attn_output",
+    "writer_b": "L27_mlp_output",
+    "cosine": 0.022205322980880737
+  },
+  {
+    "block": "L15_self_attn.o_proj",
+    "writer_a": "L20_attn_output",
+    "writer_b": "L26_mlp_output",
+    "cosine": 0.4994977116584778
+  },
+  {
+    "block": "L15_self_attn.o_proj",
+    "writer_a": "L24_attn_output",
+    "writer_b": "L27_mlp_output",
+    "cosine": 0.165757954120636
+  },
+  {
+    "block": "L15_self_attn.o_proj",
+    "writer_a": "L24_attn_output",
+    "writer_b": "L26_mlp_output",
+    "cosine": 0.410945862531662
+  },
+  {
+    "block": "L15_self_attn.o_proj",
+    "writer_a": "L27_mlp_output",
+    "writer_b": "L26_mlp_output",
+    "cosine": -0.14029577374458313
+  },
+  {
+    "block": "L5_mlp.down_proj",
+    "writer_a": "L20_attn_output",
+    "writer_b": "L24_attn_output",
+    "cosine": 0.6105520129203796
+  },
+  {
+    "block": "L5_mlp.down_proj",
+    "writer_a": "L20_attn_output",
+    "writer_b": "L27_mlp_output",
+    "cosine": -0.14247477054595947
+  },
+  {
+    "block": "L5_mlp.down_proj",
+    "writer_a": "L20_attn_output",
+    "writer_b": "L26_mlp_output",
+    "cosine": 0.5593489408493042
+  },
+  {
+    "block": "L5_mlp.down_proj",
+    "writer_a": "L24_attn_output",
+    "writer_b": "L27_mlp_output",
+    "cosine": -0.13549992442131042
+  },
+  {
+    "block": "L5_mlp.down_proj",
+    "writer_a": "L24_attn_output",
+    "writer_b": "L26_mlp_output",
+    "cosine": 0.46577760577201843
+  },
+  {
+    "block": "L5_mlp.down_proj",
+    "writer_a": "L27_mlp_output",
+    "writer_b": "L26_mlp_output",
+    "cosine": -0.33243539929389954
+  }
+]

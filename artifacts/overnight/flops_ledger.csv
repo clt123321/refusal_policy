@@ -1,0 +1,2 @@
+run_id,task,operation,device_count,precision,batch_size,sequence_tokens,forward_tokens,backward_tokens,flops,status,notes
+OVERNIGHT-AUDIT,P00,audit,0,N/A,0,0,0,0,0,COMPLETED,no model or experiment execution

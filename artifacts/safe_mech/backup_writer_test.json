@@ -1,0 +1,450 @@
+[
+  {
+    "layer": 27,
+    "module": "mlp_output",
+    "baseline_score": 11.216835021972656,
+    "ablated_score": -1.4474849700927734,
+    "delta": -12.66431999206543,
+    "increased_magnitude": false
+  },
+  {
+    "layer": 26,
+    "module": "mlp_output",
+    "baseline_score": 5.4581298828125,
+    "ablated_score": -1.1212034225463867,
+    "delta": -6.579333305358887,
+    "increased_magnitude": false
+  },
+  {
+    "layer": 21,
+    "module": "mlp_output",
+    "baseline_score": 4.391635417938232,
+    "ablated_score": 0.7924286723136902,
+    "delta": -3.5992067456245422,
+    "increased_magnitude": false
+  },
+  {
+    "layer": 22,
+    "module": "mlp_output",
+    "baseline_score": 3.6332521438598633,
+    "ablated_score": 0.3650665283203125,
+    "delta": -3.268185615539551,
+    "increased_magnitude": false
+  },
+  {
+    "layer": 24,
+    "module": "mlp_output",
+    "baseline_score": 3.249490261077881,
+    "ablated_score": 0.2521863579750061,
+    "delta": -2.9973039031028748,
+    "increased_magnitude": false
+  },
+  {
+    "layer": 23,
+    "module": "mlp_output",
+    "baseline_score": 2.8118624687194824,
+    "ablated_score": 0.316471129655838,
+    "delta": -2.4953913390636444,
+    "increased_magnitude": false
+  },
+  {
+    "layer": 25,
+    "module": "mlp_output",
+    "baseline_score": 3.186077833175659,
+    "ablated_score": 0.6962467432022095,
+    "delta": -2.4898310899734497,
+    "increased_magnitude": false
+  },
+  {
+    "layer": 27,
+    "module": "attn_output",
+    "baseline_score": -0.13122010231018066,
+    "ablated_score": 1.614903450012207,
+    "delta": 1.7461235523223877,
+    "increased_magnitude": true
+  },
+  {
+    "layer": 20,
+    "module": "mlp_output",
+    "baseline_score": 4.18179178237915,
+    "ablated_score": 2.463285207748413,
+    "delta": -1.7185065746307373,
+    "increased_magnitude": false
+  },
+  {
+    "layer": 19,
+    "module": "mlp_output",
+    "baseline_score": 2.4538252353668213,
+    "ablated_score": 1.1798158884048462,
+    "delta": -1.274009346961975,
+    "increased_magnitude": false
+  },
+  {
+    "layer": 21,
+    "module": "attn_output",
+    "baseline_score": 2.1221866607666016,
+    "ablated_score": 0.89310222864151,
+    "delta": -1.2290844321250916,
+    "increased_magnitude": false
+  },
+  {
+    "layer": 25,
+    "module": "attn_output",
+    "baseline_score": 2.367830514907837,
+    "ablated_score": 1.32474684715271,
+    "delta": -1.043083667755127,
+    "increased_magnitude": false
+  },
+  {
+    "layer": 18,
+    "module": "mlp_output",
+    "baseline_score": 1.4538757801055908,
+    "ablated_score": 0.4558655917644501,
+    "delta": -0.9980101883411407,
+    "increased_magnitude": false
+  },
+  {
+    "layer": 24,
+    "module": "attn_output",
+    "baseline_score": 2.9155991077423096,
+    "ablated_score": 2.2452406883239746,
+    "delta": -0.670358419418335,
+    "increased_magnitude": false
+  },
+  {
+    "layer": 26,
+    "module": "attn_output",
+    "baseline_score": 2.784864902496338,
+    "ablated_score": 2.1306891441345215,
+    "delta": -0.6541757583618164,
+    "increased_magnitude": false
+  },
+  {
+    "layer": 6,
+    "module": "mlp_output",
+    "baseline_score": 0.8053097724914551,
+    "ablated_score": 0.15133394300937653,
+    "delta": -0.6539758294820786,
+    "increased_magnitude": false
+  },
+  {
+    "layer": 19,
+    "module": "attn_output",
+    "baseline_score": 1.7422460317611694,
+    "ablated_score": 1.205514907836914,
+    "delta": -0.5367311239242554,
+    "increased_magnitude": false
+  },
+  {
+    "layer": 23,
+    "module": "attn_output",
+    "baseline_score": 1.115952730178833,
+    "ablated_score": 0.5806349515914917,
+    "delta": -0.5353177785873413,
+    "increased_magnitude": false
+  },
+  {
+    "layer": 4,
+    "module": "mlp_output",
+    "baseline_score": 0.6464042663574219,
+    "ablated_score": 0.1141209602355957,
+    "delta": -0.5322833061218262,
+    "increased_magnitude": false
+  },
+  {
+    "layer": 5,
+    "module": "mlp_output",
+    "baseline_score": 0.9013626575469971,
+    "ablated_score": 0.3698709011077881,
+    "delta": -0.531491756439209,
+    "increased_magnitude": false
+  },
+  {
+    "layer": 22,
+    "module": "attn_output",
+    "baseline_score": 1.2816729545593262,
+    "ablated_score": 0.7779831290245056,
+    "delta": -0.5036898255348206,
+    "increased_magnitude": false
+  },
+  {
+    "layer": 17,
+    "module": "mlp_output",
+    "baseline_score": 1.3218824863433838,
+    "ablated_score": 0.9351903200149536,
+    "delta": -0.3866921663284302,
+    "increased_magnitude": false
+  },
+  {
+    "layer": 12,
+    "module": "mlp_output",
+    "baseline_score": 0.5312153100967407,
+    "ablated_score": 0.1719868779182434,
+    "delta": -0.3592284321784973,
+    "increased_magnitude": false
+  },
+  {
+    "layer": 11,
+    "module": "attn_output",
+    "baseline_score": 1.5544239282608032,
+    "ablated_score": 1.230183482170105,
+    "delta": -0.32424044609069824,
+    "increased_magnitude": false
+  },
+  {
+    "layer": 16,
+    "module": "mlp_output",
+    "baseline_score": 0.6901249885559082,
+    "ablated_score": 0.40506190061569214,
+    "delta": -0.28506308794021606,
+    "increased_magnitude": false
+  },
+  {
+    "layer": 15,
+    "module": "mlp_output",
+    "baseline_score": 0.5145913362503052,
+    "ablated_score": 0.24145886301994324,
+    "delta": -0.27313247323036194,
+    "increased_magnitude": false
+  },
+  {
+    "layer": 17,
+    "module": "attn_output",
+    "baseline_score": 1.5343512296676636,
+    "ablated_score": 1.265220284461975,
+    "delta": -0.2691309452056885,
+    "increased_magnitude": false
+  },
+  {
+    "layer": 7,
+    "module": "mlp_output",
+    "baseline_score": 0.42685478925704956,
+    "ablated_score": 0.16321521997451782,
+    "delta": -0.26363956928253174,
+    "increased_magnitude": false
+  },
+  {
+    "layer": 18,
+    "module": "attn_output",
+    "baseline_score": 0.779787540435791,
+    "ablated_score": 0.5184084177017212,
+    "delta": -0.2613791227340698,
+    "increased_magnitude": false
+  },
+  {
+    "layer": 13,
+    "module": "attn_output",
+    "baseline_score": 0.6686732769012451,
+    "ablated_score": 0.4100119173526764,
+    "delta": -0.2586613595485687,
+    "increased_magnitude": false
+  },
+  {
+    "layer": 13,
+    "module": "mlp_output",
+    "baseline_score": 0.40093719959259033,
+    "ablated_score": 0.15554922819137573,
+    "delta": -0.2453879714012146,
+    "increased_magnitude": false
+  },
+  {
+    "layer": 3,
+    "module": "mlp_output",
+    "baseline_score": 1.4413466453552246,
+    "ablated_score": 1.2176482677459717,
+    "delta": -0.22369837760925293,
+    "increased_magnitude": false
+  },
+  {
+    "layer": 2,
+    "module": "mlp_output",
+    "baseline_score": 0.5204968452453613,
+    "ablated_score": 0.30059146881103516,
+    "delta": -0.21990537643432617,
+    "increased_magnitude": false
+  },
+  {
+    "layer": 16,
+    "module": "attn_output",
+    "baseline_score": 0.5361546874046326,
+    "ablated_score": 0.318360298871994,
+    "delta": -0.21779438853263855,
+    "increased_magnitude": false
+  },
+  {
+    "layer": 12,
+    "module": "attn_output",
+    "baseline_score": 0.5280345678329468,
+    "ablated_score": 0.34460654854774475,
+    "delta": -0.18342801928520203,
+    "increased_magnitude": false
+  },
+  {
+    "layer": 11,
+    "module": "mlp_output",
+    "baseline_score": 0.6039702892303467,
+    "ablated_score": 0.437095046043396,
+    "delta": -0.16687524318695068,
+    "increased_magnitude": false
+  },
+  {
+    "layer": 20,
+    "module": "attn_output",
+    "baseline_score": 3.604607343673706,
+    "ablated_score": 3.4545536041259766,
+    "delta": -0.1500537395477295,
+    "increased_magnitude": false
+  },
+  {
+    "layer": 14,
+    "module": "mlp_output",
+    "baseline_score": 0.3678320646286011,
+    "ablated_score": 0.21801942586898804,
+    "delta": -0.14981263875961304,
+    "increased_magnitude": false
+  },
+  {
+    "layer": 15,
+    "module": "attn_output",
+    "baseline_score": 0.8000795841217041,
+    "ablated_score": 0.6996285319328308,
+    "delta": -0.10045105218887329,
+    "increased_magnitude": false
+  },
+  {
+    "layer": 1,
+    "module": "mlp_output",
+    "baseline_score": 0.21001286804676056,
+    "ablated_score": 0.11611256003379822,
+    "delta": -0.09390030801296234,
+    "increased_magnitude": false
+  },
+  {
+    "layer": 4,
+    "module": "attn_output",
+    "baseline_score": 0.618262529373169,
+    "ablated_score": 0.5251054167747498,
+    "delta": -0.09315711259841919,
+    "increased_magnitude": false
+  },
+  {
+    "layer": 9,
+    "module": "mlp_output",
+    "baseline_score": 0.17849761247634888,
+    "ablated_score": 0.09265244007110596,
+    "delta": -0.08584517240524292,
+    "increased_magnitude": false
+  },
+  {
+    "layer": 5,
+    "module": "attn_output",
+    "baseline_score": 0.3961089551448822,
+    "ablated_score": 0.32222750782966614,
+    "delta": -0.07388144731521606,
+    "increased_magnitude": false
+  },
+  {
+    "layer": 8,
+    "module": "mlp_output",
+    "baseline_score": 0.11748814582824707,
+    "ablated_score": 0.048886895179748535,
+    "delta": -0.06860125064849854,
+    "increased_magnitude": false
+  },
+  {
+    "layer": 9,
+    "module": "attn_output",
+    "baseline_score": 0.26304399967193604,
+    "ablated_score": 0.19691449403762817,
+    "delta": -0.06612950563430786,
+    "increased_magnitude": false
+  },
+  {
+    "layer": 8,
+    "module": "attn_output",
+    "baseline_score": 0.11129063367843628,
+    "ablated_score": 0.0452132523059845,
+    "delta": -0.06607738137245178,
+    "increased_magnitude": false
+  },
+  {
+    "layer": 10,
+    "module": "mlp_output",
+    "baseline_score": 0.08998674154281616,
+    "ablated_score": 0.13725775480270386,
+    "delta": 0.047271013259887695,
+    "increased_magnitude": true
+  },
+  {
+    "layer": 14,
+    "module": "attn_output",
+    "baseline_score": 0.2690250873565674,
+    "ablated_score": 0.2368863821029663,
+    "delta": -0.032138705253601074,
+    "increased_magnitude": false
+  },
+  {
+    "layer": 3,
+    "module": "attn_output",
+    "baseline_score": 0.6052905321121216,
+    "ablated_score": 0.5852871537208557,
+    "delta": -0.02000337839126587,
+    "increased_magnitude": false
+  },
+  {
+    "layer": 6,
+    "module": "attn_output",
+    "baseline_score": 0.15213263034820557,
+    "ablated_score": 0.135658860206604,
+    "delta": -0.016473770141601562,
+    "increased_magnitude": false
+  },
+  {
+    "layer": 10,
+    "module": "attn_output",
+    "baseline_score": 0.1913512945175171,
+    "ablated_score": 0.20532189309597015,
+    "delta": 0.013970598578453064,
+    "increased_magnitude": true
+  },
+  {
+    "layer": 1,
+    "module": "attn_output",
+    "baseline_score": 0.23301313817501068,
+    "ablated_score": 0.22454914450645447,
+    "delta": -0.008463993668556213,
+    "increased_magnitude": false
+  },
+  {
+    "layer": 7,
+    "module": "attn_output",
+    "baseline_score": 0.28179848194122314,
+    "ablated_score": 0.28846609592437744,
+    "delta": 0.006667613983154297,
+    "increased_magnitude": true
+  },
+  {
+    "layer": 2,
+    "module": "attn_output",
+    "baseline_score": 0.25902247428894043,
+    "ablated_score": 0.25424912571907043,
+    "delta": -0.004773348569869995,
+    "increased_magnitude": false
+  },
+  {
+    "layer": 0,
+    "module": "attn_output",
+    "baseline_score": 0.3561887741088867,
+    "ablated_score": 0.3561887741088867,
+    "delta": 0.0,
+    "increased_magnitude": false
+  },
+  {
+    "layer": 0,
+    "module": "mlp_output",
+    "baseline_score": 0.7978723645210266,
+    "ablated_score": 0.7978723645210266,
+    "delta": 0.0,
+    "increased_magnitude": false
+  }
+]

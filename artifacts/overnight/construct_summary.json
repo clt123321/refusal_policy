@@ -1,0 +1,17 @@
+{
+  "status": "NOT_YET_DECIDABLE",
+  "code_revision": "6cb64ce5ab9d05e9729e9f0aa8b38b51ecb792f0",
+  "model": null,
+  "splits": null,
+  "c01": "NOT_RUN",
+  "c02": "NOT_RUN",
+  "c03": "NOT_RUN",
+  "c04": "NOT_RUN",
+  "c05": "NOT_RUN",
+  "a01": "NOT_RUN",
+  "a02": "NOT_RUN",
+  "a03": "NOT_RUN",
+  "a04": "NOT_RUN",
+  "gate1": "NOT_YET_DECIDABLE",
+  "reason": "Repository contains protocol documents only; required model/data/harness are absent and refusal-removal or harmful-compliance attack execution was not performed."
+}

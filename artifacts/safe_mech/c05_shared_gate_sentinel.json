@@ -1,0 +1,16 @@
+{
+  "role": "SAFE_MECH_BENIGN_PROXY",
+  "ablation_layers": [
+    18,
+    19,
+    20,
+    21,
+    22,
+    23
+  ],
+  "sentinel_layer": 27,
+  "baseline_sentinel_separation_effect_size": 2.945409059524536,
+  "upstream_ablated_sentinel_separation_effect_size": 0.8261827826499939,
+  "retention_fraction": 0.2804984862725182,
+  "interpretation": "If retention_fraction is close to 1, the late-layer P-signal survives upstream ablation (consistent with redundant/shared downstream encoding). If close to 0, upstream ablation removes the signal at the sentinel too."
+}

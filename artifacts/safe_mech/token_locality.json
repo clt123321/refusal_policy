@@ -1,0 +1,78 @@
+{
+  "role": "SAFE_MECH_BENIGN_PROXY",
+  "layers": [
+    18,
+    19,
+    20,
+    21,
+    22,
+    23
+  ],
+  "baseline_abstain_rate": {
+    "mean": 0.90625,
+    "ci_low": 0.8125,
+    "ci_high": 1.0
+  },
+  "by_scope": {
+    "all": {
+      "necessity_effect_pp": 0.0,
+      "necessity_ci_pp": [
+        0.0,
+        0.0
+      ],
+      "abstain_rate": {
+        "mean": 0.90625,
+        "ci_low": 0.8125,
+        "ci_high": 1.0
+      }
+    },
+    "prompt_all": {
+      "necessity_effect_pp": 0.0,
+      "necessity_ci_pp": [
+        0.0,
+        0.0
+      ],
+      "abstain_rate": {
+        "mean": 0.90625,
+        "ci_low": 0.8125,
+        "ci_high": 1.0
+      }
+    },
+    "prompt_last": {
+      "necessity_effect_pp": 0.0,
+      "necessity_ci_pp": [
+        0.0,
+        0.0
+      ],
+      "abstain_rate": {
+        "mean": 0.90625,
+        "ci_low": 0.8125,
+        "ci_high": 1.0
+      }
+    },
+    "gen_first": {
+      "necessity_effect_pp": 0.0,
+      "necessity_ci_pp": [
+        0.0,
+        0.0
+      ],
+      "abstain_rate": {
+        "mean": 0.90625,
+        "ci_low": 0.8125,
+        "ci_high": 1.0
+      }
+    },
+    "gen_all": {
+      "necessity_effect_pp": 0.0,
+      "necessity_ci_pp": [
+        0.0,
+        0.0
+      ],
+      "abstain_rate": {
+        "mean": 0.90625,
+        "ci_low": 0.8125,
+        "ci_high": 1.0
+      }
+    }
+  }
+}

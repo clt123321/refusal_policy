@@ -1,0 +1,48 @@
+{
+  "role": "SAFE_MECH_BENIGN_PROXY",
+  "ablation_layers": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18,
+    19,
+    20,
+    21,
+    22,
+    23,
+    24,
+    25,
+    26,
+    27
+  ],
+  "necessity_effect_pp": -3.125,
+  "necessity_ci_pp": [
+    -15.625,
+    6.25
+  ],
+  "baseline_abstain_rate": {
+    "mean": 0.90625,
+    "ci_low": 0.8125,
+    "ci_high": 1.0
+  },
+  "full_depth_remove_abstain_rate": {
+    "mean": 0.9375,
+    "ci_low": 0.84375,
+    "ci_high": 1.0
+  }
+}

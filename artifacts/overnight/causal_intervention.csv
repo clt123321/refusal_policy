@@ -1,0 +1,2 @@
+run_id,intervention,endpoint,split,effect,ci_low,ci_high,utility_loss,status,notes
+OVERNIGHT-AUDIT,N/A,N/A,N/A,N/A,N/A,N/A,N/A,NOT_RUN,no causal intervention executed

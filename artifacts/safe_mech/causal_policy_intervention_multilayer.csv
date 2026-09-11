@@ -1,0 +1,7 @@
+condition,n,abstain_rate,compliant_rate,ontopic_answer_rate
+baseline_abstain,32,0.90625,0.09375,0.0625
+remove,32,0.90625,0.09375,0.0625
+rescue,32,0.9375,0.0625,0.03125
+baseline_answer,32,0.0,1.0,0.75
+baseline_natural,32,0.0,1.0,0.875
+add,32,0.25,0.75,0.625

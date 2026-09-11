@@ -1,0 +1,24 @@
+{
+  "role": "PIPELINE_VALIDATION_ONLY",
+  "layer": 0,
+  "controls": [
+    {
+      "control": "main",
+      "remove_delta_norm": 0.0,
+      "add_delta_norm": 1.0,
+      "cosine_to_candidate": 1.0
+    },
+    {
+      "control": "random",
+      "remove_delta_norm": 0.0,
+      "add_delta_norm": 1.0,
+      "cosine_to_candidate": 0.08517205715179443
+    },
+    {
+      "control": "orthogonal",
+      "remove_delta_norm": 0.0,
+      "add_delta_norm": 1.0,
+      "cosine_to_candidate": -7.450580596923828e-09
+    }
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "role": "SAFE_MECH_BENIGN_PROXY",
+  "layer": 27,
+  "necessity_effect_pp": 3.125,
+  "necessity_ci_pp": [
+    -9.375,
+    18.75
+  ],
+  "baseline_abstain_rate": {
+    "mean": 0.90625,
+    "ci_low": 0.8125,
+    "ci_high": 1.0
+  },
+  "removed_abstain_rate": {
+    "mean": 0.875,
+    "ci_low": 0.75,
+    "ci_high": 0.96875
+  }
+}

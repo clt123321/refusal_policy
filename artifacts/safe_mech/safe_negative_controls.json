@@ -1,0 +1,80 @@
+[
+  {
+    "control": "random_norm_matched",
+    "necessity_effect_pp": 0.0,
+    "necessity_ci_pp": [
+      0.0,
+      0.0
+    ],
+    "sufficiency_effect_pp": 0.0,
+    "sufficiency_ci_pp": [
+      0.0,
+      0.0
+    ]
+  },
+  {
+    "control": "orthogonal",
+    "necessity_effect_pp": 0.0,
+    "necessity_ci_pp": [
+      0.0,
+      0.0
+    ],
+    "sufficiency_effect_pp": 0.0,
+    "sufficiency_ci_pp": [
+      0.0,
+      0.0
+    ]
+  },
+  {
+    "control": "h_content_direction",
+    "necessity_effect_pp": 0.0,
+    "necessity_ci_pp": [
+      0.0,
+      0.0
+    ],
+    "sufficiency_effect_pp": 0.0,
+    "sufficiency_ci_pp": [
+      0.0,
+      0.0
+    ]
+  },
+  {
+    "control": "shuffled_label",
+    "necessity_effect_pp": 6.25,
+    "necessity_ci_pp": [
+      0.0,
+      15.625
+    ],
+    "sufficiency_effect_pp": 0.0,
+    "sufficiency_ci_pp": [
+      0.0,
+      0.0
+    ]
+  },
+  {
+    "control": "wrong_layer",
+    "necessity_effect_pp": -3.125,
+    "necessity_ci_pp": [
+      -9.375,
+      0.0
+    ],
+    "sufficiency_effect_pp": 0.0,
+    "sufficiency_ci_pp": [
+      0.0,
+      0.0
+    ]
+  },
+  {
+    "control": "wrong_token",
+    "necessity_effect_pp": 0.0,
+    "necessity_ci_pp": [
+      0.0,
+      0.0
+    ],
+    "sufficiency_effect_pp": 0.0,
+    "sufficiency_ci_pp": [
+      0.0,
+      0.0
+    ]
+  }
+]
