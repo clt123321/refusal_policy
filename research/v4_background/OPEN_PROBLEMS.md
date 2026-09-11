@@ -14,9 +14,11 @@ The principles below survive only if their cheapest falsification tests reveal a
 
 ## Principle 1 — Reconstruct safety throughout generation
 
+**Novelty status:** **HIGH COLLISION** — DeepRefusal, Any-Depth, DeRTa and HARC already train or inject safety across positions; only transfer to unseen weight/activation faults remains open.
+
 **Phenomenon:** A refusal policy can be strong at the prompt boundary and disappear after unsafe prefilling, while safety cues injected later can recover it.
 
-**Existing evidence:** DeepRefusal trains with refusal-feature ablation across layers/tokens and transfers to prompt and prefill attacks; Any-Depth Alignment repeatedly injects safety-associated assistant tokens and restores refusal at arbitrary depth.[^deeprefusal][^ada]
+**Existing evidence:** DeepRefusal trains with refusal-feature ablation across layers/tokens and transfers to prompt and prefill attacks; Any-Depth Alignment repeatedly injects safety-associated assistant tokens; HARC couples prompt- and response-side signals but is broken by roughly 160 harmful fine-tuning examples.[^deeprefusal][^ada][^harc]
 
 **Potential defense principle:** Train the policy to recompute a safe action from local context at many generation depths instead of relying on one early state.
 
@@ -28,9 +30,11 @@ The principles below survive only if their cheapest falsification tests reveal a
 
 ## Principle 2 — Preserve recognition and diversify policy readouts
 
+**Novelty status:** **PARTIAL COLLISION** — HARC already couples recognition to refusal at prompt/response positions; deliberately independent readouts under white-box tampering are not established.
+
 **Phenomenon:** Harmfulness recognition and refusal execution can be linearly and causally dissociated.
 
-**Existing evidence:** NeurIPS 2025 reports separate harmfulness and refusal directions; some attacks suppress refusal while harmfulness remains represented.[^separate]
+**Existing evidence:** NeurIPS 2025 reports separate harmfulness and refusal directions; HARC finds attack-specific dissociations and late harm recognition, then directly couples the two directions.[^separate][^harc]
 
 **Potential defense principle:** Preserve a robust harm-recognition signal and train several functionally distinct readouts from recognition to safe actions.
 
@@ -41,6 +45,8 @@ The principles below survive only if their cheapest falsification tests reveal a
 **Cheapest falsification experiment:** Ablate or edit each learned readout separately and jointly while probing recognition; reject if one low-cost re-extracted edit disables all outputs without harming recognition or utility.
 
 ## Principle 3 — Train across intervention bases, not named attacks
+
+**Novelty status:** **PARTIAL COLLISION** — TAR, AntiDote, ART and latent adversarial training occupy much of the method space; strict train-basis/held-out-basis transfer remains open.
 
 **Phenomenon:** Robustness often tracks the perturbation family used in training; simple changes to embedding or fine-tuning attacks overturn headline results.
 
@@ -56,9 +62,11 @@ The principles below survive only if their cheapest falsification tests reveal a
 
 ## Principle 4 — Create heterogeneous safety fault domains
 
+**Novelty status:** **NOVEL** as a defense objective — representation redundancy is well studied, but deliberately training parameter-level fault independence and testing a re-extracted joint cut is not established by the reviewed work.
+
 **Phenomenon:** Multiple activation features need not be independent failures if one shared parameter change controls them.
 
-**Existing evidence:** Concept Cones shows multiple causal refusal directions and warns that Euclidean orthogonality is not functional independence; direct rank-one edits can suppress refusal in many models.[^cones][^arditi]
+**Existing evidence:** Concept Cones shows multiple causal refusal directions and warns that Euclidean orthogonality is not functional independence; diverse refusal starts can raise stable rank and weaken one vector attack, but this is not parameter fault independence.[^cones][^arditi][^reflects]
 
 **Potential defense principle:** Encode safety paths in components with deliberately different parameter support, training signals and computation stages.
 
@@ -69,6 +77,8 @@ The principles below survive only if their cheapest falsification tests reveal a
 **Cheapest falsification experiment:** Train two equal-cost safety heads attached at separated layers versus two same-layer heads; compare the minimum joint edit under equal utility constraints. Reject if physical separation does not change the attack frontier.
 
 ## Principle 5 — Couple safeguard removal to useful capability loss
+
+**Novelty status:** **HIGH COLLISION** — SDD and SEAM already make malicious fine-tuning damage utility; only robustness to explicit utility-repair attacks remains clearly open.
 
 **Phenomenon:** Some methods make malicious fine-tuning degrade general utility, changing the attacker’s feasible set rather than merely lowering ASR.
 
@@ -84,9 +94,11 @@ The principles below survive only if their cheapest falsification tests reveal a
 
 ## Principle 6 — Flatten safety loss in a functional metric
 
+**Novelty status:** **PARTIAL COLLISION** — Booster, smoothness-aware unlearning and When Safety Routing Breaks cover weight/Fisher sharpness; benign-function-normalized cross-attack prediction is not yet established.
+
 **Phenomenon:** Local parameter flatness is coordinate-dependent, while small function-preserving weight changes can have very different behavioral effects.
 
-**Existing evidence:** Booster and smoothness-aware unlearning seek local robustness; model-editing work shows localization and editability do not coincide.[^booster][^smooth][^localize]
+**Existing evidence:** Booster and smoothness-aware unlearning seek local robustness; When Safety Routing Breaks localizes benign-FT collapse to late-MLP Fisher re-sharpening and finds LoRA/ASAM only delay it; model-editing work shows localization and editability do not coincide.[^booster][^smooth][^routing][^localize]
 
 **Potential defense principle:** Optimize low safety sensitivity under perturbations normalized by benign functional change or a Fisher-like metric, not raw parameter norm.
 
@@ -97,6 +109,8 @@ The principles below survive only if their cheapest falsification tests reveal a
 **Cheapest falsification experiment:** Compare raw-norm and function-normalized sharpness against held-out low-rank edits and short FT across existing checkpoints; reject if neither predicts the utility-constrained breach order.
 
 ## Principle 7 — Prevent acquisition instead of suppressing access
+
+**Novelty status:** **HIGH COLLISION** — Deep Ignorance already establishes the strongest version in a narrow pretraining setting.
 
 **Phenomenon:** Post-training “unlearning” often hides retrievable knowledge; filtering risky pretraining data can make reacquisition much slower.
 
@@ -112,6 +126,8 @@ The principles below survive only if their cheapest falsification tests reveal a
 
 ## Principle 8 — Evaluate the capability supply chain
 
+**Novelty status:** **PARTIAL COLLISION** — Deep Ignorance explicitly tests context/search/retraining supply; a general resource-substitution account remains open but may be system security rather than model defense.
+
 **Phenomenon:** A model’s dangerous competence can come from weights, context, retrieval, tools, or later training.
 
 **Existing evidence:** Deep Ignorance’s strongest failure modes include in-context search and staged fine-tuning plus retrieval; unlearning evaluations show relearning can rapidly restore access.[^deep][^tamper-eval]
@@ -126,9 +142,11 @@ The principles below survive only if their cheapest falsification tests reveal a
 
 ## Principle 9 — Make safety robust to continued benign learning
 
+**Novelty status:** **HIGH COLLISION** — Vaccine, Lisa, Antibody, invariant unlearning, Skin-Deep and When Safety Routing Breaks directly occupy benign/downstream-FT robustness.
+
 **Phenomenon:** Benign or related downstream training can erode alignment or revive supposedly removed knowledge without an explicitly malicious loss.
 
-**Existing evidence:** Fine-tuning-safety work and unlearning reevaluations show safety erosion and benign relearning; invariant unlearning improves transfer to some held-out downstream environments.[^invariant][^unlearn]
+**Existing evidence:** Fine-tuning-safety work and unlearning reevaluations show safety erosion and benign relearning; invariant unlearning improves transfer to some held-out downstream environments. Skin-Deep proposes a pre-attack LoRA-fragility diagnostic, while When Safety Routing Breaks gives a Fisher-routing account of 100-example collapse.[^invariant][^unlearn][^skin][^routing]
 
 **Potential defense principle:** Treat the distribution of plausible future updates as environments and preserve safety invariants across them.
 
@@ -139,6 +157,8 @@ The principles below survive only if their cheapest falsification tests reveal a
 **Cheapest falsification experiment:** Train on two benign update environments and test a held-out domain plus a maliciously mixed domain; reject if safety transfer is no stronger than ordinary replay.
 
 ## Principle 10 — Optimize against staged repair attacks
+
+**Novelty status:** **PARTIAL COLLISION** — staged failures are already demonstrated and TAR meta-learns attack trajectories; heterogeneous attack-program training is not yet established.
 
 **Phenomenon:** An attack that first removes safety and then repairs utility or supplies knowledge can outperform any single-stage attack.
 
@@ -154,6 +174,8 @@ The principles below survive only if their cheapest falsification tests reveal a
 
 ## Principle 11 — Use tamper evidence only with an enforceable boundary
 
+**Novelty status:** **HIGH COLLISION** — this is a standard systems-security boundary, useful for scope discipline but not a new model-defense contribution.
+
 **Phenomenon:** Cryptographic hashes, signatures and latent integrity monitors can detect changes but cannot force an owner of public weights to honor the alarm.
 
 **Existing evidence:** This follows from the deployment boundary: an attacker controlling execution can disable both the safeguard and its detector. TEEs, attestation and controlled APIs move enforcement outside the artifact.
@@ -167,6 +189,8 @@ The principles below survive only if their cheapest falsification tests reveal a
 **Cheapest falsification experiment:** Give a red team the checkpoint and monitor code; if bypassing the monitor while preserving model utility is trivial, classify the method as system-level only.
 
 ## Principle 12 — Compose defenses only across genuinely different failure modes
+
+**Novelty status:** **PARTIAL COLLISION** — defense-in-depth is established; a predictive test for complementary versus common-mode failure remains open.
 
 **Phenomenon:** Stacking two defenses can add cost without adding robustness when both target the same representation or attack bias.
 
@@ -224,3 +248,7 @@ Deprioritize any proposal whose only evidence is higher clean refusal, a larger 
 [^tamper-eval]: Che et al., [*Model Tampering Attacks Enable More Rigorous Evaluations*](https://openreview.net/forum?id=E6OYbLnQd2), TMLR 2025.
 [^invariant]: Wang et al., [*Invariance Makes LLM Unlearning Resilient*](https://proceedings.mlr.press/v267/wang25en.html), ICML 2025.
 [^tb]: Hossain et al., [*TamperBench*](https://arxiv.org/abs/2602.06911), KDD 2026 Datasets & Benchmarks.
+[^harc]: Chua et al., [*HARC*](https://arxiv.org/abs/2607.00572), arXiv 2026 preprint, v3.
+[^skin]: Lee et al., [*Skin-Deep*](https://arxiv.org/abs/2606.22676), arXiv 2026 preprint.
+[^reflects]: Labunets, [*Refusal Geometry Reflects Refusal Training*](https://arxiv.org/abs/2608.25390), arXiv 2026 preprint, v2.
+[^routing]: Guo et al., [*When Safety Routing Breaks*](https://arxiv.org/abs/2609.01455), Findings of EMNLP 2026 (per arXiv record).

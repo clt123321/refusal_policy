@@ -108,6 +108,15 @@ Unlearning studies repeatedly distinguish deletion from suppression. Benign rela
 
 Deep Ignorance moves the intervention to pretraining. Multiple matched 6.9B models were trained for 550B tokens; filtering used under 1% additional FLOPs and produced far longer resistance to domain relearning than post-training baselines.[^deep] Its limitation is equally important: context/search can supply missing knowledge, and staged attacks defeat tested defense combinations. This is the clearest current evidence for **defense composition**, not a universal solution.
 
+### 4.6 Round 1.5: four close 2026 works
+
+- **HARC** separates harm recognition from refusal at prompt and response positions, then couples both directions with a LoRA objective. Across its author-run prompt-attack suite it reports a strong safety–utility–over-refusal trade-off, but its own malicious fine-tuning test breaks HARC with roughly 160 harmful examples. HARC is therefore a direct collision with recognition→action coupling and temporal reconstruction, not evidence of open-weight tamper durability.[^harc]
+- **Skin-Deep** proposes a pre-attack Geometric Fragility Score from low-rank safety geometry. It studies 21 instruction-tuned models and seven models under small benign LoRA; Gemma-2-9B is the sole model retaining substantial refusal at the largest update and is ranked least fragile. This is useful diagnostic evidence, but not population-level prediction or a defense.[^skin]
+- **Refusal Geometry Reflects Refusal Training** links first-refusal-token losses to gradient-induced activation changes in an OLMo-2-1B case study. Diverse refusal starts raise stable rank and weaken same-set, single-vector ablation at behavior-matched checkpoints. It substantially collides with “response diversity hardens geometry,” while leaving DPO/RL, held-out attacks, other families, and adaptive multi-direction edits open.[^reflects]
+- **When Safety Routing Breaks** attributes benign-FT collapse to a low-rank output-routing pathway: after 100 benign examples, late MLP safety Fisher re-sharpens while intermediate safety representations remain. Activation patching supports a causal late-state role; LoRA/ASAM only delay collapse at small data scale. This strengthens the routing/flatness hypothesis but does not establish a durable defense.[^routing]
+
+Together these papers lower the novelty of a refusal-only “more directions,” “couple detection to refusal,” or “protect the output route” story. The remaining open question is cross-family tamper robustness under adaptive, utility-constrained attacks—not whether refusal geometry can be measured or reshaped.
+
 ## 5. Defense families and supported scope
 
 | Family | Representative work | What it can currently support | Main unresolved weakness |
@@ -237,3 +246,7 @@ The field’s largest gap is not another refusal metric. It is a controlled, att
 [^tamper-eval]: Che et al., [*Model Tampering Attacks Enable More Rigorous Evaluations of LLM Capabilities*](https://openreview.net/forum?id=E6OYbLnQd2), TMLR 2025.
 [^sam]: Fan et al., [*Towards LLM Unlearning Resilient to Relearning Attacks*](https://proceedings.mlr.press/v267/fan25e.html), ICML 2025.
 [^irm]: Wang et al., [*Invariance Makes LLM Unlearning Resilient*](https://proceedings.mlr.press/v267/wang25en.html), ICML 2025.
+[^harc]: Chua et al., [*HARC: Coupling Harmfulness and Refusal Directions for Robust Safety Alignment*](https://arxiv.org/abs/2607.00572), arXiv 2026 preprint, v3.
+[^skin]: Lee et al., [*Skin-Deep: A Geometric Diagnostic for Alignment Fragility in Large Language Model Representations*](https://arxiv.org/abs/2606.22676), arXiv 2026 preprint.
+[^reflects]: Labunets, [*Refusal Geometry Reflects Refusal Training*](https://arxiv.org/abs/2608.25390), arXiv 2026 preprint, v2.
+[^routing]: Guo et al., [*When Safety Routing Breaks*](https://arxiv.org/abs/2609.01455), Findings of EMNLP 2026 (per arXiv record).
