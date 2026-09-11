@@ -8,11 +8,11 @@ Audit date: 2026-09-11
 |---|---|
 | GitHub `main` before reconciliation | `e63c83a635cb5d5ec7187cbe0abb1cc36fe74029` |
 | GitHub research baseline | `e63c83a` |
-| KML relay branch head | `bee82f9b3cb0edb8f1818efcd4bebee4d7f139f7` |
+| KML relay branch head | `9372e36930c9d759027debaba05225af271525da` |
 | Merge base | `6cb64ce5ab9d05e9729e9f0aa8b38b51ecb792f0` |
 
 The histories diverged after `6cb64ce`. GitHub had one research-only commit,
-`e63c83a`; the KML branch had eleven experiment/relay commits. `git log
+`e63c83a`; the final KML branch had thirteen experiment/relay commits. `git log
 --left-right --cherry-pick main...kml-experiment` found no apparent duplicate or
 cherry-equivalent commits.
 
@@ -41,6 +41,7 @@ archive was reconstructed without its internal transfer metadata.
 | `bc1b98b` | `7630c40` | exp: diagnose add-remove causal asymmetry |
 | `05960d8` | `6eecd42` | exp: close benign proxy mechanistic diagnosis |
 | `8ef64ab` | `22aaef2` | exp: archive public-safe mechanistic feasibility results |
+| `0d46e8b` | `a36549a` | fix: track model runtime source excluded by gitignore |
 
 ## Commits intentionally not integrated
 
@@ -48,6 +49,7 @@ archive was reconstructed without its internal transfer metadata.
 |---|---|
 | `02c7bc8` | Relay-only handoff document; contains internal GitLab routing, host-specific metadata and no scientific code/result. |
 | `bee82f9` | Relay readiness update only; same public-synchronization concerns and no scientific content. |
+| `9372e36` | Relay handoff update documenting runtime recovery; internal transport metadata only. |
 
 ## Incoming-file audit
 
@@ -79,8 +81,12 @@ The first local import check found that every model-facing experiment imports
 `src.models.runtime`, but that module was absent from the relay history. Root cause:
 the original `.gitignore` rule `models/` matched nested `src/models/` as well as the
 intended repository-root model directory. The public integration narrows the rule
-to `/models/`. The missing source module must be recovered from the source
-experiment workspace and reviewed before the synchronization can pass validation.
+to `/models/`.
+
+The source experiment workspace subsequently published commit `0d46e8b` containing
+the missing package and runtime module. The module was reviewed, integrated as
+`a36549a`, and its imports and tests were rerun before public push. The later
+`9372e36` transport-note commit was intentionally excluded.
 
 ## Reconciliation policy
 
