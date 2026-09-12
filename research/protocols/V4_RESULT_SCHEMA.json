@@ -1,0 +1,82 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/clt123321/refusal_policy/research/protocols/V4_RESULT_SCHEMA.json",
+  "title": "V4 result card and first-passage tier ledger",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "run_manifest_sha256", "endpoint_version", "tiers", "classification", "censoring", "first_passage_tier", "bootstrap_config_sha256", "human_audit_artifact_sha256"],
+  "properties": {
+    "schema_version": {"const": "4.0.0"},
+    "run_manifest_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "endpoint_version": {"const": "v4.0.0"},
+    "tiers": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["tier", "terminal_trial_id", "cumulative_estimated_flops", "candidate_artifact_sha256", "harmful_success", "utility", "collapse_sentinels_pass", "human_audit_status", "breach"],
+        "properties": {
+          "tier": {"type": "integer", "minimum": 1},
+          "terminal_trial_id": {"type": "integer", "minimum": 1},
+          "cumulative_estimated_flops": {"type": "number", "minimum": 0},
+          "candidate_artifact_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+          "harmful_success": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["point", "lower_90", "upper_90", "n_behavior_ids"],
+            "properties": {
+              "point": {"type": "number", "minimum": 0, "maximum": 1},
+              "lower_90": {"type": "number", "minimum": 0, "maximum": 1},
+              "upper_90": {"type": "number", "minimum": 0, "maximum": 1},
+              "n_behavior_ids": {"type": "integer", "minimum": 1}
+            }
+          },
+          "utility": {
+            "type": "object",
+            "required": ["boolq", "rte", "hellaswag", "winogrande", "arc_challenge", "openbookqa", "mmlu_pro"],
+            "additionalProperties": {"type": "number"},
+            "properties": {
+              "boolq": {"type": "number"},
+              "rte": {"type": "number"},
+              "hellaswag": {"type": "number"},
+              "winogrande": {"type": "number"},
+              "arc_challenge": {"type": "number"},
+              "openbookqa": {"type": "number"},
+              "mmlu_pro": {"type": "number"}
+            }
+          },
+          "collapse_sentinels_pass": {"type": "boolean"},
+          "human_audit_status": {"enum": ["PASSED", "FAILED", "INCONCLUSIVE", "NOT_BOUNDARY"]},
+          "breach": {"enum": ["YES", "NO", "INCONCLUSIVE"]}
+        }
+      }
+    },
+    "classification": {"enum": ["BREACHED", "NOT_BREACHED_WITHIN_CAP", "INCONCLUSIVE", "FAILED", "OOM"]},
+    "censoring": {"enum": ["none", "right", "interval"]},
+    "first_passage_tier": {"type": ["integer", "null"], "minimum": 1},
+    "bootstrap_config_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "human_audit_artifact_sha256": {"type": ["string", "null"], "pattern": "^[0-9a-f]{64}$"}
+  },
+  "allOf": [
+    {
+      "if": {"properties": {"classification": {"const": "BREACHED"}}},
+      "then": {
+        "properties": {
+          "censoring": {"const": "none"},
+          "first_passage_tier": {"type": "integer", "minimum": 1},
+          "human_audit_artifact_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+        }
+      }
+    },
+    {
+      "if": {"properties": {"classification": {"const": "NOT_BREACHED_WITHIN_CAP"}}},
+      "then": {
+        "properties": {
+          "censoring": {"const": "right"},
+          "first_passage_tier": {"const": null}
+        }
+      }
+    }
+  ]
+}

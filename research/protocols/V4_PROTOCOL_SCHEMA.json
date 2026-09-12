@@ -1,0 +1,112 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/clt123321/refusal_policy/research/protocols/V4_PROTOCOL_SCHEMA.json",
+  "title": "V4 run and artifact manifest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "run_id",
+    "stage",
+    "repo_commit",
+    "environment",
+    "model",
+    "data",
+    "config_sha256",
+    "seed",
+    "hardware",
+    "cost",
+    "status",
+    "artifacts"
+  ],
+  "properties": {
+    "schema_version": {"const": "4.0.0"},
+    "run_id": {"type": "string", "pattern": "^[a-z0-9][a-z0-9._-]+$"},
+    "stage": {"enum": ["R0", "R1", "R2", "R3", "N2", "N3", "N4", "N5", "D1_POWER", "D1_PANEL", "D3", "P5", "A6", "S7"]},
+    "change_card_id": {"type": ["string", "null"]},
+    "repo_commit": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+    "environment": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["container_digest", "lock_sha256", "python", "pytorch", "cuda", "driver"],
+      "properties": {
+        "container_digest": {"type": "string"},
+        "lock_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "python": {"type": "string"},
+        "pytorch": {"type": "string"},
+        "cuda": {"type": "string"},
+        "driver": {"type": "string"}
+      }
+    },
+    "model": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["repo_id", "revision", "tokenizer_repo_id", "tokenizer_revision", "template_sha256", "parent_artifact_ids"],
+      "properties": {
+        "repo_id": {"type": "string"},
+        "revision": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+        "tokenizer_repo_id": {"type": "string"},
+        "tokenizer_revision": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+        "template_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "parent_artifact_ids": {"type": "array", "items": {"type": "string"}}
+      }
+    },
+    "data": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["name", "source_revision", "file_sha256", "split", "ids_sha256"],
+        "properties": {
+          "name": {"type": "string"},
+          "source_revision": {"type": "string"},
+          "file_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+          "split": {"enum": ["train", "attack_dev", "mechanism_dev", "validation", "sealed_test", "utility"]},
+          "ids_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+        }
+      }
+    },
+    "config_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "seed": {"type": "integer"},
+    "hardware": {
+      "type": "object",
+      "required": ["accelerator", "count", "hostname_hash"],
+      "properties": {
+        "accelerator": {"type": "string"},
+        "count": {"type": "integer", "minimum": 1},
+        "hostname_hash": {"type": "string"}
+      }
+    },
+    "cost": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["primary_estimated_flops", "accelerator_seconds", "wall_seconds", "input_tokens", "output_tokens", "train_tokens", "trials_attempted", "failed_trials", "peak_memory_bytes"],
+      "properties": {
+        "primary_estimated_flops": {"type": "number", "minimum": 0},
+        "accelerator_seconds": {"type": "number", "minimum": 0},
+        "wall_seconds": {"type": "number", "minimum": 0},
+        "input_tokens": {"type": "integer", "minimum": 0},
+        "output_tokens": {"type": "integer", "minimum": 0},
+        "train_tokens": {"type": "integer", "minimum": 0},
+        "trials_attempted": {"type": "integer", "minimum": 0},
+        "failed_trials": {"type": "integer", "minimum": 0},
+        "peak_memory_bytes": {"type": "integer", "minimum": 0}
+      }
+    },
+    "status": {"enum": ["SUCCEEDED", "FAILED", "OOM", "CENSORED"]},
+    "censoring": {"enum": ["none", "right", "interval"]},
+    "artifacts": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["role", "uri", "sha256"],
+        "properties": {
+          "role": {"type": "string"},
+          "uri": {"type": "string"},
+          "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+        }
+      }
+    }
+  }
+}
