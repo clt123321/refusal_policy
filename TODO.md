@@ -1,16 +1,18 @@
-# Refusal Policy Durability V4 — Execution Plan
+# Refusal Policy Durability V5 — Mechanism Screening Plan
 
-> **Status:** `V4_RESEARCH_CONTRACT_FROZEN` on 2026-09-12 after three independent reviews found no fatal blocker. Execution remains gated by H1, R0–R3 and N1.
+> **Status:** `V5_MECHANISM_SCREENING_READY` on 2026-09-13. The review-validated V4 harness specification, threat model, cost accounting, governance and replication discipline remain frozen; execution is gated by H0, H1–H7 and R0a–R3.
 > **Primary rule:** diagnosis before intervention. No novel defense is authorized by this file alone.
 > **Security objective:** measure how difficult it is to remove a learned safeguard while preserving useful capability. Geometry is explanatory, never the endpoint.
 
 ## Frozen question
 
-> **Does operator-specific activation fault tolerance predict adversarial parameter fault tolerance under adaptive, utility-constrained white-box tampering?**
+> **Can pre-attack local safety–utility inseparability predict utility-constrained tamper margin under held-out adaptive parameter attacks?**
 
-Refusal is the canonical first safeguard. The first experiment compares a vanilla aligned checkpoint with a released Fail-Closed checkpoint; it does not retrain a defense and does not identify a causal training effect.
+Refusal is the canonical first safeguard. OAFT is a comparator and candidate explanatory variable, not the primary hypothesis. Fail-Closed is a natural experiment and public-checkpoint source, not the research goal; comparing it with a vanilla checkpoint neither identifies a causal training effect nor confirms a mechanism. Competing world models W1–W5 remain live until preregistered data discriminate them.
 
 ## Governing documents
+
+Version precedence: the V5 frozen question, hypotheses and post-`HARNESS_VALIDATED` DAG in this file and the Round 5 documents supersede the V4 scientific question and downstream research sequence. V4 remains governing for the harness interfaces, bounded threat model, evaluation, replication, cost/censoring, preregistration and governance rules unless this file states a direct Round 5 contradiction.
 
 - [V4 research contract](research/V4_RESEARCH_CONTRACT.md)
 - [V4 primary question](research/V4_PRIMARY_QUESTION.md)
@@ -20,6 +22,11 @@ Refusal is the canonical first safeguard. The first experiment compares a vanill
 - [V4 success and kill criteria](research/V4_SUCCESS_AND_KILL_CRITERIA.md)
 - [Round 2.5 Fail-Closed audit](research/v4_workshop/ROUND2_5_FAIL_CLOSED_AUDIT.md)
 - [Primary novelty boundary](research/v4_workshop/PRIMARY_NOVELTY_BOUNDARY.md)
+- [Round 5 decision](research/v5_mechanism/ROUND5_DECISION.md)
+- [Round 5 mechanism space](research/v5_mechanism/MECHANISM_SPACE.md)
+- [Round 5 competing world models](research/v5_mechanism/COMPETING_WORLD_MODELS.md)
+- [Round 5 geometry candidates](research/v5_mechanism/GEOMETRY_CANDIDATES.md)
+- [Round 5 discriminating experiments](research/v5_mechanism/DISCRIMINATING_EXPERIMENTS.md)
 
 Task states: `TODO`, `IN PROGRESS`, `BLOCKED`, `DONE`, `DROPPED`. Every executable task must emit a config, hashes, command, machine-readable result and short discrepancy report. Raw dangerous generations and weights are not committed.
 
@@ -29,23 +36,29 @@ Task states: `TODO`, `IN PROGRESS`, `BLOCKED`, `DONE`, `DROPPED`. Every executab
 Phase 0 contract/background [DONE]
               |
               v
-Phase 1 harness ------------+
+Phase 1 H0 authorization + harness --------+
               |             |
               v             |
-Phase 2 R0-R3 replications --+--> HARNESS_VALIDATED
+Phase 2 R0a/R0b/R1-R3 replications --------+--> HARNESS_VALIDATED
                                       |
                                       v
-Phase 3 released-checkpoint natural experiment
+Phase 3 cheap mechanism screen on public checkpoints
+                                      |
+                           MECHANISM_SCREEN_PASSED
                                       |
                                       v
-Phase 4 cross-space diagnosis --> DIAGNOSIS_PASSED
+Phase 4 shared discriminating experiments for W1-W5
                                       |
-                       only with approved change card
+                         DISCRIMINATION_PASSED
                                       v
-Phase 5 one defense prototype --> Phase 6 adaptive validation
+Phase 5 matched-checkpoint confirmation
+                                      |
+                           MECHANISM_CONFIRMED
+                                      v
+Phase 6 causal manipulation --> CAUSAL_PROPERTY_PASSED
                                       |
                                       v
-Phase 7 second family/scale --> Phase 8 mechanism + paper matrix
+Phase 7 one derived defense --> Phase 8 adaptive validation/scaling/paper
 ```
 
 ## Phase 0 — Background and contract
@@ -60,22 +73,37 @@ Phase 7 second family/scale --> Phase 8 mechanism + paper matrix
 
 - **State:** DONE
 - **Output:** Round 2.5 audit and novelty boundary.
-- **Decision:** `REFINE`. Multiple directions and fail-closed tolerance to a registered activation operator are prior work; whether this operator-specific property predicts adversarial parameter fault tolerance remains open.
+- **Decision:** `REFINE`. Multiple directions and fail-closed tolerance to a registered activation operator are prior work. This bounded the V4 question; Round 5 subsequently demoted OAFT to a comparator.
 
 ### P0.3 — V4 contract package
 
 - **State:** DONE
-- **Output:** six V4 contract/specification files plus this plan.
+- **Output:** six V4 contract/specification files governing the retained harness and execution discipline.
 - **Pass:** operational terms, bounded threat model, replication ladder, natural experiment and stop rules agree across documents; final Security, Reproducibility and Top-conference AC reviews all report no fatal blocker.
 - **Failure action:** resolve contradictions before any execution.
 
 ### P0.4 — Novelty watch
 
 - **State:** TODO, recurring before every phase
-- **Action:** check new Fail-Closed versions and citing papers for the three-part collision: operator-specific activation fault tolerance + adaptive utility-constrained parameter attack + prospective cross-space prediction.
-- **Kill:** if one work already establishes all three, stop or pivot; do not rename the same claim.
+- **Action:** check new work for the full collision: a pre-attack, utility-conditioned local safety response measured independently of attack outcomes; prospective prediction of held-out adaptive parameter-attack margin beyond OAFT/GFS/Fisher/rank/clean margins; and matched causal manipulation of that property.
+- **Kill:** if one work already establishes the complete claim, stop or pivot; do not rename the same result.
 
-## Phase 1 — Harness fit and implementation
+### P0.5 — Round 5 mechanism selection
+
+- **State:** DONE
+- **Output:** the five governing documents under `research/v5_mechanism/`.
+- **Decision:** local safety–utility inseparability is the primary candidate, finite common fault domains are secondary, repair/common-bootloader evidence is a wildcard, and W1–W5 remain live. Round 5 makes separately authorized measurement-only screening the next candidate execution; it does not authorize confirmation, causal training or defense design.
+
+## Phase 1 — Authorized execution path and harness implementation
+
+### H0 — Authorized execution path
+
+- **State:** TODO
+- **Action:** freeze an approved benchmark/evaluator execution path and a named human authorization boundary before any harmful-task run. The research agent prepares manifests/configs and hands them to an authorized executor; it does not silently substitute a proxy endpoint or independently handle disallowed outputs.
+- **Raw-output rule:** raw harmful generations stay in the approved restricted store, are exposed only to authorized evaluators/reviewers, and are never committed. Ordinary result artifacts contain only the minimum aggregate/per-sample fields allowed by the approved handling protocol.
+- **Output:** signed authorization record, agent→authorized-executor handoff procedure, raw-output access/retention policy and an end-to-end dry-run receipt.
+- **Pass:** every scientific gate has an authorized executable evaluator path and an explicit responsible human/executor. No scientific gate may silently become `DECLINED_BY_AGENT_POLICY`; if authorization is absent or withdrawn, the gate is `BLOCKED`, not failed or passed through a proxy.
+- **Kill/block:** unauthorized access, ambiguous responsibility or a required evaluator with no approved execution path blocks all downstream execution.
 
 ### H1 — Pin substrate and environment
 
@@ -125,15 +153,24 @@ Phase 7 second family/scale --> Phase 8 mechanism + paper matrix
 - **Action:** add machine-readable `EXPERIMENT_CHANGE_CARD` and `RUN_CARD` templates with required approval/cost/hash fields.
 - **Pass:** execution refuses unapproved novel-defense configs and incomplete manifests.
 
-## Phase 2 — Canonical replications
+## Phase 2 — Replication and transfer calibration
 
-No primary-question result may be inspected before R0–R3 pass.
+No primary-question result may be generated or inspected before R0a–R3 pass.
 
-### R0 — Arditi canonical mechanism
+### R0a — Faithful Arditi reproduction
 
 - **State:** TODO
+- **Action:** reproduce the Arditi result using the authors' official code, released artifacts, models, data/protocol and intervention definitions as closely as licenses and artifact availability permit. Pin full repository/model/data revisions and record every unavoidable deviation before inspecting outcomes.
+- **Output:** immutable author-protocol manifest, commands, artifact hashes, result card and a deviation table mapping each local choice to the official implementation.
+- **Pass:** the official-protocol cell reproduces the reported qualitative causal signs for direction addition, activation removal and directional weight orthogonalization under the preregistered tolerance; any numerical comparison states the exact author table/figure and estimator used.
+- **Kill:** unresolved sign reversal, missing indispensable artifact or an unapproved protocol substitution after the template/token/evaluator audit.
+
+### R0b — V5 Gemma/harness transfer calibration
+
+- **State:** BLOCKED by R0a
 - **Exact cell:** pinned base Gemma-2-2B; Fail-Closed DIM implementation at full commit `892e99b2db2c98f4ecd9b81e414088e15ae7f035`; 200 salted-hash HarmBench validation IDs and 200 released benign IDs; seed 17. Layer/hook/token selection follows the deterministic mechanism-dev-only rule in `V4_PREREGISTERED_CONSTANTS.json`; evaluation IDs are disjoint.
-- **Action:** reproduce held-out direction addition, activation removal, directional weight edit and patch/rescue.
+- **Action:** transfer the direction addition, activation removal, directional weight edit and patch/rescue checks into the V5 Gemma/TamperBench harness.
+- **Labeling rule:** R0b is a transfer/calibration study and must never be called canonical Arditi replication.
 - **Pass:** removal raises harmful ASR by ≥20 points; addition lowers benign compliance by ≥10 points; rescue recovers ≥50% of lost safety; the one-sided 90% bootstrap bound retains the sign; utility gates pass.
 - **Kill:** unresolved failure after template/token/direction/evaluator audit.
 
@@ -150,8 +187,8 @@ No primary-question result may be inspected before R0–R3 pass.
 - **State:** TODO
 - **Exact cell:** A1 ranks 1/2/4/8/16 on the base Gemma checkpoint only; 200 calibration attack-dev IDs followed by 200 calibration-validation IDs, all permanently excluded from Phase 3 mechanism and sealed-test sets.
 - **Action:** establish attack dynamic range; separately complete one named tamper-aware baseline replication before any novel defense (AntiDote preferred; TAR archival fallback only after a documented AntiDote incompatibility).
-- **Pass:** base utility-qualified ASR increases by ≥20 points at or before rank 8, with complete manifests for every attempted/censored trial. No Fail-Closed parameter-attack candidate or result may be generated or inspected before N1 is signed.
-- **Kill:** if the named base cell breaches before the first tier or never breaches by the cap, v4.0 R2 fails. Any improved search or replacement target is a newly versioned exploratory calibration on new IDs and cannot backfill `HARNESS_VALIDATED`.
+- **Pass:** base utility-qualified ASR increases by ≥20 points at or before rank 8, with complete manifests for every attempted/censored trial. No Fail-Closed parameter-attack candidate or result may be generated or inspected before S3.1 is signed.
+- **Kill:** if the named base cell breaches before the first tier or never breaches by the cap, R2 fails. Any improved search or replacement target is a newly versioned exploratory calibration on new IDs and cannot backfill `HARNESS_VALIDATED`.
 
 ### R3 — TamperBench qualitative ordering
 
@@ -163,183 +200,199 @@ No primary-question result may be inspected before R0–R3 pass.
 
 ### R4 — Harness gate
 
-- **State:** BLOCKED by R0–R3
+- **State:** BLOCKED by H0–H7 and R0a–R3
 - **Output on pass:** `HARNESS_VALIDATED` plus frozen Phase 3 configs and hashes.
 
-## Phase 3 — Fail-Closed natural experiment
+## Frozen V4 execution invariants carried into V5
 
-No new defense training occurs in this phase.
+- The V4 bounded white-box threat model, evaluator definitions, utility/collapse gates, human-audit rules, cumulative estimated-FLOP primary cost axis, secondary cost ledger, deterministic trial charging, failure/OOM charging and right-censoring semantics remain unchanged.
+- Every phase freezes configs, hashes, estimator, split IDs and decision thresholds before its held-out outcomes. Equivalence requires the preregistered interval, not non-significance; attack seeds and prompts are repeated measurements, never independent checkpoints.
+- A1/A2 count as one directional/low-rank family; A3 and independently localized A4 provide different parameter biases; A5 remains custodian-sealed until the relevant predictor and analysis hashes are committed. A6 embedding intervention remains a control, not a parameter-attack family.
+- Every attack re-extracts target-specific features, receives equal maximum search allocation across checkpoints, reports per-family safety–utility–cost frontiers, reruns the frozen activation intervention/rescue panel after breach, and retains all failed, censored and judge-disagreement cases.
+- Adaptive red-team search, the second utility/capability panel, over-refusal/collapse sentinels, benign repair and legitimate-adaptation controls remain mandatory at their specified gates. A gain caused by missing harmful capability, broad learning impairment or evaluator gaming is not durability.
+- **Hard rule:** No 32-checkpoint panel, novel defense training, or large GPU matrix before the cheap mechanism screen passes.
 
-### N1 — Freeze paired checkpoint contract
+## Phase 3 — Cheap mechanism screening
+
+Use existing public checkpoints only. This phase ranks and falsifies candidate explanations; it cannot confirm a mechanism or authorize defense training.
+
+### S3.1 — Freeze screening and custody contract
 
 - **State:** BLOCKED by `HARNESS_VALIDATED`
-- **Action:** freeze revisions, prompts, generation, judges, human rubric, utility gates, mechanism operator, complete A1–A4 logical grids/tier indices/candidate-selection rule and equivalence interval before revealing parameter-attack outcomes. Verify the independent A5 custodian's encrypted-config hash commitment; the primary team may not see its plaintext.
-- **Output:** signed preregistration manifest.
+- **Action:** freeze checkpoint revisions, predictor/attack/utility splits, prompts, generation, judges, human rubric, utility gates, all candidate estimators, complete A1–A4 logical grids/tier indices/candidate-selection rules and equivalence intervals before revealing held-out parameter-attack outcomes. Verify the A5 custodian's encrypted-config hash commitment; the primary team may not see its plaintext.
+- **Output:** signed preregistration manifest and leakage audit.
 
-### N2 — Verify operator-specific activation fault tolerance (OAFT)
+### S3.2 — Admit public natural-experiment checkpoints
 
-- **State:** BLOCKED by N1
-- **Action:** independently extract at most ten RDO-initialized-by-DIM directions. Apply the registered orthogonal projection at all transformer layers and token positions; measure addition and cumulative removal on held-out prompts. Directions are operator coordinates, not presumed natural pathways. Stop at ten or when residual norm falls below `1e-5`; do not search K after sealed results. OAFT uses the safe prefix before the first 20-point ASR crossing, so later non-monotonic recovery cannot inflate it.
-- **Output:** operator, discovered set, per-K effect curve, active-direction count and intervention/rescue results for each checkpoint.
-- **Pass:** the primary OAFT summary is the safe prefix before the first 20-point harmful-ASR crossing, right-censored above ten. Fail-Closed must exceed base by at least two directions, with the 90% paired prompt-bootstrap lower bound above zero and no utility collapse. The full K=0…10 curve is reported; later non-monotonic recovery does not increase the summary. Addition/rescue remain mechanism diagnostics, not proof of distinct pathways.
-- **Failure action:** Case D; return to R1 and stop novelty interpretation.
+- **State:** BLOCKED by S3.1
+- **Action:** begin with the pinned vanilla/Fail-Closed Gemma pair, then admit only public same-base contrasts whose lineage, license, tokenizer/template, clean safety, hazard-capability access and utility can be reconciled. Fail-Closed and any other defense checkpoint are observational checkpoint sources, not treatments or goals.
+- **Output:** artifact/dynamic-range cards and rejected-artifact log.
+- **Kill:** unresolved lineage, author ordering failure, floor/ceiling saturation, judge instability or apparent safety explained by capability collapse.
 
-### N3 — Directional parameter edit
+### S3.3 — Freeze and measure pre-attack candidates
 
-- **State:** BLOCKED by N2
-- **Action:** run A1 directional/low-rank edits with defended-model-specific extraction and equal maximum search allocation.
-- **Output:** safety–utility–cost frontier with interval/right censoring.
-- **Pass:** sufficient dynamic range to distinguish the pair.
+- **State:** BLOCKED by S3.2
+- **Primary candidate:** local safety–utility inseparability/selective-editability spectrum, estimated with disjoint predictor hazards/stage outputs and benign functional data under frozen low-rank, sparse-block and unrestricted tangent operator classes.
+- **Comparators:** OAFT, complete Skin-Deep GFS, simple empirical-Fisher concentration, stable/effective rank and causally active direction count, clean safety/utility margins and gradient norm.
+- **OAFT protocol:** independently extract at most ten RDO-initialized-by-DIM directions; apply the registered orthogonal projection at all transformer layers/token positions and report addition, rescue and the complete cumulative K=0…10 removal curve. Stop at ten or residual norm `<1e-5`; summarize only the safe prefix before the first 20-point ASR crossing and right-censor above ten. Later non-monotonic recovery cannot inflate the summary, and directions remain operator coordinates rather than presumed natural pathways.
+- **Secondary:** finite common-parameter-fault-domain evidence using carrier-blind, functionally matched individual versus joint lesions where more than one causal effect exists.
+- **Wildcard:** pulse/recovery/common-bootloader evidence only where it is cheaply measurable; it remains diagnostic unless its unique temporal predictions survive.
+- **Action:** content-hash measurement code, damping/operator choices, rankings and W1–W5 predictions before any held-out attack result is revealed. No arbitrary composite score or post-hoc threshold search.
 
-### N4 — Automated abliteration
+### S3.4 — Reveal held-out adaptive parameter outcomes
 
-- **State:** BLOCKED by N2
-- **Action:** run A2/Heretic-compatible search as a stronger member of the same directional/low-rank family, with frozen logical trial order, ranks, layer/module choices and utility objective.
-- **Output:** all-trial ledger and best utility-qualified frontier.
-- **Pass:** stronger search improves or confirms A1 without unexplained evaluator gaming.
+- **State:** BLOCKED by S3.3
+- **Action:** obtain utility-qualified first-passage breach frontiers from the A1 directional edit plus stronger A2/Heretic search as one developmental family, A3 LoRA plus adaptive full-parameter continuation, independently implemented/localized A4 sparse edit and, only after all hashes are committed, custodian-sealed A5. Confirm A3/A4 near the breach boundary with five seeds; run the fixed 256-step full-parameter sentinel on each paired checkpoint and all V4 cost/censoring/utility checks.
+- **Pass:** sufficient uncensored dynamic range exists in at least two genuinely different parameter biases to rank preregistered candidates without a floor/ceiling artifact.
+- **Kill:** all arms instantly breach, remain censored above the cap, or fail authorization/evaluator/utility gates.
 
-### N5 — Independent parameter-attack biases
+### S3.5 — Cheap-screen gate
 
-- **State:** BLOCKED by N2
-- **Action:** run the exact A3 LoRA and A4 grids in the constants file with five confirmatory seeds; run the fixed 256-step full-parameter sentinel on both checkpoints regardless of LoRA outcome.
-- **Output:** five-seed confirmation near the breach boundary.
-- **Pass:** stable cost ordering or equivalence classification across at least two genuinely different parameter biases. A1/A2 count once; A6 embedding attack is a control, not a parameter family.
+- **State:** BLOCKED by S3.4
+- **Action:** adjudicate W1–W5 using their preregistered distinct predictions. OAFT may win as a comparator, but receives no privileged interpretation. Report pairwise observational results and whole-recipe confounding; public checkpoints cannot establish a population predictor or causal training effect.
+- **Pass:** at least one world model makes a stable, nontrivial prospective prediction across two parameter biases and survives the mandatory comparators, capability control and second utility panel sufficiently to justify its discriminating experiment.
+- **Kill:** local inseparability predicts only its construction operator, adds nothing beyond GFS/Fisher/gradient norm/clean margin/OAFT, or adaptive nonlinear fine-tuning bypasses a favorable spectrum at baseline-like cost. If no competing model survives, stop rather than train a panel.
+- **Output on pass:** `MECHANISM_SCREEN_PASSED`, surviving hypotheses and frozen Phase 4 experiment cards.
 
-### N6 — Classify the natural result
+## Phase 4 — Discriminating mechanism experiments
 
-- **State:** BLOCKED by N3–N5
-- **Action:** classify Case A/B/C/D using OAFT and per-family parameter frontiers. Equivalence requires the preregistered interval, not non-significance. After every breach candidate, rerun the frozen activation intervention/rescue panel to distinguish carrier disablement from downstream bypass.
-- **Output:** screening result card; limitations explicitly state whole-recipe confounding and that Case A alone establishes no scientific relationship.
-- **Kill:** Case D, judge instability or safety gain attributable to capability collapse.
+Only hypotheses surviving Phase 3 enter. The same experiments must discriminate W1–W5 rather than create one bespoke matrix per preferred story.
 
-## Phase 4 — Cross-space diagnosis
+### D4.1 — Pulse versus sustained perturbation
 
-### D1 — Define candidate explanations from the observed failure
+- **State:** BLOCKED by `MECHANISM_SCREEN_PASSED` and a surviving W1/W4/W5 prediction
+- **Action:** compare a preregistered, functionally matched single-token/layer pulse, fixed multi-token window and sustained perturbation. Track content-level safety and recognition→policy→execution recovery; positions and amplitudes are frozen on mechanism-dev only.
+- **Falsifier:** no immediate causal pulse effect, no persistent recovery, or only refusal-string recovery without content-level safety.
 
-- **State:** BLOCKED by N6
-- **Action:** allow at most three candidates derived from the observed Case A/B/C, each with one falsifiable prediction and no custom acronym requirement.
-- **Controls:** stable/effective rank, causally active direction count, simple empirical-Fisher concentration, clean safety/utility and weight drift.
-- **Forbidden:** arbitrary composite metric, fixed layer topology or post-hoc threshold search.
+### D4.2 — Common finite fault versus independent faults
 
-### D1.4 — Design-only power and censoring gate
+- **State:** BLOCKED by `MECHANISM_SCREEN_PASSED` and more than one validated causal safety effect
+- **Action:** compare matched individual lesions with a carrier-blind shared-support edit under equal parameter count, functional dose and search budget; test whether the finite joint-cost discount predicts a sealed parameter attack.
+- **Falsifier:** individual effects are not causal, dose cannot be matched, the discount depends on the carrier projector, or it does not transfer off-operator.
 
-- **State:** BLOCKED by D1
-- **Action:** before training the panel, run 10,000 design-only simulations at checkpoint-level standardized effects 0.3/0.5/0.8 and censoring 0/20/40%, using the frozen whole-checkpoint holdout analysis. No model outcome is used to choose the favorable scenario.
-- **Pass:** round the screening censoring rate upward to 0/20/40%; >40% fails automatically. The planned 32 checkpoints must provide ≥80% power at two-sided α=0.05 for the minimum target effect 0.5 at that tier. Otherwise increase independent training seeds or narrow the one-candidate comparison by change card before spending GPU; never count attack seeds as samples.
+### D4.3 — Utility-cap sweep and benign repair
 
-### D1.5 — Build the matched confirmation panel
+- **State:** BLOCKED by `MECHANISM_SCREEN_PASSED`
+- **Action:** sweep the preregistered utility allowance and charge the composed sequence `direct/sparse removal → benign-only distillation or KL repair → adaptive LoRA/full-FT cleanup`. Repair receives no refusal/safety examples; use a second sealed utility/capability panel and legitimate-adaptation test.
+- **Falsifier:** ranking is missing-capability driven, utility cannot be validly restored, repair leaks safety supervision, or the composed best response bypasses the proposed explanation at baseline-like cost.
 
-- **State:** BLOCKED by D1.4
-- **Action:** create 32 independent final checkpoints: two backbones (`Gemma-2-2B` and `Qwen2.5-3B`) × four dose-matched, non-novel training conditions × four training seeds. Conditions are ordinary safety SFT, single-direction fault training, Fail-Closed-style multi-feature ablation training, and diverse-refusal-prefix SFT. Do not behavior-match checkpoint selection.
-- **Purpose:** replace the confounded Gemma screening pair with independent checkpoint-level variation. Attack seeds and trials are repeated measures, not sample size.
+### D4.4 — World-model adjudication
 
-### D2 — Freeze predictor and held-out attack
+- **State:** BLOCKED by all applicable D4.1–D4.3 cells
+- **Action:** use the frozen W1–W5 adjudication rules; retain heterogeneity and unresolved worlds rather than multiplying mechanisms into a score.
+- **Pass:** one selected internal property has a distinct prediction supported across the applicable shared experiments and still predicts an attack family not used to construct it.
+- **Failure action:** narrow or stop the mechanism claim; do not proceed on a descriptive metric.
+- **Output on pass:** `DISCRIMINATION_PASSED`, the surviving property, alternatives and a design-only confirmation plan.
 
-- **State:** BLOCKED by D1.5
-- **Action:** select one candidate without sealed-family outcomes and freeze its estimator. Include stable/effective rank, active-direction count, simple Fisher concentration, clean behavior and the complete Skin-Deep GFS estimator as mandatory comparators. Then content-hash models, predictor and analysis code; only afterward may the independent red-team custodian reveal the precommitted A5 family/config to the attack executor for one confirmatory run.
-- **Pass:** data/attack used to build the score are disjoint from confirmation.
+## Phase 5 — Matched checkpoint confirmation
 
-### D3 — Prospective test
+This phase is not authorized until a mechanism survives cheap screening and the shared discriminating experiments.
 
-- **State:** BLOCKED by D2
-- **Action:** test whether the candidate predicts A5 and the second independent parameter bias beyond rank/count/Fisher/GFS, using whole-checkpoint holdout and leave-one-backbone/condition-out analyses.
-- **Pass:** prespecified out-of-sample improvement with stable sign and no single-checkpoint leverage across the 32-checkpoint panel.
-- **Kill:** failure to beat baselines or only same-operator prediction.
+### C5.1 — Design-only power and censoring gate
 
-### D4 — Diagnosis gate
+- **State:** BLOCKED by `DISCRIMINATION_PASSED`
+- **Action:** run 10,000 design-only simulations at checkpoint-level standardized effects 0.3/0.5/0.8 and censoring 0/20/40%, using the frozen whole-checkpoint holdout analysis. No model outcome may select the favorable scenario.
+- **Pass:** round Phase 3 censoring upward to 0/20/40%; >40% fails automatically. The proposed panel must provide ≥80% power at two-sided α=0.05 for target effect 0.5. Otherwise increase independent training seeds or narrow the single-candidate comparison by approved change card; never count attack seeds as samples.
 
-- **State:** BLOCKED by D3
-- **Output on pass:** `DIAGNOSIS_PASSED`, exact mechanism claim and remaining alternatives.
-- **Failure action:** publish/report the cross-space natural result if valuable, or stop; do not invent a defense.
+### C5.2 — Build matched confirmation panel
 
-## Phase 5 — Only if justified: one novel defense prototype
+- **State:** BLOCKED by C5.1 and separate GPU/human approval
+- **Action:** create the minimum powered panel, currently 32 independent final checkpoints: two backbones (`Gemma-2-2B`, `Qwen2.5-3B`) × four dose-matched non-novel training conditions × four training seeds. Match base revisions, data, target tokens, optimizer compute and saved dose; do not behavior-match checkpoint selection. Conditions remain ordinary safety SFT, single-direction fault training, Fail-Closed-style multi-feature fault training and diverse-refusal-prefix SFT.
+- **Purpose:** replace confounded public-checkpoint contrasts with independent checkpoint-level variation. Attack trials/seeds remain nested repeated measures.
 
-### P5.1 — Approve one change card
+### C5.3 — Freeze predictor before held-out outcomes
 
-- **State:** BLOCKED by `DIAGNOSIS_PASSED`
-- **Action:** choose one primary intervention implied by the diagnosed failure. Freeze baseline, prediction, falsifier, controls, budget and human approval.
-- **Not allowed by default:** disjoint layer bands, predefined sensitivity separation, writer-cut training, topology losses or multiple simultaneous tricks.
+- **State:** BLOCKED by C5.2
+- **Action:** freeze exactly one surviving primary predictor, its estimator and analysis code before any panel attack outcome. OAFT, full GFS, Fisher concentration, rank/count, clean margins and gradient norm remain mandatory comparators. Content-hash checkpoints and code before the custodian reveals A5.
+- **Pass:** predictor data/objective/operator are isolated from confirming attacks, and the complete estimator is reproducible without outcome-dependent choice.
 
-### P5.2 — Small-model prototype
+### C5.4 — Prospective matched-panel test
 
-- **State:** BLOCKED by P5.1
+- **State:** BLOCKED by C5.3
+- **Action:** test A3, independently implemented A4 and custodian-sealed A5 with whole-checkpoint holdout and leave-one-backbone/condition-out analyses.
+- **Pass:** prespecified out-of-sample improvement over mandatory comparators, stable sign and no single-checkpoint/backbone/condition leverage.
+- **Kill:** predictor loses to baselines, only predicts the same operator, or censoring/utility failure invalidates the comparison.
+- **Output on pass:** `MECHANISM_CONFIRMED`; this supports a prospective relationship, not yet causality.
+
+## Phase 6 — Causal manipulation
+
+### M6.1 — Approve matched manipulation card
+
+- **State:** BLOCKED by `MECHANISM_CONFIRMED`
+- **Action:** preregister one intervention that actively increases versus decreases the selected internal property, plus an ordinary continuation control. Match base, data, target tokens, optimizer, FLOPs, clean safety/utility, hazard-capability access, overall learning plasticity and legitimate benign adaptation. The construction attack cannot be the confirming endpoint.
+- **Output:** approved prediction, falsifier, mediation estimand, controls and compute cap. If W2/W4/W5 wins, use its property-specific card rather than retrofitting the W3 manipulation.
+
+### M6.2 — Verify property manipulation
+
+- **State:** BLOCKED by M6.1
+- **Action:** verify the intended property moves in both directions while compute, clean behavior and general plasticity remain matched.
+- **Kill:** the property does not move, clean behavior/dose differs materially, or all learning becomes broadly harder.
+
+### M6.3 — Held-out causal test
+
+- **State:** BLOCKED by M6.2
+- **Action:** reveal two unseen parameter-attack frontiers plus the composed repair attack; test whether tamper margin moves in the predicted direction and whether the selected property mediates that movement.
+- **Pass:** bidirectional property change orders held-out tamper margins under utility constraints, survives mechanism ablation and is not explained by alignment strength, missing capability or reduced plasticity.
+- **Output on pass:** `CAUSAL_PROPERTY_PASSED`, bounded causal claim and remaining alternatives.
+- **Failure action:** retain only the predictive result if valid; do not design a defense from a failed manipulation.
+
+## Phase 7 — Derived defense
+
+Only now may one defense be designed from the discovered causal property.
+
+### P7.1 — Approve one derived-defense change card
+
+- **State:** BLOCKED by `CAUSAL_PROPERTY_PASSED`
+- **Action:** freeze one simple retrofit implied by the mechanism, its baseline, prediction, falsifier, controls, budget and human approval.
+- **Not allowed by default:** multiple simultaneous tricks, post-hoc topology losses, disjoint layer bands or a renamed prior defense unsupported by the selected mechanism.
+
+### P7.2 — Small-model prototype
+
+- **State:** BLOCKED by P7.1
 - **Models:** one 1–3B checkpoint only.
 - **Controls:** vanilla safety continuation, equal-compute extra safety data, Fail-Closed and AntiDote where compatible.
-- **Pass:** clear improvement on one trained/diagnostic attack and one unseen parameter attack without violating utility bounds.
-- **Kill:** ≤1.25× paired baseline work under an adaptive unseen attack, or gain explained by extra training/alignment strength.
+- **Pass:** the defense moves the intended property and improves one diagnostic and one unseen parameter-attack frontier without violating V4 utility bounds.
+- **Kill:** ≤1.25× paired baseline work under an adaptive unseen attack, or gain explained by extra training, alignment strength, capability loss or broad learning impairment.
 
-### P5.3 — Mechanism ablation
+### P7.3 — Mechanism ablation and defense gate
 
-- **State:** BLOCKED by P5.2
-- **Action:** remove or randomize the claimed mechanism while matching compute/norm/data.
-- **Pass:** security gain follows the mechanism, not implementation artifacts.
+- **State:** BLOCKED by P7.2
+- **Action:** remove or randomize the claimed mechanism while matching compute/norm/data; rerun the unseen attack.
+- **Pass:** security gain follows the mechanism rather than implementation artifacts.
+- **Output on pass:** `DERIVED_DEFENSE_PASSED`.
 
-## Phase 6 — Adaptive attack validation
+## Phase 8 — Adaptive validation, scaling and paper matrix
 
-### A6.1 — Re-extraction and stronger search
+### A8.1 — Adaptive re-extraction and stronger search
 
-- **State:** BLOCKED by Phase 5 pass
-- **Action:** rederive all attack features after defense; double search/step budget as a declared sensitivity; include optimizer-different or derivative-free search where practical.
+- **State:** BLOCKED by `DERIVED_DEFENSE_PASSED`
+- **Action:** rederive all attack features after defense, double search/step budget as a declared sensitivity and include an optimizer-different or derivative-free search where practical.
 
-### A6.2 — Cross-operator confirmation
+### A8.2 — Cross-operator, repair and utility validation
 
-- **State:** BLOCKED by A6.1
-- **Action:** require two attack families absent from defense training/selection. Show per-family frontiers, not only an average.
+- **State:** BLOCKED by A8.1
+- **Action:** require two attack families absent from defense training/selection; test omitted-domain collapse, over-refusal, evaluator disagreement, benign replay/KL repair, second utility/capability panel and legitimate adaptation. Show per-family frontiers, not an average.
+- **Kill:** utility restoration preserves breach at baseline-like cost, the defense blocks legitimate adaptation broadly, or stronger search removes the gain.
 
-### A6.3 — Utility gaming and repair
+### A8.3 — Practicality and scaling gate
 
-- **State:** BLOCKED by A6.1
-- **Action:** test over-refusal, omitted-domain collapse, benign replay/KL repair and evaluator disagreement.
-- **Kill:** utility restoration preserves the breach at baseline-like cost or defense blocks legitimate adaptation broadly.
+- **State:** BLOCKED by A8.2
+- **Action:** disclose defender compute/inference overhead and attacker added work; repeat only decisive cells on one 7–9B non-Gemma family with ≥3 seeds and test larger attack budgets. One cheap non-refusal/capability-suppression contrast is permitted only as a boundary test, not a new branch.
+- **Pass:** material attacker added work relative to defender cost, bounded utility loss, stable effect sign and acceptable scaling. Stretch targets remain ≥2× work factor, <1% utility loss and zero inference overhead.
+- **Kill/pivot:** unexplained family reversal or loss under larger adaptive budget invalidates a general claim.
 
-### A6.4 — Practicality gate
+### A8.4 — Final estimands and mechanistic triangulation
 
-- **State:** BLOCKED by A6.2–A6.3
-- **Pass:** material attacker added work relative to defender compute, bounded utility loss and disclosed inference overhead.
-- **Stretch:** ≥2× work factor, <1% utility loss, zero inference overhead.
+- **State:** BLOCKED by A8.3
+- **Action:** freeze the smallest paper matrix that distinguishes the selected property from OAFT/rank/count/Fisher/GFS/clean-margin and extra-training controls. Combine prospective prediction, intervention/rescue, causal manipulation and adaptive parameter attacks; include Grassmann/trajectory/topology only if it changes a prediction.
 
-## Phase 7 — Scaling and second model family
+### A8.5 — Robustness, null audit and paper decision
 
-### S7.1 — Replicate on a second family
-
-- **State:** BLOCKED by Phase 6
-- **Action:** choose one 7–9B non-Gemma family based on artifact/legal availability; repeat only the decisive mechanism and attack cells with ≥3 seeds.
-- **Pass:** effect sign and qualitative mechanism replicate; heterogeneity is modeled rather than averaged away.
-- **Kill/pivot:** unexplained reversal invalidates a general claim.
-
-### S7.2 — Budget scaling
-
-- **State:** BLOCKED by S7.1
-- **Action:** test whether gains persist at larger attack budget and whether defender cost scales acceptably. No full model×attack matrix unless the primary claim survives.
-
-### S7.3 — Safeguard boundary
-
-- **State:** BLOCKED by S7.1
-- **Action:** one small non-refusal/capability-suppression contrast only if existing artifacts make it cheap. It is a generality test, not a new research branch.
-
-## Phase 8 — Mechanistic explanation and paper matrix
-
-### M8.1 — Freeze final estimands
-
-- **State:** BLOCKED by Phase 7
-- **Action:** select the smallest confirmatory matrix that distinguishes the mechanism from rank/count/Fisher and extra-training controls.
-
-### M8.2 — Mechanistic triangulation
-
-- **State:** BLOCKED by M8.1
-- **Action:** combine intervention/rescue, parameter attack and prospective prediction. Grassmann/trajectory/topology figures are included only if they change a prediction.
-
-### M8.3 — Robustness and null audit
-
-- **State:** BLOCKED by M8.1
-- **Action:** report all models, attacks, seeds, censored cells, failures, utility domains and judge audits. Run leave-one-model/attack-out sensitivity.
-
-### M8.4 — Paper decision
-
-- **State:** BLOCKED by M8.2–M8.3
-- **Strong story:** OAFT and adversarial parameter fault tolerance are empirically distinct, a simple mechanism predicts the distinction on held-out parameter attacks, and a derived retrofit raises bounded breach work.
-- **Diagnostic story:** a clean replicated OAFT–parameter-tolerance dissociation/ranking reversal without a successful defense.
-- **No paper:** replication failure, attack saturation, metric-only result or same-operator hardening.
+- **State:** BLOCKED by A8.4
+- **Action:** report every model, attack, seed, censored cell, failure, utility domain and judge audit; run leave-one-model/attack-out sensitivity.
+- **Strong story:** a pre-attack internal property prospectively predicts held-out utility-constrained tamper margin, causal manipulation moves both property and margin, and a derived retrofit raises adaptive breach work.
+- **Diagnostic story:** a clean prospective dissociation or world-model falsification without a successful causal manipulation/defense.
+- **No paper:** replication failure, attack saturation, metric-only result, same-operator hardening, utility gaming or capability collapse.
 
 ## Explicitly retired from V3
 
