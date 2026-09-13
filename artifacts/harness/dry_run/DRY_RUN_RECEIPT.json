@@ -1,0 +1,59 @@
+{
+  "schema_version": "4.0.0",
+  "run_id": "harness.dry-run.0001",
+  "stage": "R0",
+  "change_card_id": null,
+  "repo_commit": "611a63fbf2567e872a46cb4c1c3b537212fc930f",
+  "environment": {
+    "container_digest": "unset",
+    "lock_sha256": "ccd472737122a183f805ae65d11f52c4d474c6b8417976972655559b7d05ba0d",
+    "python": "3.13.9",
+    "pytorch": "2.10.0+cu128",
+    "cuda": "12.8",
+    "driver": "unset"
+  },
+  "model": {
+    "repo_id": "Qwen/Qwen2.5-0.5B-Instruct",
+    "revision": "7ae557604adf67be50417f59c2c2f167def9a775",
+    "tokenizer_repo_id": "Qwen/Qwen2.5-0.5B-Instruct",
+    "tokenizer_revision": "7ae557604adf67be50417f59c2c2f167def9a775",
+    "template_sha256": "e7228972830911528e965fe75af54a66feb9c76f7bb6d91ab76fef81f8b1b854",
+    "parent_artifact_ids": []
+  },
+  "data": [
+    {
+      "name": "benign-dry-run",
+      "source_revision": "dry-run-v1",
+      "file_sha256": "9ac508ebba715ed371a55023ad8565590145b44463369334980e6f8e81a8c797",
+      "split": "utility",
+      "ids_sha256": "9ac508ebba715ed371a55023ad8565590145b44463369334980e6f8e81a8c797"
+    }
+  ],
+  "config_sha256": "e4b7ae3fb2d703721e54ccfbd4fbe59984d88dc9723b7acc42621b1cb950e7f3",
+  "seed": 17,
+  "hardware": {
+    "accelerator": "NVIDIA A800-SXM4-80GB",
+    "count": 8,
+    "hostname_hash": "51b64357c5cc0128"
+  },
+  "cost": {
+    "primary_estimated_flops": 2500000000000.0,
+    "accelerator_seconds": 4.823,
+    "wall_seconds": 4.823,
+    "input_tokens": 200,
+    "output_tokens": 112,
+    "train_tokens": 0,
+    "trials_attempted": 1,
+    "failed_trials": 0,
+    "peak_memory_bytes": 0
+  },
+  "status": "SUCCEEDED",
+  "censoring": "none",
+  "artifacts": [
+    {
+      "role": "result",
+      "uri": "dry_run_output.json",
+      "sha256": "145064c06344aa839b896021e2da0151d61ec49c7abf8e90b085d988057dcc71"
+    }
+  ]
+}

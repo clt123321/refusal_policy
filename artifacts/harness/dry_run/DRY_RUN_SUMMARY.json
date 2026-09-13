@@ -1,0 +1,14 @@
+{
+  "model": "Qwen/Qwen2.5-0.5B-Instruct",
+  "revision": "7ae557604adf67be50417f59c2c2f167def9a775",
+  "device": "cpu",
+  "determinism_hash": "3f724e14a7a14b584f8d58b5e6d1cebb2d8b7cebdfa06326edfecda788e2a263",
+  "refusal_diagnostics": {
+    "refusal_rate": 0.0,
+    "n": 5
+  },
+  "valid_outputs": 5,
+  "n_prompts": 5,
+  "manifest_path": "artifacts/harness/dry_run/DRY_RUN_RECEIPT.json",
+  "status": "PASS"
+}
