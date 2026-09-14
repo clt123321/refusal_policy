@@ -40,8 +40,10 @@ class CostTracker:
         if terminal_trial_id is not None:
             ids = [i for i in ids if i <= terminal_trial_id]
         records = [self.trials[i] for i in ids]
+        cumulative_flops = self.cumulative_estimated_flops(terminal_trial_id)
         return {
-            "target_specific_cumulative_estimated_flops": self.cumulative_estimated_flops(terminal_trial_id),
+            "primary_estimated_flops": cumulative_flops,
+            "target_specific_cumulative_estimated_flops": cumulative_flops,
             "accelerator_seconds": sum(r.accelerator_seconds for r in records),
             "input_tokens": sum(r.input_tokens for r in records),
             "output_tokens": sum(r.output_tokens for r in records),
