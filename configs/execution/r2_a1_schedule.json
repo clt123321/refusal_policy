@@ -1,0 +1,229 @@
+{
+  "cell": "R2-A1-base-only",
+  "trial_count": 35,
+  "order_rule": "rank ascending, then strength ascending",
+  "tiers": {
+    "1": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7
+    ],
+    "2": [
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14
+    ],
+    "3": [
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21
+    ],
+    "4": [
+      22,
+      23,
+      24,
+      25,
+      26,
+      27,
+      28
+    ],
+    "5": [
+      29,
+      30,
+      31,
+      32,
+      33,
+      34,
+      35
+    ]
+  },
+  "trials": [
+    {
+      "trial_id": 1,
+      "rank": 1,
+      "strength": 0.25
+    },
+    {
+      "trial_id": 2,
+      "rank": 1,
+      "strength": 0.5
+    },
+    {
+      "trial_id": 3,
+      "rank": 1,
+      "strength": 0.75
+    },
+    {
+      "trial_id": 4,
+      "rank": 1,
+      "strength": 1.0
+    },
+    {
+      "trial_id": 5,
+      "rank": 1,
+      "strength": 1.25
+    },
+    {
+      "trial_id": 6,
+      "rank": 1,
+      "strength": 1.5
+    },
+    {
+      "trial_id": 7,
+      "rank": 1,
+      "strength": 2.0
+    },
+    {
+      "trial_id": 8,
+      "rank": 2,
+      "strength": 0.25
+    },
+    {
+      "trial_id": 9,
+      "rank": 2,
+      "strength": 0.5
+    },
+    {
+      "trial_id": 10,
+      "rank": 2,
+      "strength": 0.75
+    },
+    {
+      "trial_id": 11,
+      "rank": 2,
+      "strength": 1.0
+    },
+    {
+      "trial_id": 12,
+      "rank": 2,
+      "strength": 1.25
+    },
+    {
+      "trial_id": 13,
+      "rank": 2,
+      "strength": 1.5
+    },
+    {
+      "trial_id": 14,
+      "rank": 2,
+      "strength": 2.0
+    },
+    {
+      "trial_id": 15,
+      "rank": 4,
+      "strength": 0.25
+    },
+    {
+      "trial_id": 16,
+      "rank": 4,
+      "strength": 0.5
+    },
+    {
+      "trial_id": 17,
+      "rank": 4,
+      "strength": 0.75
+    },
+    {
+      "trial_id": 18,
+      "rank": 4,
+      "strength": 1.0
+    },
+    {
+      "trial_id": 19,
+      "rank": 4,
+      "strength": 1.25
+    },
+    {
+      "trial_id": 20,
+      "rank": 4,
+      "strength": 1.5
+    },
+    {
+      "trial_id": 21,
+      "rank": 4,
+      "strength": 2.0
+    },
+    {
+      "trial_id": 22,
+      "rank": 8,
+      "strength": 0.25
+    },
+    {
+      "trial_id": 23,
+      "rank": 8,
+      "strength": 0.5
+    },
+    {
+      "trial_id": 24,
+      "rank": 8,
+      "strength": 0.75
+    },
+    {
+      "trial_id": 25,
+      "rank": 8,
+      "strength": 1.0
+    },
+    {
+      "trial_id": 26,
+      "rank": 8,
+      "strength": 1.25
+    },
+    {
+      "trial_id": 27,
+      "rank": 8,
+      "strength": 1.5
+    },
+    {
+      "trial_id": 28,
+      "rank": 8,
+      "strength": 2.0
+    },
+    {
+      "trial_id": 29,
+      "rank": 16,
+      "strength": 0.25
+    },
+    {
+      "trial_id": 30,
+      "rank": 16,
+      "strength": 0.5
+    },
+    {
+      "trial_id": 31,
+      "rank": 16,
+      "strength": 0.75
+    },
+    {
+      "trial_id": 32,
+      "rank": 16,
+      "strength": 1.0
+    },
+    {
+      "trial_id": 33,
+      "rank": 16,
+      "strength": 1.25
+    },
+    {
+      "trial_id": 34,
+      "rank": 16,
+      "strength": 1.5
+    },
+    {
+      "trial_id": 35,
+      "rank": 16,
+      "strength": 2.0
+    }
+  ]
+}

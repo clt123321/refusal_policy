@@ -1,0 +1,193 @@
+{
+  "cell": "A3-LoRA-grid",
+  "trial_count": 24,
+  "order_rule": "rank ascending, then learning_rate ascending, then steps ascending",
+  "trials": [
+    {
+      "trial_id": 1,
+      "rank": 8,
+      "learning_rate": 1e-05,
+      "steps": 256
+    },
+    {
+      "trial_id": 2,
+      "rank": 8,
+      "learning_rate": 1e-05,
+      "steps": 1024
+    },
+    {
+      "trial_id": 3,
+      "rank": 8,
+      "learning_rate": 5e-05,
+      "steps": 256
+    },
+    {
+      "trial_id": 4,
+      "rank": 8,
+      "learning_rate": 5e-05,
+      "steps": 1024
+    },
+    {
+      "trial_id": 5,
+      "rank": 8,
+      "learning_rate": 0.0001,
+      "steps": 256
+    },
+    {
+      "trial_id": 6,
+      "rank": 8,
+      "learning_rate": 0.0001,
+      "steps": 1024
+    },
+    {
+      "trial_id": 7,
+      "rank": 8,
+      "learning_rate": 0.0005,
+      "steps": 256
+    },
+    {
+      "trial_id": 8,
+      "rank": 8,
+      "learning_rate": 0.0005,
+      "steps": 1024
+    },
+    {
+      "trial_id": 9,
+      "rank": 32,
+      "learning_rate": 1e-05,
+      "steps": 256
+    },
+    {
+      "trial_id": 10,
+      "rank": 32,
+      "learning_rate": 1e-05,
+      "steps": 1024
+    },
+    {
+      "trial_id": 11,
+      "rank": 32,
+      "learning_rate": 5e-05,
+      "steps": 256
+    },
+    {
+      "trial_id": 12,
+      "rank": 32,
+      "learning_rate": 5e-05,
+      "steps": 1024
+    },
+    {
+      "trial_id": 13,
+      "rank": 32,
+      "learning_rate": 0.0001,
+      "steps": 256
+    },
+    {
+      "trial_id": 14,
+      "rank": 32,
+      "learning_rate": 0.0001,
+      "steps": 1024
+    },
+    {
+      "trial_id": 15,
+      "rank": 32,
+      "learning_rate": 0.0005,
+      "steps": 256
+    },
+    {
+      "trial_id": 16,
+      "rank": 32,
+      "learning_rate": 0.0005,
+      "steps": 1024
+    },
+    {
+      "trial_id": 17,
+      "rank": 128,
+      "learning_rate": 1e-05,
+      "steps": 256
+    },
+    {
+      "trial_id": 18,
+      "rank": 128,
+      "learning_rate": 1e-05,
+      "steps": 1024
+    },
+    {
+      "trial_id": 19,
+      "rank": 128,
+      "learning_rate": 5e-05,
+      "steps": 256
+    },
+    {
+      "trial_id": 20,
+      "rank": 128,
+      "learning_rate": 5e-05,
+      "steps": 1024
+    },
+    {
+      "trial_id": 21,
+      "rank": 128,
+      "learning_rate": 0.0001,
+      "steps": 256
+    },
+    {
+      "trial_id": 22,
+      "rank": 128,
+      "learning_rate": 0.0001,
+      "steps": 1024
+    },
+    {
+      "trial_id": 23,
+      "rank": 128,
+      "learning_rate": 0.0005,
+      "steps": 256
+    },
+    {
+      "trial_id": 24,
+      "rank": 128,
+      "learning_rate": 0.0005,
+      "steps": 1024
+    }
+  ],
+  "full_ft_sentinel": [
+    {
+      "trial_id": 1,
+      "learning_rate": 5e-06,
+      "data_order": "salted_hash_order"
+    },
+    {
+      "trial_id": 2,
+      "learning_rate": 5e-06,
+      "data_order": "seeded_shuffle"
+    },
+    {
+      "trial_id": 3,
+      "learning_rate": 1e-05,
+      "data_order": "salted_hash_order"
+    },
+    {
+      "trial_id": 4,
+      "learning_rate": 1e-05,
+      "data_order": "seeded_shuffle"
+    },
+    {
+      "trial_id": 5,
+      "learning_rate": 2e-05,
+      "data_order": "salted_hash_order"
+    },
+    {
+      "trial_id": 6,
+      "learning_rate": 2e-05,
+      "data_order": "seeded_shuffle"
+    },
+    {
+      "trial_id": 7,
+      "learning_rate": 5e-05,
+      "data_order": "salted_hash_order"
+    },
+    {
+      "trial_id": 8,
+      "learning_rate": 5e-05,
+      "data_order": "seeded_shuffle"
+    }
+  ]
+}
