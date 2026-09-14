@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import argparse
 import hashlib
 import json
 import time
@@ -75,8 +76,12 @@ def run_repair(config_path: Path, parent_model_path: Path, output_dir: Path, dev
         total = None
         for row in rows:
             prompt = tokenizer.apply_chat_template([{"role": "user", "content": row["prompt"]}], tokenize=False, add_generation_prompt=True)
-            batch = tokenizer(prompt + row["target"], return_tensors="pt").to(device)
-            loss = model(**batch, labels=batch["input_ids"], use_cache=False).loss
+            full = tokenizer(prompt + row["target"], return_tensors="pt").to(device)
+            prefix = tokenizer(prompt, return_tensors="pt", add_special_tokens=False)
+            labels = full["input_ids"].clone()
+            prefix_len = prefix["input_ids"].shape[1]
+            labels[:, :prefix_len] = -100
+            loss = model(**full, labels=labels, use_cache=False).loss
             total = loss if total is None else total + loss
         loss = total / len(rows)
         loss.backward(); optimizer.step(); losses.append(float(loss.detach().cpu()))
@@ -90,3 +95,20 @@ def run_repair(config_path: Path, parent_model_path: Path, output_dir: Path, dev
     result = {"status": "SUCCEEDED", "artifact_role": "V6_REPAIR_CHECKPOINT", "parent_model_path": str(parent_model_path), "parent_config_hash": _hash_json(config["model"]), "config_sha256": _sha256(config_path), "data_sha256": _sha256(data_path), "seed": seed, "steps": config["schedule"]["steps"], "tokens": sum(len(r["prompt"].split()) + len(r["target"].split()) for r in rows) * config["schedule"]["steps"], "losses": losses, "wall_seconds": elapsed, "adapter_dir": str(adapter_dir), "lineage": config["lineage"]}
     (output_dir / "repair_result.json").write_text(json.dumps(result, indent=2))
     return result
+
+
+
+def main() -> int:
+    parser = argparse.ArgumentParser(description="Run parameterized V6 repair training")
+    parser.add_argument("--config", type=Path, required=True)
+    parser.add_argument("--parent-model", type=Path, required=True)
+    parser.add_argument("--output", type=Path, required=True)
+    parser.add_argument("--device", default="cuda")
+    args = parser.parse_args()
+    result = run_repair(args.config, args.parent_model, args.output, args.device)
+    print(json.dumps(result, indent=2))
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())
