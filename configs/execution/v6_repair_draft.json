@@ -1,0 +1,51 @@
+{
+  "schema_version": "v6-repair-draft-1",
+  "status": "DRAFT_REQUIRES_EXECUTOR_FREEZE",
+  "model": {
+    "repo_id": "Qwen/Qwen2.5-1.5B-Instruct",
+    "revision": "989aa7980e4cf806f80c7fef2b1adb7bc71aa306",
+    "tokenizer_revision": "989aa7980e4cf806f80c7fef2b1adb7bc71aa306",
+    "dtype": "float16",
+    "chat_template": "native"
+  },
+  "data": {
+    "name": "D_repair",
+    "path": null,
+    "file_sha256": null,
+    "ids_sha256": null,
+    "split": "train",
+    "status": "PENDING_EXECUTOR_PILOT"
+  },
+  "objective": {
+    "type": "causal_lm_supervised_targets",
+    "loss_masking": "target_tokens_only",
+    "status": "PENDING_EXECUTOR_FREEZE"
+  },
+  "trainable": {
+    "parameterization": "LoRA",
+    "target_modules": ["q_proj", "v_proj"],
+    "rank": 2,
+    "alpha": 4,
+    "dropout": 0.0,
+    "export_format": "peft_adapter",
+    "status": "ENGINEERING_DEFAULT_NOT_SCIENTIFICALLY_FROZEN"
+  },
+  "optimizer": {
+    "name": "AdamW",
+    "learning_rate": 0.0001,
+    "weight_decay": 0.0,
+    "betas": [0.9, 0.999],
+    "scheduler": "constant",
+    "status": "ENGINEERING_DEFAULT_NOT_SCIENTIFICALLY_FROZEN"
+  },
+  "schedule": {
+    "steps": 2,
+    "batch_size": 1,
+    "gradient_accumulation_steps": 1,
+    "checkpoint_steps": [0, 1, 2],
+    "status": "PENDING_EXECUTOR_PILOT"
+  },
+  "seed": 17,
+  "lineage": {"parent_artifact_id": null, "arm": "C", "repair_stage": null},
+  "output": {"directory": "artifacts/v6_e1_run/repair/C", "save_optimizer_state": false}
+}
