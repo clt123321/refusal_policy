@@ -1,8 +1,8 @@
 # Work Agent Status
 
-- Current gate: `V6_E1_PREFLIGHT_MACHINE_SIDE / EXECUTOR_BOUNDARY` — machine-measurable preflight complete; formal E1 execution (content-level evaluator, A0 direct intervention, A1 fresh LoRA re-attack, endpoint/plasticity controls, any E1 verdict) is authorized-executor-only per H0; not proxied, not claimed.
-- Authoritative baseline: `origin/main = 90cf38bb632c0e6ca861596a59dec4acba23f8ba` (local main aligned; working tree clean after this round's commit).
-- Status history: V5 harness engineering (H0,H1–H7 machine-side) is superseded by V6 E1 focus; engineering assets remain in `src/harness/`.
+- Current gate: `V6_E1_PREFLIGHT_BLOCKED / EXECUTOR_HANDOFF_REQUIRED` — machine-side preflight + preregistration draft + executor handoff manifest complete; formal E1 execution (content-level evaluator, A0 direct intervention, A1 fresh LoRA re-attack, endpoint qualification, plasticity control, any E1 verdict) is authorized-executor-only per H0; not proxied, not claimed.
+- Authoritative baseline: `origin/main = 90cf38bb632c0e6ca861596a59dec4acba23f8ba` (local main aligned, working tree clean after this round's commit).
+- Relay lineage: `refusal-policy-v6-engineering-handoff-20260914` (clean, updated to base + this commit after push).
 
 ## V6 E1 preflight — completed (agent machine-side)
 

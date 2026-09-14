@@ -87,3 +87,10 @@ Blocked / executor-only:
 `E1_PREFLIGHT_BLOCKED` — single blocker: executor authorization path for the harmful/A1 workloads is outside this agent's implementation boundary (per H0). Minimum human action: authorized executor runs/arranges the A1 dynamic-range pilot and content-level evaluator; agent then finalizes the frozen E1 manifest and can only record — not run — formal outcomes.
 
 `NO_SCIENTIFIC_EXPERIMENTS_RUN`
+
+## 9. Updated this round (2026-09-14)
+
+- `research/execution/V6_E1_PREREGISTRATION.md` created — freezes B/C/P definitions, endpoint gates, A1 fresh rules, budget grid draft, outcome/censoring/verdict rules from `V6_DECISION.md` + constants. Numeric A1 grid and dataset hashes marked `PENDING_EXECUTOR_PILOT` (not fabricated by the agent).
+- `configs/execution/v6_e1_executor_handoff.json` created — exact executor handoff manifest (hashes to collect, actions, required manifest fields, validation procedure, raw-output policy).
+- `src/harness/e1_isolation.py` + tests — metadata-only split-isolation validator for the eight E1 splits (exact-record overlap, family separation); no content generation.
+- Tests: 52/52 pass.

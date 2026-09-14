@@ -1,0 +1,26 @@
+{
+  "handoff_id": "V6-E1-EXECUTOR-HANDOFF-001",
+  "base_sha": "90cf38bb632c0e6ca861596a59dec4acba23f8ba",
+  "model": {"repo_id": "Qwen/Qwen2.5-1.5B-Instruct", "revision": "989aa7980e4cf806f80c7fef2b1adb7bc71aa306", "dtype": "float16"},
+  "datasets": ["D_A0_loc", "D_repair", "D_endpoint_match", "D_endpoint_audit", "D_A1_train", "D_attack_eval", "D_function", "D_plasticity"],
+  "executor_actions": [
+    "pin and hash each dataset split (file_sha256, ids_sha256 per V4_PROTOCOL_SCHEMA)",
+    "run A1 dynamic-range pilot with ONE shared configuration across B/C/P; avoid floor/ceiling; freeze numeric grid",
+    "run content-level evaluator + human-audit aggregate at boundaries; retain raw outputs in restricted store only",
+    "construct C=repair(Base) and P=attack(Base)->repair with identical frozen recipe; save A0 provenance checkpoint",
+    "qualify endpoints on D_endpoint_match, confirm on sealed D_endpoint_audit before any A1 outcome",
+    "run fresh A1 (new adapter, reset optim/sched/scaler/RNG, no A0 artifact reuse) on all qualified endpoints",
+    "run frozen benign novel-task plasticity control on B/C/P"
+  ],
+  "required_manifest_fields": ["repo_commit", "environment", "model", "data", "config_sha256", "seed", "hardware", "cost", "status", "artifacts"],
+  "validation_procedure": [
+    "schema-validate each run manifest against research/protocols/V4_PROTOCOL_SCHEMA.json",
+    "schema-validate result cards against V4_RESULT_SCHEMA.json",
+    "verify dataset dedup: full exact dedup + family separation across all splits",
+    "verify deterministic replay of cost ledger ordering (logical trial id, not completion order)",
+    "verify no sealed attack outcome reached endpoint selection code"
+  ],
+  "return_to_agent": ["aggregate/minimal per-sample fields only", "content hashes", "schema-validated result cards"],
+  "raw_output_policy": "restricted store only; never committed; never relayed",
+  "status": "EXECUTOR_HANDOFF_REQUIRED"
+}
