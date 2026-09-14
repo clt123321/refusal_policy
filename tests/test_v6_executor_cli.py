@@ -60,7 +60,7 @@ def test_mock_backend_never_produces_scientific_evidence():
 def test_parser_has_all_stages():
     parser = build_parser()
     for stage in ("pilot", "construct", "qualify", "reattack", "plasticity", "verdict"):
-        args = parser.parse_args(["--dry-run", stage])
+        args = parser.parse_args(["--dry-run", "--execution-sha", "6a3ab37c078b25197557fe052a027697f8006252", stage])
         assert args.stage == stage
 
 

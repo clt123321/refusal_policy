@@ -212,7 +212,7 @@ def run_stage(stage: str, args: argparse.Namespace) -> dict[str, Any]:
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(description="V6 E1 orchestration only; attacks/evaluator are injected backends")
     parser.add_argument("--repo", default=".")
-    parser.add_argument("--execution-sha", default=EXPECTED_EXECUTION_SHA)
+    parser.add_argument("--execution-sha", required=True, help="normative runtime checkout SHA; no default is permitted")
     parser.add_argument("--research-base-sha", default=EXPECTED_RESEARCH_BASE_SHA)
     parser.add_argument("--release-metadata-sha", default=None)
     parser.add_argument("--run-dir", default="artifacts/v6_e1_executor")
