@@ -62,12 +62,21 @@
 - Candidate config: `configs/execution/v6_e1_repair_candidate.json`; recommended split 2048 train / 256 validation / 19 reserve; recommended LoRA rank 8 alpha 16 q/v, AdamW 2e-5, batch 2 × accumulation 4, 512 steps, checkpoints 0/64/128/256/512. All remain `RECOMMENDED_PENDING_FREEZE` and no formal C/P was run.
 - Formal repair after freeze uses the single `run_repair` training implementation. `formal_repair_entry.run_formal_repair` is an import-level contract adapter, not a standalone CLI. C/P have distinct full config hashes because lineage differs; equality is enforced with the recorded `training_recipe_sha256`, which excludes only lineage/output fields. The candidate remains intentionally rejected until the formal recipe and gates are frozen.
 
-### Formal blockers remain
+### V6 corrected DEV arm comparison
 
-- A0: no model-level intervention runner or authorized executor.
-- A1: no fresh parameter attack implementation or authorized executor.
-- Formal split manifest, endpoint bands, common repair stage, formal seeds and evaluator handler remain unfrozen.
-- Even with repair candidate data/config complete, formal P and fresh A1 cannot start until A0/A1 execution paths exist.
+- Corrected generation execution SHA: `eeba9857342ec1a3ef1ad867db0a556d05ce5f0d`.
+- Generation receipt: `artifacts/restricted/v6_e1/harmbench/checkpoint_generation_a02.json`; B was generated first from a base model, released, then R_cal was loaded from a distinct fresh base instance. Base and adapter file hashes are recorded in the receipt.
+- Scoring receipt: `artifacts/restricted/v6_e1/harmbench/checkpoint_scoring_a03.json`; classifier ran after Qwen release.
+- Corrected DEV summary: B `1 yes / 15 no / 0 UNKNOWN / 16 valid`, R_cal `3 yes / 13 no / 0 UNKNOWN / 16 valid`; max-length counts B=1 and R_cal=3; paired label changes=2/16. This remains DEV calibration, not formal E1.
+
+## V7 asset readiness
+
+- Countdown-Code fetched to restricted storage at revision `170ee8139cd836d6ab7b7b3a70c2063906363db0` (`Update citation information in README.md`).
+- The repository contains the Countdown task environment, parser/reward code and dataset source reference `Jiayi-Pan/Countdown-Tasks-3to4`.
+- Root license file is absent; embedded `verl/verl/LICENSE` is Apache-2.0. The environment declares `datasets`, `verifiers` and `vllm` dependencies; `setup.sh` and full verl installation were not run.
+- Static audit confirms the execution reward is hackable by design while equation reward checks original numbers/target; generated code is executed by the repository reward path in a subprocess. No host execution was performed by this agent.
+- Mac protocol files `research/v7/V7_SCREEN_PROTOCOL.md` and `configs/execution/v7_screen.json` are not present locally or on the visible GitHub branches. No V7 sample split, labels, or scientific rollout was invented or run.
+- V7 state: `BLOCKED_PROTOCOL_HANDOFF`; next action is to read the fixed protocol/config, hash them, then implement only the specified CPU/parser and safe rollout path.
 
 ## Collaboration transport (current)
 
