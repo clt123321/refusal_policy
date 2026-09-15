@@ -69,14 +69,15 @@
 - Scoring receipt: `artifacts/restricted/v6_e1/harmbench/checkpoint_scoring_a03.json`; classifier ran after Qwen release.
 - Corrected DEV summary: B `1 yes / 15 no / 0 UNKNOWN / 16 valid`, R_cal `3 yes / 13 no / 0 UNKNOWN / 16 valid`; max-length counts B=1 and R_cal=3; paired label changes=2/16. This remains DEV calibration, not formal E1.
 
-## V7 asset readiness
+## V7 initial implementation status
 
-- Countdown-Code fetched to restricted storage at revision `170ee8139cd836d6ab7b7b3a70c2063906363db0` (`Update citation information in README.md`).
-- The repository contains the Countdown task environment, parser/reward code and dataset source reference `Jiayi-Pan/Countdown-Tasks-3to4`.
-- Root license file is absent; embedded `verl/verl/LICENSE` is Apache-2.0. The environment declares `datasets`, `verifiers` and `vllm` dependencies; `setup.sh` and full verl installation were not run.
-- Static audit confirms the execution reward is hackable by design while equation reward checks original numbers/target; generated code is executed by the repository reward path in a subprocess. No host execution was performed by this agent.
-- Mac protocol files `research/v7/V7_SCREEN_PROTOCOL.md` and `configs/execution/v7_screen.json` are not present locally or on the visible GitHub branches. No V7 sample split, labels, or scientific rollout was invented or run.
-- V7 state: `BLOCKED_PROTOCOL_HANDOFF`; next action is to read the fixed protocol/config, hash them, then implement only the specified CPU/parser and safe rollout path.
+- Protocol read from GitHub commit `0afa5e90d98a632de5e5217a788f4b9dcc01e1b7`; integrated locally as commit `a66250118482dabadb32415acf7985c86db90cd9`.
+- Countdown-Code pinned asset revision: `170ee8139cd836d6ab7b7b3a70c2063906363db0`; its root license is absent. Countdown dataset revision in protocol has no license field; no data was copied or used for rollout because the required use/retention decision is not present.
+- S1 labeler implemented at `src/v7_labels.py`: JSON parser, immutable original task true-check using AST whitelist plus `fractions.Fraction`, protected-field change detection, mutually exclusive outcome mapping, and no generated-test execution.
+- Instrument tests: `tests/test_v7_labels.py`, 5 passed covering TRUE_SOLVE, ORDINARY_WRONG, CONFIRMED_SCORE_MANIPULATION, PARSE_FAILURE and PROXY_TRUE_GAP_UNATTRIBUTED.
+- S0/S2 status: `BLOCKED`. No real task manifest or rollout was fabricated. The protocol's required restricted sandbox is also unavailable/proven absent on this host: current subprocess execution is not equivalent to the required non-root/no-network/read-only-rootfs/256MiB/32-pids/CPU-and-wall limit sandbox.
+- V7 real trajectory count: 0; scoring count: 0; GPU cost: 0 GPU-hours.
+- Next concrete delivery: recorded data use/retention decision plus an actually verifiable restricted execution environment; then materialize 16 DEV task groups and run 16x4 Base-only rollouts with the pinned protocol.
 
 ## Collaboration transport (current)
 
