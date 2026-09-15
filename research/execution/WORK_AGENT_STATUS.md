@@ -72,11 +72,11 @@
 ## V7 asset readiness
 
 - Countdown-Code fetched to restricted storage at revision `170ee8139cd836d6ab7b7b3a70c2063906363db0` (`Update citation information in README.md`).
-- The repository contains the Countdown task environment, parser/reward code and dataset source reference `Jiayi-Pan/Countdown-Tasks-3to4`.
-- Root license file is absent; embedded `verl/verl/LICENSE` is Apache-2.0. The environment declares `datasets`, `verifiers` and `vllm` dependencies; `setup.sh` and full verl installation were not run.
-- Static audit confirms the execution reward is hackable by design while equation reward checks original numbers/target; generated code is executed by the repository reward path in a subprocess. No host execution was performed by this agent.
-- Mac protocol files `research/v7/V7_SCREEN_PROTOCOL.md` and `configs/execution/v7_screen.json` are not present locally or on the visible GitHub branches. No V7 sample split, labels, or scientific rollout was invented or run.
-- V7 state: `BLOCKED_PROTOCOL_HANDOFF`; next action is to read the fixed protocol/config, hash them, then implement only the specified CPU/parser and safe rollout path.
+- Its root license is absent; the embedded `verl/verl/LICENSE` does not license the project root. This remains `UNRESOLVED_NOT_USED`, not PASS. The fetched restricted copy is not an execution input and must not be committed.
+- The authoritative protocol and task config are now `research/v7/V7_SCREEN_PROTOCOL.md` and `configs/execution/v7_screen.json`. They replace all upstream code/data/distillation dependencies with the independently specified deterministic generator `V7.ARITH.v1`; this is a self-built screen, not a Countdown-Code reproduction.
+- No generated V7 split, label receipt or rollout exists yet. Real hashes are computed only after S0 materializes files.
+- Development-machine implementation scope is limited to the planned `scripts.v7_generate_tasks`, `scripts.v7_validate_labels`, and `scripts.v7_run_rollouts` entrypoints. S0→S1→S2 does not depend on S3 monitor fitting or S4 decision implementation.
+- V7 state: `INPUT_SPEC_FROZEN_RUNNER_MISSING`; protocol/file presence and the earlier clone are not runnable or scientific evidence.
 
 ## Collaboration transport (current)
 

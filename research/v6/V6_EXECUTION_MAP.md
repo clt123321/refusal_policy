@@ -3,9 +3,10 @@
 ## Current program routing (2026-09-15)
 
 - **Primary next 3–5 day effort:** V7 same-checkpoint scoring-manipulation monitor screen. Protocol: `research/v7/V7_SCREEN_PROTOCOL.md`; five-task config: `configs/execution/v7_screen.json`.
-- **V6 allowed tail:** verify reusable Base/environment/repair receipts and rerun the invalidated B/R_cal DEV generation+scoring with isolated model instances.
+- **V6 allowed tail:** verify reusable Base/environment/repair receipts. The isolated-model B/R_cal DEV comparison is development-machine reported complete and remains DEV-only.
 - **V6 paused:** formal E1 expansion, final repair/A0/A1 freeze, Week-2 and defense work. These are not V7 prerequisites.
-- V7 is `COMPILED_NOT_READY`: asset fetching can start, but label/sandbox, rollout/activation and monitor entrypoints are not implemented. Do not call it READY from file presence.
+- V7 is `INPUT_SPEC_FROZEN_RUNNER_MISSING`: inputs now come from the frozen `V7.ARITH.v1` self-built deterministic generator. Countdown-Code/Countdown-Tasks are citations only, their unresolved licenses are not marked PASS, and none of their code/data/trajectories is an execution dependency.
+- The shortest first-round path is `V7.S0.ASSETS → V7.S1.LABELS → V7.S2.ROLLOUTS`. Its three planned commands are recorded in `configs/execution/v7_screen.json`; the development-machine Work Agent owns their implementation. S3/S4 are downstream only and must not block S0/S1/S2. Until those commands and receipts exist, clone/model-cache/file presence does not make V7 runnable or complete.
 
 The remainder of this document preserves the V6 execution path for provenance and eventual resumption.
 
