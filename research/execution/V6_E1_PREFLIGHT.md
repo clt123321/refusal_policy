@@ -1,16 +1,15 @@
 # V6 E1 Preflight
 
-**Status:** `V6_E1_PREFLIGHT_MACHINE_SIDE` (machine-measurable items complete; formal E1 execution requires authorized executor per H0 boundary — `V6_E1_EXECUTOR_BOUNDARY`)
-**Authoritative baseline SHA:** `90cf38bb632c0e6ca861596a59dec4acba23f8ba` (verified `origin/main` after fetch; local `main` reset to it, working tree clean)
+**Status:** `HISTORICAL_A800_BENIGN_RECEIPT / 4090_PREFLIGHT_OPEN`. The measurements below came from the earlier A800 relay checkout; they do not prove the current 4090 model cache, repair training, or formal E1 readiness.
+**Scientific-plan baseline SHA:** `90cf38bb632c0e6ca861596a59dec4acba23f8ba`. The executable code SHA is recorded separately for each new run.
 
 ## 0. Verification
 
-- Local HEAD == `90cf38bb632c0e6ca861596a59dec4acba23f8ba` ✅
-- `origin/main` == same ✅
-- Working tree clean ✅
-- No relay-history reconciliation performed this round.
+- Historical A800 checkout HEAD == `90cf38bb632c0e6ca861596a59dec4acba23f8ba` at measurement time.
+- The 4090 handoff was later published at relay SHA `77ed1780f56affc6ee6af5e73b20f2cce22cefba` and has now been source-audited.
+- Current executable checkout and cleanliness must be recorded by each DEV/FORMAL run; this document is not that receipt.
 
-## 1. Model / environment (measured)
+## 1. Historical A800 model / environment receipt
 
 | Item | Value |
 |---|---|
@@ -70,9 +69,9 @@ No sealed attack outcome may be used in endpoint selection.
 - 3 arms × 2 seeds × 5 budget checkpoints + A0 checkpoints: est. < 5 GB working storage.
 - Total compute: generation measured 32 tok/s on one A800; training throughput must be measured by executor. Week-1 cap draft: nightly-constrained, to be finalized after dynamic-range pilot.
 
-## 7. Agent-side completion status
+## 7. Current completion status
 
-Completed (this round): model revision pin, env lock, benign throughput/VRAM/determinism measurement, budget-grid draft, dataset-isolation table, H0-compliant evaluator seam, schema-validated artifact/manifest plumbing and prior harness tests (48/48 on the retained suite when applicable).
+Completed historically: model revision pin, A800 env lock, benign A800 throughput/VRAM/determinism measurement, budget-grid draft, dataset-isolation names, evaluator seam, and artifact/manifest plumbing. Completed in the 4090 handoff: CUDA tensor validation only. The exact model cache and repair runner have not yet been exercised on the 4090.
 
 Blocked / executor-only:
 - Content-level safety evaluation runs.
@@ -82,9 +81,9 @@ Blocked / executor-only:
 - Generic plasticity control execution.
 - Any E1 verdict (PASS/FAIL/INCONCLUSIVE/INVALID).
 
-## 8. Preflight decision
+## 8. Current preflight decision
 
-`E1_PREFLIGHT_BLOCKED` — single blocker: executor authorization path for the harmful/A1 workloads is outside this agent's implementation boundary (per H0). Minimum human action: authorized executor runs/arranges the A1 dynamic-range pilot and content-level evaluator; agent then finalizes the frozen E1 manifest and can only record — not run — formal outcomes.
+`E1_PREFLIGHT_BLOCKED` — local blockers are tracked independently: 4090 model cache/repair smoke; formal split materialization; bounded A0/repair/A1 candidate rules; A0/A1-capable executors; and the authorized content evaluator. One blocker does not stop unrelated ready work. Final freeze occurs only after every required preflight receipt exists.
 
 `NO_SCIENTIFIC_EXPERIMENTS_RUN`
 
@@ -93,4 +92,4 @@ Blocked / executor-only:
 - `research/execution/V6_E1_PREREGISTRATION.md` created — freezes B/C/P definitions, endpoint gates, A1 fresh rules, budget grid draft, outcome/censoring/verdict rules from `V6_DECISION.md` + constants. Numeric A1 grid and dataset hashes marked `PENDING_EXECUTOR_PILOT` (not fabricated by the agent).
 - `configs/execution/v6_e1_executor_handoff.json` created — exact executor handoff manifest (hashes to collect, actions, required manifest fields, validation procedure, raw-output policy).
 - `src/harness/e1_isolation.py` + tests — metadata-only split-isolation validator for the eight E1 splits (exact-record overlap, family separation); no content generation.
-- Tests: 52/52 pass.
+- Historical relay tests at that checkpoint: 52/52. Current integrated-suite results are recorded in the integration commit/handoff and supersede this count.

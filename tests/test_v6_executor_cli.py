@@ -5,7 +5,6 @@ from pathlib import Path
 import pytest
 
 from scripts.v6_e1_executor import (
-    EXPECTED_EXECUTION_SHA,
     GateError,
     GateState,
     MockBenignBackend,
@@ -41,11 +40,21 @@ def test_repo_guard_rejects_wrong_sha(tmp_path):
 
 def test_gate_state_requires_order(tmp_path):
     state = GateState(tmp_path / "state.json")
-    state.require_execution(EXPECTED_EXECUTION_SHA)
+    state.require_execution("a" * 40)
     with pytest.raises(GateError, match="PILOT_GATE_NOT_PASSED"):
         state.require_stage("construct")
     state.record("pilot", {"valid": True, "frozen": True}, "a" * 64)
     state.require_stage("construct")
+
+
+def test_gate_state_allows_terminal_invalid_verdict(tmp_path):
+    state = GateState(tmp_path / "state.json")
+    state.record("pilot", {"valid": True, "frozen": True}, "a" * 64)
+    state.record("construct", {"valid": True}, "b" * 64)
+    state.record("qualify", {"valid": False, "classification": "MATCHING_FAILED"}, "c" * 64)
+    state.require_stage("verdict")
+    assert "reattack" not in state.data["stages"]
+    assert "plasticity" not in state.data["stages"]
 
 
 def test_mock_backend_never_produces_scientific_evidence():
@@ -60,14 +69,13 @@ def test_mock_backend_never_produces_scientific_evidence():
 def test_parser_has_all_stages():
     parser = build_parser()
     for stage in ("pilot", "construct", "qualify", "reattack", "plasticity", "verdict"):
-        args = parser.parse_args(["--dry-run", "--execution-sha", "6a3ab37c078b25197557fe052a027697f8006252", stage])
+        args = parser.parse_args(["--dry-run", "--execution-sha", "a" * 40, stage])
         assert args.stage == stage
 
 
-def test_run_stage_dry_run_gate_and_artifact(tmp_path, monkeypatch):
+def test_run_stage_dry_run_gate_and_artifact(tmp_path):
     init_repo(tmp_path)
     current_sha = subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=tmp_path, text=True).strip()
-    monkeypatch.setattr("scripts.v6_e1_executor.EXPECTED_EXECUTION_SHA", current_sha)
     result = run_stage("pilot", type("Args", (), {
         "repo": str(tmp_path), "execution_sha": current_sha,
         "research_base_sha": "r" * 40, "release_metadata_sha": "m" * 40,
@@ -76,6 +84,8 @@ def test_run_stage_dry_run_gate_and_artifact(tmp_path, monkeypatch):
     })())
     assert result["valid"] is True
     assert (tmp_path / "run" / "artifacts" / "pilot.json").exists()
+    artifact = json.loads((tmp_path / "run" / "artifacts" / "pilot.json").read_text())
+    assert artifact["execution_sha"] == current_sha
     state = json.loads((tmp_path / "run" / "gate_state.json").read_text())
     assert state["stages"]["pilot"]["valid"] is True
 

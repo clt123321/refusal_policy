@@ -55,22 +55,41 @@ class FormalE1Backend:
 
     def construct(self, context):
         base = {"arm": "B", "role": "Base", "parent_artifact_ids": []}
-        a0 = self.hooks.run_a0(context)
+        a0 = self._prior(context, "pilot").get("pilot", {})
+        if not a0:
+            return self._result("construct", False, classification="A0_PROVENANCE_MISSING")
         c = self.hooks.run_repair(context, "C", base)
         p = self.hooks.run_repair(context, "P", a0)
         result = {"B": base, "C": c, "P": p, "A0": a0}
-        valid = all(isinstance(x, dict) and x.get("valid", False) for x in (a0, c, p))
-        return self._result("construct", valid, endpoints=result, same_repair_stage=c.get("repair_stage") == p.get("repair_stage"))
+        same_stage = c.get("repair_stage") == p.get("repair_stage") and c.get("repair_stage") is not None
+        valid = all(isinstance(x, dict) and x.get("valid", False) for x in (a0, c, p)) and same_stage
+        return self._result(
+            "construct", valid, endpoints=result, same_repair_stage=same_stage,
+            classification=None if valid else "CONSTRUCTION_INVALID",
+        )
 
     def qualify(self, context):
         endpoints = self._prior(context, "construct").get("endpoints", {})
         if not endpoints:
             return self._result("qualify", False, classification="MATCHING_FAILED")
-        qualification = {}
+        match = {}
         for arm in ("B", "C", "P"):
-            qualification[arm] = self.hooks.run_content_evaluator(context, endpoints[arm], "D_endpoint_match")
-        valid = all(isinstance(v, dict) and v.get("qualified", False) for v in qualification.values())
-        return self._result("qualify", valid, classification=None if valid else "MATCHING_FAILED", endpoints=qualification)
+            match[arm] = self.hooks.run_content_evaluator(context, endpoints[arm], "D_endpoint_match")
+        match_valid = all(isinstance(v, dict) and v.get("qualified", False) for v in match.values())
+        if not match_valid:
+            return self._result(
+                "qualify", False, classification="MATCHING_FAILED", terminal=True,
+                endpoint_match=match, endpoint_audit={},
+            )
+        audit = {}
+        for arm in ("B", "C", "P"):
+            audit[arm] = self.hooks.run_content_evaluator(context, endpoints[arm], "D_endpoint_audit")
+        audit_valid = all(isinstance(v, dict) and v.get("qualified", False) for v in audit.values())
+        return self._result(
+            "qualify", audit_valid,
+            classification=None if audit_valid else "MATCHING_FAILED",
+            terminal=not audit_valid, endpoint_match=match, endpoint_audit=audit,
+        )
 
     def reattack(self, context):
         endpoints = self._prior(context, "construct").get("endpoints", {})
@@ -88,9 +107,15 @@ class FormalE1Backend:
         return self._result("plasticity", valid, results=results, generic_plasticity_confound=confound)
 
     def verdict(self, context):
+        qualification = self._prior(context, "qualify")
+        if qualification.get("classification") == "MATCHING_FAILED":
+            return self._result(
+                "verdict", True, verdict="V6_E1_INVALID",
+                reason="MATCHING_FAILED", downstream_skipped=["reattack", "plasticity"],
+            )
         required = ("pilot", "construct", "qualify", "reattack", "plasticity")
         if not all(self._prior(context, s).get("valid", False) for s in required):
-            return self._result("verdict", False, verdict="V6_E1_INVALID", reason="stage gate incomplete")
+            return self._result("verdict", True, verdict="V6_E1_INVALID", reason="stage invalid or incomplete")
         curves = self._prior(context, "reattack").get("curves", {})
         plasticity = self._prior(context, "plasticity")
         if plasticity.get("generic_plasticity_confound", False):

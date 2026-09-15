@@ -8,8 +8,13 @@ from pathlib import Path
 from typing import Any
 
 import torch
-from peft import LoraConfig, PeftModel, TaskType, get_peft_model
-from transformers import AutoModelForCausalLM, AutoTokenizer
+
+try:
+    from peft import LoraConfig, PeftModel, TaskType, get_peft_model
+    from transformers import AutoModelForCausalLM, AutoTokenizer
+except ImportError:
+    LoraConfig = PeftModel = TaskType = get_peft_model = None
+    AutoModelForCausalLM = AutoTokenizer = None
 
 from src.harness.cost_tracker import CostTracker, TrialRecord
 from src.harness.env import EnvironmentLock, sha256_json
@@ -32,6 +37,11 @@ PLASTICITY_PROMPTS = [
     "Complete the pattern: A, B, C, __.",
     "Return the JSON object {\"ok\": true}.",
 ]
+
+
+def _require_model_runtime() -> None:
+    if any(value is None for value in (LoraConfig, PeftModel, TaskType, get_peft_model, AutoModelForCausalLM, AutoTokenizer)):
+        raise RuntimeError("LOCAL_MODEL_SMOKE_DEPENDENCY_MISSING: transformers/peft")
 
 
 def _sha256(path: Path) -> str:
@@ -63,6 +73,7 @@ def _model_path() -> Path:
 
 
 def _load_base(device: str = "cuda"):
+    _require_model_runtime()
     path = _model_path()
     if not (path / "config.json").exists():
         raise RuntimeError(f"BENIGN_SMOKE_MODEL_MISSING: {path}")
@@ -82,6 +93,7 @@ def _generate(model, tokenizer, prompt: str, device: str, max_new_tokens: int = 
 
 
 def _train_benign_adapter(model, tokenizer, prompts: list[str], targets: list[str], out_dir: Path, seed: int, device: str, steps: int = 2) -> dict[str, Any]:
+    _require_model_runtime()
     _set_seed(seed)
     config = LoraConfig(task_type=TaskType.CAUSAL_LM, r=2, lora_alpha=4, lora_dropout=0.0, target_modules=["q_proj", "v_proj"], bias="none")
     adapted = get_peft_model(model, config)
@@ -108,6 +120,7 @@ def _train_benign_adapter(model, tokenizer, prompts: list[str], targets: list[st
 
 
 def _reload_eval(adapter_dir: Path, base_path: Path, prompts: list[str], device: str) -> list[str]:
+    _require_model_runtime()
     tokenizer = AutoTokenizer.from_pretrained(base_path.as_posix())
     if tokenizer.pad_token is None:
         tokenizer.pad_token = tokenizer.eos_token

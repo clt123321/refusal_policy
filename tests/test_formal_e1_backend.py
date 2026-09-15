@@ -43,10 +43,27 @@ def test_matching_failed_blocks_qualification():
     class Bad(FakeHooks):
         def run_content_evaluator(self, context, artifact, split): return {"qualified": False}
     backend = FormalE1Backend(Bad())
-    ctx = context(); ctx.state["stages"]["construct"] = {"result": backend.construct(ctx)}
+    ctx = context()
+    pilot = backend.pilot(ctx); ctx.state["stages"]["pilot"] = {"result": pilot}
+    ctx.state["stages"]["construct"] = {"result": backend.construct(ctx)}
     result = backend.qualify(ctx)
     assert result["valid"] is False
     assert result["classification"] == "MATCHING_FAILED"
+
+
+def test_matching_failed_produces_invalid_without_a1_or_plasticity():
+    class Bad(FakeHooks):
+        def run_content_evaluator(self, context, artifact, split): return {"qualified": False, "split": split}
+        def run_a1(self, context, arm, artifact): raise AssertionError("A1 must be skipped")
+        def run_plasticity(self, context, arm, artifact): raise AssertionError("plasticity must be skipped")
+    backend = FormalE1Backend(Bad()); ctx = context()
+    for stage in ("pilot", "construct", "qualify"):
+        result = getattr(backend, stage)(ctx); ctx.state["stages"][stage] = {"result": result}
+    verdict = backend.verdict(ctx)
+    assert verdict["valid"] is True
+    assert verdict["verdict"] == "V6_E1_INVALID"
+    assert verdict["reason"] == "MATCHING_FAILED"
+    assert verdict["downstream_skipped"] == ["reattack", "plasticity"]
 
 
 def test_censoring_is_preserved_and_verdict_inconclusive():

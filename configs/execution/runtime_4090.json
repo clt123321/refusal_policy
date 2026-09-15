@@ -2,7 +2,7 @@
   "runtime_id": "V6.E1.RUNTIME.4090.DEV.v1",
   "experiment_id": "V6.E1",
   "mode": "DEV",
-  "status": "UNVERIFIED_ON_4090",
+  "status": "CUDA_TENSOR_VERIFIED_MODEL_AND_REPAIR_RUN_PENDING",
   "policy": "runtime overlay only; it may not change frozen scientific recipes, data, seeds, checkpoint stages or endpoint gates",
   "hardware": {
     "accelerator": "NVIDIA RTX 4090",
@@ -13,12 +13,21 @@
     "actual_vram_bytes": null
   },
   "software": {
-    "python": ">=3.11,<3.14",
+    "python": ">=3.10,<3.14",
     "required_imports": ["torch", "transformers", "peft", "jsonschema"],
     "lock_or_container_digest": null,
     "cuda_runtime": null,
     "driver": null,
     "status": "MEASURE_AND_PIN_ON_HOST"
+  },
+  "observed_machine_receipt": {
+    "environment": ".venv-v6",
+    "python": "3.10.21",
+    "torch": "2.10.0+cu128",
+    "cuda_tensor": "VERIFIED_BY_WORK_AGENT",
+    "model_cache": "NOT_PROVEN",
+    "training": "NOT_RUN",
+    "policy": "receipt is environment evidence only and cannot complete a model or GPU task"
   },
   "model": {
     "repo_id": "Qwen/Qwen2.5-1.5B-Instruct",
@@ -41,6 +50,14 @@
     "oom": "retain and charge attempt; change microbatch/accumulation only through a DEV runtime change record",
     "formal_gate": "no FORMAL task before E1_PREFLIGHT_PASS and authorized content evaluator",
     "raw_outputs": "restricted_root only; never git or ordinary logs"
+  },
+  "first_gpu_task": {
+    "task_id": "V6.E1.DEV.REPAIR_GPU_SMOKE",
+    "recipe": "configs/execution/v6_repair_dev.json",
+    "data": "tests/fixtures/v6_repair_dev.jsonl",
+    "entrypoint": "python -m src.execution.repair_runner",
+    "reload_entrypoint": "python -m scripts.reload_repair_artifact",
+    "blocked_only_by": ["clean traceable code SHA", "exact model cache", "runtime dependencies"]
   },
   "measure_before_freeze": {
     "model_load_seconds": null,

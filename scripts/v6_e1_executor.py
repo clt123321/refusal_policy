@@ -17,7 +17,6 @@ from dataclasses import asdict, dataclass, field
 from pathlib import Path
 from typing import Any, Protocol
 
-EXPECTED_EXECUTION_SHA = "6a3ab37c078b25197557fe052a027697f8006252"
 EXPECTED_RESEARCH_BASE_SHA = "90cf38bb632c0e6ca861596a59dec4acba23f8ba"
 VERDICTS = {
     "V6_E1_PASS_REQUIRES_HUMAN_REVIEW",
@@ -54,7 +53,7 @@ class RunContext:
 
 @dataclass
 class RepoGuard:
-    execution_sha: str = EXPECTED_EXECUTION_SHA
+    execution_sha: str
     git_dir: Path = Path(".")
 
     def check(self) -> dict[str, str]:
@@ -134,12 +133,19 @@ class GateState:
         if stage in ("reattack", "plasticity") and not self.data["stages"].get("qualify", {}).get("valid", False):
             raise GateError("QUALIFICATION_GATE_NOT_PASSED")
         if stage == "verdict":
-            for required in ("pilot", "construct", "qualify", "reattack", "plasticity"):
-                if not self.data["stages"].get(required, {}).get("valid", False):
-                    raise GateError(f"STAGE_GATE_NOT_PASSED: {required}")
+            for required in ("pilot", "construct", "qualify"):
+                if not self.data["stages"].get(required, {}).get("completed", False):
+                    raise GateError(f"STAGE_NOT_COMPLETED: {required}")
+            qualification = self.data["stages"]["qualify"].get("result", {})
+            if qualification.get("classification") == "MATCHING_FAILED":
+                return
+            for required in ("reattack", "plasticity"):
+                if not self.data["stages"].get(required, {}).get("completed", False):
+                    raise GateError(f"STAGE_NOT_COMPLETED: {required}")
 
     def record(self, stage: str, result: dict[str, Any], artifact_sha: str) -> None:
         self.data["stages"][stage] = {
+            "completed": True,
             "valid": bool(result.get("valid", False)),
             "frozen": bool(result.get("frozen", False)),
             "artifact_sha256": artifact_sha,
@@ -197,12 +203,12 @@ def run_stage(stage: str, args: argparse.Namespace) -> dict[str, Any]:
     result = getattr(backend, stage)(context)
     if not isinstance(result, dict):
         raise GateError(f"backend returned non-dict for {stage}")
-    store = JsonArtifactStore(run_dir / "artifacts")
-    artifact_sha = store.write(f"{stage}.json", result)
     result["execution_sha"] = args.execution_sha
     result["research_base_sha"] = args.research_base_sha
     result["release_metadata_sha"] = args.release_metadata_sha
     result["repo_check"] = repo_info
+    store = JsonArtifactStore(run_dir / "artifacts")
+    artifact_sha = store.write(f"{stage}.json", result)
     state.record(stage, result, artifact_sha)
     state.save()
     print(json.dumps({"stage": stage, "artifact_sha256": artifact_sha, "result": result}, indent=2))

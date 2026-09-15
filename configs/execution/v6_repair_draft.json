@@ -1,6 +1,11 @@
 {
   "schema_version": "v6-repair-draft-1",
-  "status": "DRAFT_REQUIRES_EXECUTOR_FREEZE",
+  "status": "PILOT_CANDIDATE_TEMPLATE_NOT_EXECUTABLE",
+  "freeze_semantics": {
+    "before_preflight": "lock bounded candidate values and a deterministic common-stage selection rule",
+    "after_preflight": "write a separate v6_e1_repair_recipe.json with the selected common C/P stage",
+    "prohibition": "values in this draft or v6_repair_dev.json are not FORMAL defaults"
+  },
   "model": {
     "repo_id": "Qwen/Qwen2.5-1.5B-Instruct",
     "revision": "989aa7980e4cf806f80c7fef2b1adb7bc71aa306",
@@ -14,12 +19,12 @@
     "file_sha256": null,
     "ids_sha256": null,
     "split": "train",
-    "status": "PENDING_EXECUTOR_PILOT"
+    "status": "PENDING_CANDIDATE_LOCK"
   },
   "objective": {
     "type": "causal_lm_supervised_targets",
     "loss_masking": "target_tokens_only",
-    "status": "PENDING_EXECUTOR_FREEZE"
+    "status": "PENDING_CANDIDATE_LOCK"
   },
   "trainable": {
     "parameterization": "LoRA",
@@ -43,7 +48,7 @@
     "batch_size": 1,
     "gradient_accumulation_steps": 1,
     "checkpoint_steps": [0, 1, 2],
-    "status": "PENDING_EXECUTOR_PILOT"
+    "status": "PENDING_CANDIDATE_LOCK"
   },
   "seed": 17,
   "lineage": {"parent_artifact_id": null, "arm": "C", "repair_stage": null},

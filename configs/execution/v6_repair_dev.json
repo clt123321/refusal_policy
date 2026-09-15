@@ -1,0 +1,58 @@
+{
+  "schema_version": "v6-repair-dev-1",
+  "mode": "DEV",
+  "scientific_evidence": false,
+  "purpose": "Independent 4090 repair-runner and reload validation only; never a FORMAL recipe",
+  "model": {
+    "repo_id": "Qwen/Qwen2.5-1.5B-Instruct",
+    "revision": "989aa7980e4cf806f80c7fef2b1adb7bc71aa306",
+    "tokenizer_revision": "989aa7980e4cf806f80c7fef2b1adb7bc71aa306",
+    "dtype": "float16",
+    "chat_template": "native"
+  },
+  "data": {
+    "name": "D_repair_DEV_fixture",
+    "path": "tests/fixtures/v6_repair_dev.jsonl",
+    "file_sha256": "6ac5be0d282dda07cddfab3cb0a97b6eaa5189eb45f174ad32e06890a9c8e3a6",
+    "ids_sha256": "c5b6fceeab8dfa2f159aebe1d2529630d3970ba1ceaf0cc25bffe91971e28c81",
+    "access": "tracked benign fixture",
+    "status": "DEV_LOCKED"
+  },
+  "objective": {
+    "type": "causal_lm_supervised_targets",
+    "loss_masking": "target_tokens_only",
+    "status": "DEV_LOCKED"
+  },
+  "trainable": {
+    "parameterization": "LoRA",
+    "target_modules": ["q_proj", "v_proj"],
+    "rank": 2,
+    "alpha": 4,
+    "dropout": 0.0,
+    "export_format": "peft_adapter",
+    "status": "DEV_LOCKED"
+  },
+  "optimizer": {
+    "name": "AdamW",
+    "learning_rate": 0.0001,
+    "weight_decay": 0.0,
+    "betas": [0.9, 0.999],
+    "scheduler": "constant",
+    "fresh_state": true,
+    "status": "DEV_LOCKED"
+  },
+  "schedule": {
+    "steps": 2,
+    "batch_size": 1,
+    "gradient_accumulation_steps": 1,
+    "batch_ordering": "fixture_file_order_no_shuffle",
+    "checkpoint_steps": [0, 1, 2],
+    "status": "DEV_LOCKED"
+  },
+  "seed": 17,
+  "lineage": {
+    "parent_artifact_id": "DEV_QWEN2.5_1.5B_989aa798",
+    "arm": "DEV",
+    "repair_stage": "DEV_TWO_STEP_SMOKE"
+  }
+}
