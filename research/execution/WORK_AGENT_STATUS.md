@@ -40,16 +40,16 @@
 - Save/reload: training-end in-memory model reference saved to `memory_reference_logits.pt`; new process loaded final adapter and produced `SAFE`; logits max absolute difference `0.0` with tolerance `1e-5`; `reload_pass=true` and finite also passed. Receipt: `artifacts/v6_e1/DEV/repair_calibration/pku_safe_rlhf/s17/a01/acceptance_receipt.json`.
 - Diagnostic boundary: NLL is training/fitting evidence only, not safety, utility, or tamper-resistance evidence.
 
-## Content evaluator DEV precheck
+## HarmBench DEV evaluator and checkpoint diagnostic
 
-- Task: `V6.E1.DEV.EVALUATOR_PRECHECK`
-- Classifier assets fetched to restricted storage: `cais/HarmBench-Mistral-7b-val-cls`, revision `51182c7cdaf9b2e5f05b745b81b047b67e7384a1`; official HarmBench reference revision `8e1604d1171fe8a48d8febecd22f600e462bdcdd`.
-- Classifier architecture verified as Mistral 7B: `model_type=mistral`, hidden size 4096, 32 layers, BF16. The notebook's `test_classifier_path` was not used.
-- Official `MISTRAL_CLS_PROMPT` was extracted and used without a chat template. New-token-only parsing returns UNKNOWN for anything other than exact `yes`/`no`.
-- Fixed samples: 32 total, 16/16 human-majority labels, seed 17, standard non-contextual behaviors, at most one sample per behavior/class. Sample file: `artifacts/restricted/v6_e1/harmbench/precheck_samples.json`, SHA256 `28c6a8004ef95385add7a0c0376d6f3da9d2a93d22e53b7017a40df061465136`.
-- Result: precheck blocked, not a classifier quality result. All 32 outputs were UNKNOWN because the loaded Transformers 5.16 `LlamaTokenizer` produced an empty encoding (vocab length 3) and the model emitted EOS; native `sentencepiece` independently encodes the same prompt correctly. The tokenizer file SHA matches the pinned remote SHA `dadfd56d766715c61d2ef780a525ab43b8e6da4de6865bda3d95fdef5e134055`.
-- Attempts retained: missing `tiktoken`; then fast/slow tokenizer misparsed SentencePiece as tiktoken; explicit `LlamaTokenizer` still produced empty encoding. Result receipt: `artifacts/restricted/v6_e1/harmbench/precheck_result.json`; peak classifier memory recorded there as `14492332544` bytes and post-run GPU was 2 MiB used / 24214 MiB free.
-- Gate outcome: `gate_pass=false`; no B/R_cal content evaluation was run. This is a concrete platform/library compatibility blocker, not a PI/source blocker.
+- Tokenizer root cause fixed in commit `18e8307ed733cd07e8d967759e7c7d0593dd3a2f`: Transformers 5.16 `LlamaTokenizer(vocab_file=...)` loaded the SentencePiece file as a 3-token special-token vocabulary. Native SentencePiece reported 32000 tokens and correctly encoded inputs; the evaluator now uses the pinned `tokenizer.model` directly with explicit Mistral BOS/EOS IDs and validates vocab size against model config.
+- CPU validation: plain text encoded to 4 tokens; official prompt encoded to 310 tokens; IDs were within 32000 and masks had valid non-special positions.
+- Fixed precheck attempt: execution SHA `18e8307ed733cd07e8d967759e7c7d0593dd3a2f`; 32/32 parsed, prediction counts yes=15/no=17/UNKNOWN=0; confusion matrix TP=15, TN=16, FP=0, FN=1; correct=31/32; gate passed. Peak classifier memory `14738422784` bytes; wall `3.2313098907470703` seconds; post-run GPU 2 MiB used / 24214 MiB free. Receipt: `artifacts/restricted/v6_e1/harmbench/precheck_result_fixed.json`.
+- Original UNKNOWN receipt and failed tokenizer attempts remain at `precheck_result.json` and task logs; no sample, template, threshold or forced label was changed.
+- Base/R_cal generation: 16 fixed behaviors, seed 17, Qwen native chat template, greedy, max_new_tokens=256. Receipt: `artifacts/restricted/v6_e1/harmbench/checkpoint_generation.json`; wall `83.02840638160706` seconds; peak memory `3113364480` bytes.
+- Base/R_cal scoring: classifier loaded only after Qwen generation completed and GPU was released; official Mistral prompt, native SentencePiece, BF16. Receipt: `artifacts/restricted/v6_e1/harmbench/checkpoint_scoring_a02.json`; wall `2.3667733669281006` seconds; peak memory `14660661248` bytes.
+- Scoring summary: B 3 yes / 13 no / 0 UNKNOWN / 16 valid; R_cal 3 yes / 13 no / 0 UNKNOWN / 16 valid. Each arm had 3 generations at max length 256. All 16 paired labels were identical; no pair changed.
+- This is a small DEV behavior diagnostic only. It is not endpoint equivalence, repair success, E1, or tamper-resistance evidence.
 
 ## E1 capability table
 
@@ -57,11 +57,10 @@
 |---|---|---|---|
 | A0 direct intervention | `src/harness/direction.py` math primitives only; no model runner | Missing implementation and authorized executor | A bounded model-level A0 runner plus artifact/export receipt from authorized executor |
 | A1 fresh parameter attack | No executable A1 entry point; `FormalE1Backend` is a hook seam | Missing implementation and authorized executor | Independent A1 runner, frozen config/data, and authorized execution path |
-| Content-level evaluator | `SafetyEvaluator` seam only; DEV direct classifier script exists but cannot tokenize this pinned model under current Transformers 5.16 | Platform compatibility blocker for this exact classifier; formal handler also absent | Compatible pinned Transformers/tokenizer runtime or official-compatible tokenizer path, then rerun the fixed precheck |
-| Endpoint qualification | No executable content evaluator/audit handler bound | Missing implementation, data and authorized evaluator | Precheck-qualified classifier, match/audit datasets, restricted handler and latency receipt |
+| Content-level evaluator | Direct DEV classifier now executes with pinned classifier/tokenizer and official prompt | DEV precheck and small B/R_cal diagnostic complete; formal handler absent | Endpoint match/audit datasets, restricted handler, authorized evaluator and formal latency receipt |
 | Formal C/P | Repair runner exists; formal recipe and common stage absent | Missing configuration/scientific freeze | PI-frozen recipe/data manifest and common-stage rule |
 
-Do not run B/R_cal checkpoint content evaluation until the 32-sample classifier precheck passes. Do not reinterpret this precheck failure as a scientific result.
+Do not infer formal endpoint qualification or E1 conclusions from this DEV diagnostic.
 
 ## Collaboration transport (current)
 
