@@ -84,6 +84,57 @@ def load_jsonl_repair_data(path: Path) -> list[dict[str, Any]]:
     return rows
 
 
+def _build_inputs(tokenizer, row: dict[str, Any], device: str):
+    prompt = tokenizer.apply_chat_template(
+        [{"role": "user", "content": row["prompt"]}], tokenize=False,
+        add_generation_prompt=True,
+    )
+    full = tokenizer(prompt + row["target"], return_tensors="pt", add_special_tokens=False).to(device)
+    prefix = tokenizer(prompt, return_tensors="pt", add_special_tokens=False)
+    labels = full["input_ids"].clone()
+    prefix_len = prefix["input_ids"].shape[1]
+    labels[:, :prefix_len] = -100
+    return full, labels, int(full["input_ids"].numel()), int((labels != -100).sum().item())
+
+
+def _validation_nll(model, tokenizer, rows: list[dict[str, Any]], device: str) -> dict[str, float | int]:
+    total_nll = 0.0
+    target_tokens = 0
+    full_tokens = 0
+    model.eval()
+    import torch
+    with torch.inference_mode():
+        for row in rows:
+            full, labels, row_full_tokens, row_target_tokens = _build_inputs(tokenizer, row, device)
+            output = model(**full, labels=labels, use_cache=False)
+            total_nll += float(output.loss.detach().cpu()) * row_target_tokens
+            target_tokens += row_target_tokens
+            full_tokens += row_full_tokens
+    model.train()
+    return {"target_nll": total_nll / target_tokens, "full_tokens": full_tokens, "target_tokens": target_tokens}
+
+
+def _fixed_input_reference(model, tokenizer, device: str, reference_path: Path) -> dict[str, Any]:
+    import torch
+    prompt = "Answer with the word SAFE in uppercase."
+    rendered = tokenizer.apply_chat_template(
+        [{"role": "user", "content": prompt}], tokenize=False, add_generation_prompt=True,
+    )
+    inputs = tokenizer(rendered, return_tensors="pt").to(device)
+    with torch.inference_mode():
+        logits = model(**inputs, use_cache=False).logits[:, -1, :].detach().float().cpu()
+        output = model.generate(**inputs, max_new_tokens=8, do_sample=False, pad_token_id=tokenizer.eos_token_id)
+    generated = tokenizer.decode(output[0, inputs["input_ids"].shape[1]:], skip_special_tokens=True)
+    torch.save(logits, reference_path)
+    return {
+        "prompt": prompt,
+        "generated": generated,
+        "logits_path": str(reference_path),
+        "last_token_logits_sha256": hashlib.sha256(logits.numpy().tobytes()).hexdigest(),
+        "logits_shape": list(logits.shape),
+    }
+
+
 def _load_ml_runtime():
     try:
         import torch
@@ -143,10 +194,20 @@ def run_repair(
     torch.manual_seed(seed)
     if torch.cuda.is_available():
         torch.cuda.manual_seed_all(seed)
+        torch.cuda.reset_peak_memory_stats()
     started = time.time()
     tokenizer = AutoTokenizer.from_pretrained(parent_model_path.as_posix())
     if tokenizer.pad_token is None:
         tokenizer.pad_token = tokenizer.eos_token
+    validation_rows = []
+    validation_path = config.get("validation", {}).get("path")
+    if validation_path:
+        validation_rows = load_jsonl_repair_data(Path(validation_path))
+        validation_sha = _sha256(Path(validation_path))
+        if validation_sha != config["validation"]["file_sha256"]:
+            raise ValueError("D_REPAIR_VALIDATION_HASH_MISMATCH")
+        if _hash_json([row["id"] for row in validation_rows]) != config["validation"]["ids_sha256"]:
+            raise ValueError("D_REPAIR_VALIDATION_IDS_HASH_MISMATCH")
     dtype = torch.float16 if config["model"].get("dtype") == "float16" else torch.float32
     model = AutoModelForCausalLM.from_pretrained(parent_model_path.as_posix(), torch_dtype=dtype).to(device)
     lora = config["trainable"]
@@ -164,12 +225,16 @@ def run_repair(
     output_dir.mkdir(parents=True, exist_ok=True)
     checkpoint_steps = set(config["schedule"]["checkpoint_steps"])
     checkpoint_artifacts: dict[str, str] = {}
+    validation_receipts: dict[str, dict[str, float | int]] = {}
     if 0 in checkpoint_steps:
         checkpoint_artifacts["0"] = _save_checkpoint(model, output_dir, 0)
+        if validation_rows:
+            validation_receipts["0"] = _validation_nll(model, tokenizer, validation_rows, device)
     batch_size = int(config["schedule"]["batch_size"])
     accumulation = int(config["schedule"]["gradient_accumulation_steps"])
     losses: list[float] = []
-    training_tokens = 0
+    full_training_tokens = 0
+    target_training_tokens = 0
     for step in range(1, int(config["schedule"]["steps"]) + 1):
         optimizer.zero_grad(set_to_none=True)
         step_loss = 0.0
@@ -178,17 +243,11 @@ def run_repair(
             batch_rows = [rows[(offset + index) % len(rows)] for index in range(batch_size)]
             micro_total = None
             for row in batch_rows:
-                prompt = tokenizer.apply_chat_template(
-                    [{"role": "user", "content": row["prompt"]}], tokenize=False,
-                    add_generation_prompt=True,
-                )
-                full = tokenizer(prompt + row["target"], return_tensors="pt", add_special_tokens=False).to(device)
-                prefix = tokenizer(prompt, return_tensors="pt", add_special_tokens=False)
-                labels = full["input_ids"].clone()
-                labels[:, :prefix["input_ids"].shape[1]] = -100
+                full, labels, row_full_tokens, row_target_tokens = _build_inputs(tokenizer, row, device)
                 loss = model(**full, labels=labels, use_cache=False).loss
                 micro_total = loss if micro_total is None else micro_total + loss
-                training_tokens += int(full["input_ids"].numel())
+                full_training_tokens += row_full_tokens
+                target_training_tokens += row_target_tokens
             micro_loss = micro_total / len(batch_rows) / accumulation
             micro_loss.backward()
             step_loss += float(micro_loss.detach().cpu())
@@ -198,12 +257,17 @@ def run_repair(
         losses.append(step_loss)
         if step in checkpoint_steps:
             checkpoint_artifacts[str(step)] = _save_checkpoint(model, output_dir, step)
+            if validation_rows:
+                validation_receipts[str(step)] = _validation_nll(model, tokenizer, validation_rows, device)
     model.eval()
+    output_dir.mkdir(parents=True, exist_ok=True)
+    memory_reference = _fixed_input_reference(model, tokenizer, device, output_dir / "memory_reference_logits.pt")
     adapter_dir = output_dir / "adapter"
     model.save_pretrained(adapter_dir)
     tokenizer_dir = output_dir / "tokenizer"
     tokenizer.save_pretrained(tokenizer_dir)
     elapsed = time.time() - started
+    peak_memory_bytes = int(torch.cuda.max_memory_allocated()) if torch.cuda.is_available() else 0
     result = {
         "status": "SUCCEEDED", "execution_completed": True,
         "scientific_evidence": bool(config["scientific_evidence"]),
@@ -212,8 +276,14 @@ def run_repair(
         "parent_model_path": str(parent_model_path),
         "parent_config_hash": _hash_json(config["model"]),
         "seed": seed, "steps": config["schedule"]["steps"],
-        "training_tokens": training_tokens, "losses": losses,
-        "wall_seconds": elapsed, "adapter_dir": str(adapter_dir),
+        "training_tokens": full_training_tokens,
+        "full_training_tokens": full_training_tokens,
+        "target_training_tokens": target_training_tokens,
+        "validation": validation_receipts,
+        "losses": losses, "wall_seconds": elapsed,
+        "peak_memory_bytes": peak_memory_bytes,
+        "memory_reference": memory_reference,
+        "adapter_dir": str(adapter_dir),
         "checkpoint_artifacts": checkpoint_artifacts, "lineage": config["lineage"],
     }
     prior_result.write_text(json.dumps(result, sort_keys=True, indent=2))

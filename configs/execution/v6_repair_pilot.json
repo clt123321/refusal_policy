@@ -1,0 +1,81 @@
+{
+  "schema_version": "v6-repair-pilot-dev-1",
+  "status": "DEV_LOCKED",
+  "mode": "DEV",
+  "scientific_evidence": false,
+  "purpose": "Authorized PKU-SafeRLHF repair calibration pilot; not formal C/P or E1",
+  "model": {
+    "repo_id": "Qwen/Qwen2.5-1.5B-Instruct",
+    "revision": "989aa7980e4cf806f80c7fef2b1adb7bc71aa306",
+    "tokenizer_revision": "989aa7980e4cf806f80c7fef2b1adb7bc71aa306",
+    "dtype": "float16",
+    "chat_template": "native",
+    "parent_artifact_id": "DEV_QWEN2.5_1.5B_989aa798"
+  },
+  "data": {
+    "name": "D_repair_PILOT_PKU_SAFE_RLHF",
+    "source_repo": "PKU-Alignment/PKU-SafeRLHF",
+    "source_revision": "9421ffafec3fa40a1f1a7d567b4d525079477ecb",
+    "source_path": "data/Alpaca3-8B/train.jsonl",
+    "path": "artifacts/restricted/v6_e1/repair_pilot/pku_safe_rlhf_9421ffaf/train.jsonl",
+    "file_sha256": "8b609774bc2a46f69bab85121a9edcd66bf128270aa2bfd151f05c1a8017c89b",
+    "ids_sha256": "1ad7406122b5bef7e049c6794ecc776184af560b65c9044800560db8eb45fdc5",
+    "split": "pilot_train",
+    "status": "DEV_LOCKED"
+  },
+  "validation": {
+    "name": "D_repair_PILOT_VALIDATION",
+    "path": "artifacts/restricted/v6_e1/repair_pilot/pku_safe_rlhf_9421ffaf/validation.jsonl",
+    "file_sha256": "0f3c759863cb2bfe894d597ac9b3e322887fdac9cf2763e424d7345aec4408aa",
+    "ids_sha256": "df3c785e4f9d5e076d80d0304566100ece2208659e3c790c9c8d4c0f74261f73",
+    "status": "DEV_LOCKED"
+  },
+  "objective": {
+    "type": "causal_lm_supervised_targets",
+    "loss_masking": "target_tokens_only",
+    "status": "DEV_LOCKED"
+  },
+  "trainable": {
+    "parameterization": "LoRA",
+    "target_modules": ["q_proj", "v_proj"],
+    "rank": 8,
+    "alpha": 16,
+    "dropout": 0.0,
+    "export_format": "peft_adapter",
+    "status": "DEV_LOCKED"
+  },
+  "optimizer": {
+    "name": "AdamW",
+    "learning_rate": 0.00002,
+    "weight_decay": 0.0,
+    "betas": [0.9, 0.999],
+    "scheduler": "constant",
+    "fresh_state": true,
+    "status": "DEV_LOCKED"
+  },
+  "schedule": {
+    "steps": 64,
+    "batch_size": 2,
+    "gradient_accumulation_steps": 4,
+    "batch_ordering": "fixed_materialized_file_order_no_shuffle",
+    "checkpoint_steps": [0, 16, 32, 64],
+    "status": "DEV_LOCKED"
+  },
+  "seed": 17,
+  "lineage": {
+    "parent_artifact_id": "DEV_QWEN2.5_1.5B_989aa798",
+    "arm": "DEV",
+    "repair_stage": "DEV_REPAIR_CALIBRATION_64_STEPS"
+  },
+  "output": {
+    "directory": "artifacts/v6_e1/DEV/repair_calibration/pku_safe_rlhf/s17/a01",
+    "save_optimizer_state": false
+  },
+  "data_quality": {
+    "safe_annotation_is_candidate_not_independent_truth": true,
+    "formal_split_isolation": "NOT_ESTABLISHED",
+    "pilot_ids_and_near_duplicate_groups_excluded_from_future_formal_splits": true,
+    "max_full_tokens": 1024,
+    "overlength_policy": "exclude_without_truncation"
+  }
+}
