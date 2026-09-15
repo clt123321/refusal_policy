@@ -1,0 +1,61 @@
+{
+  "runtime_id": "V6.E1.RUNTIME.4090.DEV.v1",
+  "experiment_id": "V6.E1",
+  "mode": "DEV",
+  "status": "UNVERIFIED_ON_4090",
+  "policy": "runtime overlay only; it may not change frozen scientific recipes, data, seeds, checkpoint stages or endpoint gates",
+  "hardware": {
+    "accelerator": "NVIDIA RTX 4090",
+    "count": 1,
+    "expected_vram_gib": 24,
+    "max_concurrent_gpu_tasks": 1,
+    "actual_device_name": null,
+    "actual_vram_bytes": null
+  },
+  "software": {
+    "python": ">=3.11,<3.14",
+    "required_imports": ["torch", "transformers", "peft", "jsonschema"],
+    "lock_or_container_digest": null,
+    "cuda_runtime": null,
+    "driver": null,
+    "status": "MEASURE_AND_PIN_ON_HOST"
+  },
+  "model": {
+    "repo_id": "Qwen/Qwen2.5-1.5B-Instruct",
+    "revision": "989aa7980e4cf806f80c7fef2b1adb7bc71aa306",
+    "tokenizer_revision": "989aa7980e4cf806f80c7fef2b1adb7bc71aa306",
+    "dtype": "float16",
+    "local_path_env": "V6_MODEL_PATH",
+    "materialized_hash_manifest": "artifacts/runtime/v6_e1/model_manifest.json"
+  },
+  "paths": {
+    "repo_root_env": "REFUSAL_POLICY_ROOT",
+    "run_root": "artifacts/v6_e1",
+    "restricted_root": "artifacts/restricted/v6_e1",
+    "cache_root_env": "V6_CACHE_ROOT"
+  },
+  "resource_rules": {
+    "gpu_serialization": "one training/inference process at a time on the 4090",
+    "cpu_parallelism": "asset hashing, split validation and deterministic summaries may overlap GPU work",
+    "prefetch": "model and approved public datasets may be prefetched before recipe freeze",
+    "oom": "retain and charge attempt; change microbatch/accumulation only through a DEV runtime change record",
+    "formal_gate": "no FORMAL task before E1_PREFLIGHT_PASS and authorized content evaluator",
+    "raw_outputs": "restricted_root only; never git or ordinary logs"
+  },
+  "measure_before_freeze": {
+    "model_load_seconds": null,
+    "generation_tokens_per_second": null,
+    "repair_training_tokens_per_second": null,
+    "a1_training_tokens_per_second": null,
+    "evaluator_seconds_per_sample": null,
+    "peak_vram_bytes_by_operation": null,
+    "estimated_working_storage_bytes": null,
+    "final_week1_run_count": null,
+    "final_total_compute_cap_accelerator_seconds": null
+  },
+  "a800_transfer": {
+    "reuse": ["v6_e1_plan.json", "model/data/recipe hashes", "seeds", "batch ordering", "checkpoint stages", "endpoint gates", "logical trial order"],
+    "runtime_only_changes_allowed": ["device count", "per-device microbatch", "gradient accumulation needed to preserve effective batch/order", "distributed launcher"],
+    "required_check": "save/reload equivalence plus identical effective batch/order and one DEV loss/metric parity smoke before FORMAL A800 execution"
+  }
+}
