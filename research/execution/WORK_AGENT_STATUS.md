@@ -51,35 +51,22 @@
 - Scoring summary: B 3 yes / 13 no / 0 UNKNOWN / 16 valid; R_cal 3 yes / 13 no / 0 UNKNOWN / 16 valid. Each arm had 3 generations at max length 256. All 16 paired labels were identical; no pair changed.
 - This is a small DEV behavior diagnostic only. It is not endpoint equivalence, repair success, E1, or tamper-resistance evidence.
 
-## V6 E1 formal preparation
+## Formal preparation updates
 
-- Current phase: `4/7 — FORMAL E1 PREPARATION`
-- Latest code/report commit before this preparation: `7b30edfa7e7326b54e037908662f8ee948a4728c`.
-- DEV repair execution SHA: `39251df2ec3676e39a0479af336f22e9ca5b66fa`.
-- HarmBench precheck and Base/R_cal diagnostic execution SHA: `18e8307ed733cd07e8d967759e7c7d0593dd3a2f`.
-- Formal-preparation code SHA is the next local commit after these changes; no formal scientific task was run.
+- Phase: `4/7 — FORMAL E1 PREPARATION`.
+- Corrected boundary: tokenizer validity is not reference equivalence; adapter file presence is not adapter activation; formal entry import is not formal training validation.
+- Tokenizer reference check: native SentencePiece with the pinned `tokenizer.model` produced complete IDs for ordinary text, double spaces, newline text and the official HarmBench template; BOS=1, no synthetic EOS, non-special IDs were in `[0, 32000)`. This is a limited reference-path check, not a proof of full runtime equivalence.
+- R_cal activation check: `PeftModel.from_pretrained` adapter enabled vs the same loaded base with adapter layers disabled on a fixed 36-token input gave logits max absolute difference `1.4765625`, L2 `124.43990325927734`; top ID was unchanged but adapter effect was nonzero. Adapter config SHA `4949e56a319b07ee0c40427f23af11a2d282c83f60447e9a71ec9ee97b410824`; adapter weights SHA `5cf034150d918da7bb92a7c71aaf366a4aafe3eff97ba3f3f1acb847ca89fd6a`. Receipt: `artifacts/v6_e1/DEV/repair_calibration/pku_safe_rlhf/s17/a01/adapter_identity_check.json`.
+- Formal candidate pool materialized, not formal-frozen: `artifacts/restricted/v6_e1/repair_candidate_pool/candidate_pool.jsonl`; 2,323 rows; file SHA `34a198e2278b6214162c9ad54c97bed51b32ba6fa7fd619c08a68106c17ab361`; IDs SHA `2540eae087fa1c139244e8e71a4a28901b53fa81b1f65d61be243eceeea8e8a4`; source is PKU-SafeRLHF revision `9421ffafec3fa40a1f1a7d567b4d525079477ecb`. Excluded prior DEV IDs: 579; safe-label rule and normalized prompt grouping retained; formal eight-way isolation remains incomplete.
+- Candidate config: `configs/execution/v6_e1_repair_candidate.json`; recommended split 2048 train / 256 validation / 19 reserve; recommended LoRA rank 8 alpha 16 q/v, AdamW 2e-5, batch 2 × accumulation 4, 512 steps, checkpoints 0/64/128/256/512. All remain `RECOMMENDED_PENDING_FREEZE` and no formal C/P was run.
+- Candidate invocation after freeze: `python -m src.execution.formal_repair_entry` via a thin approved caller using the single existing `run_repair` implementation, with one canonical FORMAL config/data hash and distinct C/P arm lineage. Current candidate is intentionally rejected by the runner until `mode=FORMAL` and `scientific_evidence=true` are frozen.
 
-### New executable preparation entries
+### Formal blockers remain
 
-- `src/execution/formal_repair_entry.py`: reuses `src.execution.repair_runner.run_repair`; requires `mode=FORMAL`, `scientific_evidence=true`, C/P lineage alignment, explicit parent/config/data/output identity. It does not create a second training loop and cannot run while formal config/data are absent.
-- `SafetyEvaluator.aggregate_content_labels(...)`: preserves yes/no/UNKNOWN and model/template/tokenizer identity for DEV content diagnostics.
-- `SafetyEvaluator.evaluate_endpoint_gate(...)`: parameterized endpoint-band check; missing bands return `ENDPOINT_BANDS_NOT_FROZEN`, missing metrics return `ENDPOINT_METRICS_MISSING`, and no thresholds are guessed.
-- Minimal validation: 22 targeted tests passed; compileall passed.
-
-### Formal path audit
-
-| Path | Actual state | Concrete blocker | Next executable action |
-|---|---|---|---|
-| `D_repair` | DEV materialized only | formal split hash/source/target construction not frozen | freeze formal manifest and write `v6_e1_repair_recipe.json` |
-| Other seven formal splits | no authorized local manifest | source/revision/sealing/family rules absent | materialize and hash each split under restricted store |
-| Repair C/P | runner exists; formal wrapper now exists | formal config/common stage absent | invoke `formal_repair_entry` twice with same recipe/data hash and distinct arm lineage |
-| A0 | direction math only | model-level intervention runner and authorized executor absent | deliver bounded A0 implementation/artifact from authorized executor |
-| Fresh A1 | no executable runner | attack implementation and authorized executor absent | deliver independent A1 runner/config/data/execution path |
-| Endpoint qualification | orchestration hook + parameterized gate only | endpoint bands, match/audit data and evaluator handler absent | freeze metric bands and bind restricted evaluator handler |
-| Benign plasticity | no formal runner/recipe | `D_plasticity` source/categories/curve rule absent | freeze data and minimal learning-curve fields |
-| Summary/failure | `FormalE1Backend` has MATCHING_FAILED→INVALID path | cannot receive real stage outputs until above paths exist | run only after qualified hooks return real receipts |
-
-A0/A1 are still formally non-runnable. The hook seam and pending jobs are not counted as implementations.
+- A0: no model-level intervention runner or authorized executor.
+- A1: no fresh parameter attack implementation or authorized executor.
+- Formal split manifest, endpoint bands, common repair stage, formal seeds and evaluator handler remain unfrozen.
+- Even with repair candidate data/config complete, formal P and fresh A1 cannot start until A0/A1 execution paths exist.
 
 ## Collaboration transport (current)
 

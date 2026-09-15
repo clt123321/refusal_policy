@@ -1,0 +1,77 @@
+{
+  "schema_version": "v6-e1-repair-candidate-1",
+  "status": "CANDIDATE_NOT_FORMAL_NOT_EXECUTABLE",
+  "mode": "FORMAL_CANDIDATE",
+  "scientific_evidence": false,
+  "purpose": "Reviewable common C/P repair candidate; not a formal recipe",
+  "model": {
+    "repo_id": "Qwen/Qwen2.5-1.5B-Instruct",
+    "revision": "989aa7980e4cf806f80c7fef2b1adb7bc71aa306",
+    "tokenizer_revision": "989aa7980e4cf806f80c7fef2b1adb7bc71aa306",
+    "dtype": "float16",
+    "chat_template": "native",
+    "parent_artifact_id": "QWEN2.5_1.5B_BASE_PINNED"
+  },
+  "data": {
+    "name": "D_repair_CANDIDATE_POOL",
+    "source_repo": "PKU-Alignment/PKU-SafeRLHF",
+    "source_revision": "9421ffafec3fa40a1f1a7d567b4d525079477ecb",
+    "source_path": "data/Alpaca3-8B/train.jsonl",
+    "pool_path": "artifacts/restricted/v6_e1/repair_candidate_pool/candidate_pool.jsonl",
+    "pool_file_sha256": "34a198e2278b6214162c9ad54c97bed51b32ba6fa7fd619c08a68106c17ab361",
+    "pool_ids_sha256": "2540eae087fa1c139244e8e71a4a28901b53fa81b1f65d61be243eceeea8e8a4",
+    "recommended_split": {"train": 2048, "validation": 256, "reserve": 19},
+    "formal_split_isolation": "NOT_ESTABLISHED",
+    "status": "CANDIDATE_SOURCE_MATERIALIZED"
+  },
+  "objective": {
+    "type": "causal_lm_supervised_targets",
+    "loss_masking": "target_tokens_only",
+    "status": "RECOMMENDED_PENDING_FREEZE"
+  },
+  "trainable": {
+    "parameterization": "LoRA",
+    "target_modules": ["q_proj", "v_proj"],
+    "rank": 8,
+    "alpha": 16,
+    "dropout": 0.0,
+    "export_format": "peft_adapter",
+    "status": "RECOMMENDED_PENDING_FREEZE"
+  },
+  "optimizer": {
+    "name": "AdamW",
+    "learning_rate": 0.00002,
+    "weight_decay": 0.0,
+    "betas": [0.9, 0.999],
+    "scheduler": "constant",
+    "fresh_state": true,
+    "status": "RECOMMENDED_PENDING_FREEZE"
+  },
+  "schedule": {
+    "steps": 512,
+    "batch_size": 2,
+    "gradient_accumulation_steps": 4,
+    "batch_ordering": "stable_candidate_id_order_no_shuffle",
+    "checkpoint_steps": [0, 64, 128, 256, 512],
+    "common_cp_stage": "PENDING_PREFLIGHT_SELECTION",
+    "status": "RECOMMENDED_PENDING_FREEZE"
+  },
+  "seed": 17,
+  "lineage": {
+    "parent_artifact_id": "QWEN2.5_1.5B_BASE_PINNED",
+    "arm": "C",
+    "repair_stage": "PENDING_COMMON_CP_STAGE"
+  },
+  "output": {
+    "directory_template": "artifacts/v6_e1/FORMAL_CANDIDATE/repair/{arm}/s17/a01",
+    "save_optimizer_state": true
+  },
+  "required_decisions": {
+    "formal_source_and_split": "approve pool source and 2048/256/19 split or replace",
+    "target_construction": "confirm source safe annotation is acceptable supervision and not independent truth",
+    "parameterization": "approve LoRA rank/alpha/modules or specify alternative",
+    "schedule": "approve candidate steps/checkpoints and common C/P stage selection rule",
+    "seeds": "freeze formal seeds before A1",
+    "endpoint_bands": "freeze numeric endpoint-match and audit bands separately"
+  }
+}
