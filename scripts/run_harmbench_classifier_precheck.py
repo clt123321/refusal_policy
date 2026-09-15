@@ -45,12 +45,16 @@ def main() -> int:
     parser.add_argument("--device", default="cuda")
     args = parser.parse_args()
     import torch
-    from transformers import AutoModelForCausalLM, AutoTokenizer
+    from transformers import AutoModelForCausalLM, LlamaTokenizer
 
     config = json.loads((args.model / "config.json").read_text())
     if config.get("model_type") != "mistral" or config.get("hidden_size") != 4096 or config.get("num_hidden_layers") != 32:
         raise RuntimeError("CLASSIFIER_ARCHITECTURE_MISMATCH")
-    tokenizer = AutoTokenizer.from_pretrained(args.model.as_posix(), use_fast=False)
+    tokenizer = LlamaTokenizer(
+        vocab_file=(args.model / "tokenizer.model").as_posix(),
+        bos_token="<s>", eos_token="</s>", unk_token="<unk>", pad_token="<unk>",
+        add_bos_token=True, add_eos_token=False,
+    )
     model = AutoModelForCausalLM.from_pretrained(args.model.as_posix(), torch_dtype=torch.bfloat16).to(args.device).eval()
     payload = json.loads(args.samples.read_text())
     records = []
