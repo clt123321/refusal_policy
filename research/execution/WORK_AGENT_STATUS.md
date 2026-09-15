@@ -34,13 +34,15 @@
 - Additional reload acceptance: fixed input outputs exact-match (`SAFE`/`SAFE`), logits max absolute difference `0.0` with tolerance `1e-5`: `artifacts/v6_e1/DEV/repair_gpu_smoke/s17/a01/acceptance_receipt.json`.
 - `scientific_evidence=false`; this is engineering validation only.
 
-## Not implemented or not run
+## Pilot data and recipe status
 
-- Formal C/P endpoints and formal repair recipe/common stage are not frozen.
-- A0/A1/content evaluator/formal plasticity have no capable implementation bound to Luna.
-- No formal data or scientific E1 result exists.
+- Stable task: `V6.E1.DEV.REPAIR_PILOT`
+- State: `READY_FOR_PI_DECISION`
+- Candidate config: `configs/execution/v6_repair_pilot_candidate.json`
+- Decision package: `research/execution/V6_E1_REPAIR_PILOT_DECISION_PACKAGE.md`
+- No real pilot data was materialized: repository has no authorized, source-pinned safety repair corpus. The DEV fixture and HarmBench evaluation assets are explicitly excluded from promotion.
+- Required before execution: PI/data-owner source and revision, target construction approval, candidate envelope approval, real file/ID hashes, length-policy receipt, then a new frozen config commit.
 
-## Formal repair decisions pending PI freeze
 
 | Decision | Current engineering candidate | Required formal decision |
 |---|---|---|

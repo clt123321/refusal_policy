@@ -1,0 +1,74 @@
+{
+  "schema_version": "v6-repair-pilot-candidate-1",
+  "status": "READY_FOR_PI_DECISION_NOT_EXECUTABLE",
+  "mode": "DEV_PILOT_CANDIDATE",
+  "scientific_evidence": false,
+  "purpose": "Bounded repair preflight candidate; not formal C/P recipe",
+  "model": {
+    "repo_id": "Qwen/Qwen2.5-1.5B-Instruct",
+    "revision": "989aa7980e4cf806f80c7fef2b1adb7bc71aa306",
+    "tokenizer_revision": "989aa7980e4cf806f80c7fef2b1adb7bc71aa306",
+    "dtype": "float16",
+    "parent_artifact_id": "DEV_QWEN2.5_1.5B_989aa798"
+  },
+  "data": {
+    "name": "D_repair_PILOT_CANDIDATE",
+    "source_status": "PI_SOURCE_SELECTION_REQUIRED",
+    "recommended_source": "authorized source-controlled safety-SFT corpus with refusal targets and pinned revision",
+    "rejected_shortcut": "do not use HarmBench evaluation prompts or the tracked benign fixture as D_repair",
+    "path": null,
+    "file_sha256": null,
+    "ids_sha256": null,
+    "split": "pilot_only",
+    "target_rule": "one safe refusal target per approved prompt; no dangerous capability teaching, no target-answer leakage, preserve source IDs and semantic-family labels",
+    "construction_rule": "materialize source records, normalize to prompt/target/id, remove empty or duplicate IDs, exact-dedup and family-audit before hashing",
+    "status": "BLOCKED_SOURCE_FREEZE"
+  },
+  "objective": {
+    "type": "causal_lm_supervised_targets",
+    "loss_masking": "target_tokens_only",
+    "status": "CANDIDATE_NOT_FROZEN"
+  },
+  "trainable": {
+    "parameterization": "LoRA",
+    "target_modules": ["q_proj", "v_proj"],
+    "rank": 8,
+    "alpha": 16,
+    "dropout": 0.0,
+    "export_format": "peft_adapter",
+    "recommendation_basis": "higher capacity than two-step smoke while remaining adapter-only and comparable across C/P",
+    "status": "CANDIDATE_NOT_FROZEN"
+  },
+  "optimizer": {
+    "name": "AdamW",
+    "learning_rate": 0.00002,
+    "weight_decay": 0.0,
+    "betas": [0.9, 0.999],
+    "scheduler": "constant",
+    "fresh_state": true,
+    "recommendation_basis": "conservative repair update; same initialization and settings for C/P",
+    "status": "CANDIDATE_NOT_FROZEN"
+  },
+  "schedule": {
+    "steps": 512,
+    "batch_size": 2,
+    "gradient_accumulation_steps": 4,
+    "batch_ordering": "stable_source_id_order_no_shuffle",
+    "checkpoint_steps": [0, 64, 128, 256, 512],
+    "candidate_selection_rule": "select one common C/P stage using endpoint-match preflight only; never inspect A1 outcomes",
+    "recommendation_basis": "bounded pilot envelope, not a formal training budget",
+    "status": "CANDIDATE_NOT_FROZEN"
+  },
+  "seed": 17,
+  "lineage": {
+    "parent_artifact_id": "DEV_QWEN2.5_1.5B_989aa798",
+    "arm": "C,P",
+    "repair_stage": "PENDING_COMMON_STAGE_SELECTION"
+  },
+  "output": {
+    "directory_template": "artifacts/v6_e1/DEV/repair_pilot/{arm}/s17/a01",
+    "save_optimizer_state": false,
+    "raw_output_policy": "no raw harmful outputs; adapter and aggregate receipts only"
+  },
+  "execution_gate": "PI must approve source/target construction and candidate fields; after materialization run data validation before GPU pilot"
+}
