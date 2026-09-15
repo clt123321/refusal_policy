@@ -1,13 +1,13 @@
 # Work Agent Status — V6.E1 direct path
 
-**Gate:** `DIRECT_REPAIR_CODE_INTEGRATED / 4090_REPAIR_GPU_SMOKE_PENDING`
+**Gate:** `DIRECT_REPAIR_CODE_INTEGRATED / 4090_REPAIR_GPU_SMOKE_COMPLETE / FORMAL_RECIPE_PENDING`
 
 ## Source
 
-- Relay branch: `refusal-policy-handoff-4090-20260915-d8bbb01`
-- Verified relay head: `77ed1780f56affc6ee6af5e73b20f2cce22cefba`
-- Repair commits present: `7f590e2ee0e955acec34243e1a9fe0f30887c70d`, `d8bbb01c52a7b6ec2a02e11f89431e5b93976a37`
-- Only reviewed refusal-policy commits were integrated. Continuous/external-job orchestration remains frozen.
+- GitHub execution branch: `work/4090-e1-67c90f0`
+- Verified execution SHA: `67c90f05f788a549f4abb1489989c47a25a995be`
+- Repair commits present in source history: `7f590e2ee0e955acec34243e1a9fe0f30887c70d`, `d8bbb01c52a7b6ec2a02e11f89431e5b93976a37`
+- Continuous/external-job orchestration remains frozen.
 
 ## Implemented
 
@@ -19,27 +19,44 @@
 - Tracked benign `v6_repair_dev.json` and fixture for independent 4090 runner validation.
 - Terminal `MATCHING_FAILED → INVALID` path without waiting for A1/plasticity.
 
+## DEV GPU result
+
+- Task: `V6.E1.DEV.REPAIR_GPU_SMOKE`
+- Run/attempt: `V6.E1.DEV.REPAIR_GPU_SMOKE.s17` / `V6.E1.DEV.REPAIR_GPU_SMOKE.s17.a01`
+- Device: RTX 4090, `cuda`, torch `2.10.0+cu128`; post-run `nvidia-smi`: 2 MiB used, 24214 MiB free. PyTorch peak VRAM was not instrumented by this runner.
+- Model: Qwen/Qwen2.5-1.5B-Instruct revision `989aa7980e4cf806f80c7fef2b1adb7bc71aa306`; manifest: `artifacts/v6_e1_model_manifest.json`.
+- Config/data SHA256: `fd151c627030ea7407a82c9e1d3b6e156e18b411019a94b7ee9b0ecb6475bc46` / `6ac5be0d282dda07cddfab3cb0a97b6eaa5189eb45f174ad32e06890a9c8e3a6`.
+- Steps/tokens/wall: `2` / `79` complete input-sequence tokens / `22.79592990875244` seconds.
+- Losses: `0.017715321853756905`, `0.5359166264533997`; loss increase is recorded, not treated as a scientific outcome.
+- Checkpoints: `artifacts/v6_e1/DEV/repair_gpu_smoke/s17/a01/checkpoints/step_000000/adapter`, `step_000001/adapter`, `step_000002/adapter`; final: `artifacts/v6_e1/DEV/repair_gpu_smoke/s17/a01/adapter`.
+- Step-0 to final: 112/112 tensors changed; max absolute difference `0.00020013423636555672`.
+- Existing reload receipt: `reload_pass=true` means load succeeded and parameters were finite only: `artifacts/v6_e1/DEV/repair_gpu_smoke/s17/a01/reload_receipt.json`.
+- Additional reload acceptance: fixed input outputs exact-match (`SAFE`/`SAFE`), logits max absolute difference `0.0` with tolerance `1e-5`: `artifacts/v6_e1/DEV/repair_gpu_smoke/s17/a01/acceptance_receipt.json`.
+- `scientific_evidence=false`; this is engineering validation only.
+
 ## Not implemented or not run
 
-- Exact Qwen model cache on the 4090 has not been proven by the handoff receipt.
-- No repair training or reload validation has run on the 4090.
-- Formal repair recipe/common stage is not frozen.
+- Formal C/P endpoints and formal repair recipe/common stage are not frozen.
 - A0/A1/content evaluator/formal plasticity have no capable implementation bound to Luna.
-- No scientific E1 data exists.
+- No formal data or scientific E1 result exists.
+
+## Formal repair decisions pending PI freeze
+
+| Decision | Current engineering candidate | Required formal decision |
+|---|---|---|
+| D_repair | Tracked DEV fixture only | Exact revision, IDs, target construction and split hash |
+| Parameterization | LoRA, q_proj/v_proj, rank 2, alpha 4, dropout 0 | LoRA versus full parameters; modules/rank/alpha |
+| Optimizer | AdamW, lr 1e-4, zero decay, betas 0.9/0.999 | Optimizer, LR/betas/decay, fresh state and batch order |
+| Schedule | Two DEV steps, batch 1, checkpoints 0/1/2 | Effective batch/tokens, candidate checkpoints and common C/P stage |
+| Endpoint gate | Not evaluated in DEV | Equivalence bands, low-margin tail and sealed audit |
+| Export/reload | PEFT adapter; finite/load and fixed-input replay validated | Final normalized export/reload format and tolerance |
 
 ## Next task
 
-After the Work Agent saves any local changes, checks out the integrated clean SHA, reuses or materializes the exact Qwen cache, and confirms `.venv-v6` imports, run:
-
-`V6.E1.DEV.REPAIR_GPU_SMOKE`
-
-Use the exact commands in `research/v6/V6_EXECUTION_MAP.md`. This benign DEV task is independent of A0, the content evaluator and all eight formal splits. Its completion does not authorize formal E1.
-
-Other dependency-satisfied tasks may continue if one task is blocked. Exit only when nothing is ready or running; do not create an external queue.
+DEV GPU repair is complete. Formal C/P and E1 science remain blocked on PI recipe/data freeze and authorized A0/A1/evaluator capabilities. Do not infer scientific conclusions from this DEV result.
 
 ## Collaboration transport (current)
 
 - GitHub `clt123321/refusal_policy` is the authoritative repository.
 - The development machine publishes ordinary GitHub work branches; Mac Codex reviews and integrates them into GitHub `main`.
-- The `diagon-python` relay is retired from daily `refusal_policy` synchronization. Its remote may remain configured for emergency recovery only; do not publish new routine handoff branches there.
-- Historical relay handoff refs were eligible for removal only after source/patch-equivalence review and a verified local backup bundle. Their removal does not change the V6 scientific or execution gates.
+- The `diagon-python` relay is retired from daily `refusal_policy` synchronization.
