@@ -1,3 +1,14 @@
+# Current execution map — V7 screen primary, V6 tail only
+
+## Current program routing (2026-09-15)
+
+- **Primary next 3–5 day effort:** V7 same-checkpoint scoring-manipulation monitor screen. Protocol: `research/v7/V7_SCREEN_PROTOCOL.md`; five-task config: `configs/execution/v7_screen.json`.
+- **V6 allowed tail:** verify reusable Base/environment/repair receipts and rerun the invalidated B/R_cal DEV generation+scoring with isolated model instances.
+- **V6 paused:** formal E1 expansion, final repair/A0/A1 freeze, Week-2 and defense work. These are not V7 prerequisites.
+- V7 is `COMPILED_NOT_READY`: asset fetching can start, but label/sandbox, rollout/activation and monitor entrypoints are not implemented. Do not call it READY from file presence.
+
+The remainder of this document preserves the V6 execution path for provenance and eventual resumption.
+
 # V6.E1 direct execution map — 4090 first
 
 **Scope:** Week-1 E1 only: B, C, P construction; endpoint qualification; fresh A1; benign plasticity; E1 comparison. Week-2 and defense work remain frozen.
