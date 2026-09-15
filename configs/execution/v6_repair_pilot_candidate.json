@@ -1,6 +1,6 @@
 {
   "schema_version": "v6-repair-pilot-candidate-1",
-  "status": "READY_FOR_PI_DECISION_NOT_EXECUTABLE",
+  "status": "SUPERSEDED_BY_APPROVED_DEV_CONFIG",
   "mode": "DEV_PILOT_CANDIDATE",
   "scientific_evidence": false,
   "purpose": "Bounded repair preflight candidate; not formal C/P recipe",
