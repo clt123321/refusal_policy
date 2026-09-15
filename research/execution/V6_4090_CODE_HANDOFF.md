@@ -12,3 +12,7 @@
 - Validation status at snapshot: CPU/GPU repair execution and reload validation pending; existing unit tests are the only completed validation for these files
 - Excluded from handoff: virtual environments, model weights, checkpoints, large data, restricted raw outputs, credentials, and unrelated project code
 - Formal recipe status: `DRAFT_REQUIRES_EXECUTOR_FREEZE`
+
+## Post-handoff integration note
+
+This snapshot was fully audited and its repair implementation plus necessary ancestors were integrated into GitHub in `db0401070357ef3dc06245732d0cfa9aa3979c17`. GitHub work branches are now the normal development-machine collaboration path; this relay branch is no longer an active execution dependency.

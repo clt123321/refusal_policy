@@ -36,3 +36,10 @@ After the Work Agent saves any local changes, checks out the integrated clean SH
 Use the exact commands in `research/v6/V6_EXECUTION_MAP.md`. This benign DEV task is independent of A0, the content evaluator and all eight formal splits. Its completion does not authorize formal E1.
 
 Other dependency-satisfied tasks may continue if one task is blocked. Exit only when nothing is ready or running; do not create an external queue.
+
+## Collaboration transport (current)
+
+- GitHub `clt123321/refusal_policy` is the authoritative repository.
+- The development machine publishes ordinary GitHub work branches; Mac Codex reviews and integrates them into GitHub `main`.
+- The `diagon-python` relay is retired from daily `refusal_policy` synchronization. Its remote may remain configured for emergency recovery only; do not publish new routine handoff branches there.
+- Historical relay handoff refs were eligible for removal only after source/patch-equivalence review and a verified local backup bundle. Their removal does not change the V6 scientific or execution gates.
