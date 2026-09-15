@@ -1,5 +1,7 @@
 # V6 4090 Code Handoff
 
+> **ARCHIVED TRANSPORT SNAPSHOT.** This describes the retired relay handoff, not current execution readiness. Use `research/v6/V6_EXECUTION_MAP.md` and `configs/execution/v6_e1_plan.json` for the current path.
+
 - Snapshot date: 2026-09-15
 - Source HEAD before handoff: `d8bbb01c52a7b6ec2a02e11f89431e5b93976a37`
 - Working tree before handoff: clean

@@ -4,7 +4,7 @@ import json
 from pathlib import Path
 from typing import Any
 
-from src.execution.repair_runner import run_repair
+from src.execution.repair_runner import run_repair, verify_execution_checkout
 
 
 def run_formal_repair(
@@ -18,7 +18,10 @@ def run_formal_repair(
     run_id: str,
     attempt_id: str,
     device: str = "cuda",
+    repo: Path | None = None,
 ) -> dict[str, Any]:
+    repo = (repo or Path(".")).resolve()
+    verify_execution_checkout(repo, execution_sha)
     if arm not in {"C", "P"}:
         raise ValueError("FORMAL_REPAIR_ARM_INVALID")
     config = json.loads(config_path.read_text())
@@ -38,4 +41,5 @@ def run_formal_repair(
         task_id=task_id,
         run_id=run_id,
         attempt_id=attempt_id,
+        repo=repo,
     )

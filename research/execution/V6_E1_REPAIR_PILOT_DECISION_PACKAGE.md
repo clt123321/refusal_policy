@@ -2,7 +2,9 @@
 
 ## Status
 
-`READY_FOR_PI_DECISION_NOT_EXECUTABLE`
+`ARCHIVED_SUPERSEDED_BY_V6_REPAIR_PILOT_JSON`
+
+This is the pre-pilot decision snapshot. Its candidate config and launch command are historical and must not be run. The development-machine report in `WORK_AGENT_STATUS.md` points to `configs/execution/v6_repair_pilot.json`; current navigation is `research/v6/V6_EXECUTION_MAP.md`.
 
 The independent 4090 DEV repair smoke is complete. A real repair pilot is not started because the repository contains no authorized, source-pinned safety repair corpus and the existing protocol explicitly marks `D_repair` as `PENDING_EXECUTOR_PILOT` / `BLOCKED_SOURCE_FREEZE`.
 

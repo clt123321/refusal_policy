@@ -1,6 +1,8 @@
 # Work Agent Status — V6.E1 direct path
 
-**Gate:** `DIRECT_REPAIR_CODE_INTEGRATED / 4090_REPAIR_GPU_SMOKE_COMPLETE / REPAIR_CALIBRATION_PILOT_COMPLETE / FORMAL_RECIPE_PENDING`
+**Gate:** `DIRECT_REPAIR_CODE_INTEGRATED / DEVELOPER_REPORTED_DEV_RUNS / FORMAL_RECIPE_PENDING`
+
+> Evidence boundary (source audit at `742e0f7bbf742010d824e4255d8dd4cd794a8602`): the GPU receipts and restricted artifacts named below are gitignored and were not present in the audited checkout. Their numbers are development-machine reports, not independently verified repository evidence. A config flag such as `scientific_evidence=true`, an import, or a checkpoint path is never completion evidence; only an immutable run/result record plus the applicable scientific gates is authoritative.
 
 ## Source
 
@@ -20,7 +22,7 @@
 - Approved PKU-SafeRLHF DEV data materialization script and restricted manifest.
 - Terminal `MATCHING_FAILED → INVALID` path without waiting for A1/plasticity.
 
-## Repair calibration pilot
+## Repair calibration pilot (development-machine report)
 
 - Task: `V6.E1.DEV.REPAIR_CALIBRATION`
 - Run/attempt: `V6.E1.DEV.REPAIR_CALIBRATION.PKU_SAFE_RLHF.s17` / `V6.E1.DEV.REPAIR_CALIBRATION.PKU_SAFE_RLHF.s17.a01`
@@ -40,16 +42,15 @@
 - Save/reload: training-end in-memory model reference saved to `memory_reference_logits.pt`; new process loaded final adapter and produced `SAFE`; logits max absolute difference `0.0` with tolerance `1e-5`; `reload_pass=true` and finite also passed. Receipt: `artifacts/v6_e1/DEV/repair_calibration/pku_safe_rlhf/s17/a01/acceptance_receipt.json`.
 - Diagnostic boundary: NLL is training/fitting evidence only, not safety, utility, or tamper-resistance evidence.
 
-## HarmBench DEV evaluator and checkpoint diagnostic
+## HarmBench DEV evaluator and checkpoint diagnostic (development-machine report)
 
 - Tokenizer root cause fixed in commit `18e8307ed733cd07e8d967759e7c7d0593dd3a2f`: Transformers 5.16 `LlamaTokenizer(vocab_file=...)` loaded the SentencePiece file as a 3-token special-token vocabulary. Native SentencePiece reported 32000 tokens and correctly encoded inputs; the evaluator now uses the pinned `tokenizer.model` directly with explicit Mistral BOS/EOS IDs and validates vocab size against model config.
 - CPU validation: plain text encoded to 4 tokens; official prompt encoded to 310 tokens; IDs were within 32000 and masks had valid non-special positions.
 - Fixed precheck attempt: execution SHA `18e8307ed733cd07e8d967759e7c7d0593dd3a2f`; 32/32 parsed, prediction counts yes=15/no=17/UNKNOWN=0; confusion matrix TP=15, TN=16, FP=0, FN=1; correct=31/32; gate passed. Peak classifier memory `14738422784` bytes; wall `3.2313098907470703` seconds; post-run GPU 2 MiB used / 24214 MiB free. Receipt: `artifacts/restricted/v6_e1/harmbench/precheck_result_fixed.json`.
 - Original UNKNOWN receipt and failed tokenizer attempts remain at `precheck_result.json` and task logs; no sample, template, threshold or forced label was changed.
 - Base/R_cal generation: 16 fixed behaviors, seed 17, Qwen native chat template, greedy, max_new_tokens=256. Receipt: `artifacts/restricted/v6_e1/harmbench/checkpoint_generation.json`; wall `83.02840638160706` seconds; peak memory `3113364480` bytes.
-- Base/R_cal scoring: classifier loaded only after Qwen generation completed and GPU was released; official Mistral prompt, native SentencePiece, BF16. Receipt: `artifacts/restricted/v6_e1/harmbench/checkpoint_scoring_a02.json`; wall `2.3667733669281006` seconds; peak memory `14660661248` bytes.
-- Scoring summary: B 3 yes / 13 no / 0 UNKNOWN / 16 valid; R_cal 3 yes / 13 no / 0 UNKNOWN / 16 valid. Each arm had 3 generations at max length 256. All 16 paired labels were identical; no pair changed.
-- This is a small DEV behavior diagnostic only. It is not endpoint equivalence, repair success, E1, or tamper-resistance evidence.
+- The reported Base/R_cal generation and scoring receipt is **superseded and invalid for arm comparison**: the generating script constructed `R_cal` by wrapping the same Python model object already stored as `B`, so adapter-state isolation was not guaranteed. The audited implementation now generates B first and then loads a fresh base instance for R_cal. The corrected DEV diagnostic has not been run or independently verified.
+- Even after rerun, this is only a small DEV behavior diagnostic. It cannot establish endpoint equivalence, repair success, E1, or tamper resistance.
 
 ## Formal preparation updates
 
@@ -59,7 +60,7 @@
 - R_cal activation check: `PeftModel.from_pretrained` adapter enabled vs the same loaded base with adapter layers disabled on a fixed 36-token input gave logits max absolute difference `1.4765625`, L2 `124.43990325927734`; top ID was unchanged but adapter effect was nonzero. Adapter config SHA `4949e56a319b07ee0c40427f23af11a2d282c83f60447e9a71ec9ee97b410824`; adapter weights SHA `5cf034150d918da7bb92a7c71aaf366a4aafe3eff97ba3f3f1acb847ca89fd6a`. Receipt: `artifacts/v6_e1/DEV/repair_calibration/pku_safe_rlhf/s17/a01/adapter_identity_check.json`.
 - Formal candidate pool materialized, not formal-frozen: `artifacts/restricted/v6_e1/repair_candidate_pool/candidate_pool.jsonl`; 2,323 rows; file SHA `34a198e2278b6214162c9ad54c97bed51b32ba6fa7fd619c08a68106c17ab361`; IDs SHA `2540eae087fa1c139244e8e71a4a28901b53fa81b1f65d61be243eceeea8e8a4`; source is PKU-SafeRLHF revision `9421ffafec3fa40a1f1a7d567b4d525079477ecb`. Excluded prior DEV IDs: 579; safe-label rule and normalized prompt grouping retained; formal eight-way isolation remains incomplete.
 - Candidate config: `configs/execution/v6_e1_repair_candidate.json`; recommended split 2048 train / 256 validation / 19 reserve; recommended LoRA rank 8 alpha 16 q/v, AdamW 2e-5, batch 2 × accumulation 4, 512 steps, checkpoints 0/64/128/256/512. All remain `RECOMMENDED_PENDING_FREEZE` and no formal C/P was run.
-- Candidate invocation after freeze: `python -m src.execution.formal_repair_entry` via a thin approved caller using the single existing `run_repair` implementation, with one canonical FORMAL config/data hash and distinct C/P arm lineage. Current candidate is intentionally rejected by the runner until `mode=FORMAL` and `scientific_evidence=true` are frozen.
+- Formal repair after freeze uses the single `run_repair` training implementation. `formal_repair_entry.run_formal_repair` is an import-level contract adapter, not a standalone CLI. C/P have distinct full config hashes because lineage differs; equality is enforced with the recorded `training_recipe_sha256`, which excludes only lineage/output fields. The candidate remains intentionally rejected until the formal recipe and gates are frozen.
 
 ### Formal blockers remain
 

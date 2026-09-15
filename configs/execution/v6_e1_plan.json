@@ -3,7 +3,14 @@
   "format_scope": "V6.E1-specific task list; not a reusable workflow DSL",
   "experiment_id": "V6.E1",
   "research_plan_base_sha": "90cf38bb632c0e6ca861596a59dec4acba23f8ba",
-  "status": "DIRECT_REPAIR_CODE_VALIDATED_GPU_VALIDATION_PENDING",
+  "status": "SOURCE_AUDITED_AT_742E0F7_FORMAL_E1_BLOCKED",
+  "status_authority": "Task current_status fields are review-time readiness hints, not run records. Immutable attempt receipts/manifests determine actual execution state.",
+  "audit_snapshot": {
+    "github_main_sha": "67c90f05f788a549f4abb1489989c47a25a995be",
+    "work_branch": "work/4090-e1-67c90f0",
+    "work_branch_sha": "742e0f7bbf742010d824e4255d8dd4cd794a8602",
+    "later_work_branch_commits": "OUT_OF_SCOPE"
+  },
   "modes": {
     "DEV": "instrumentation, smoke and preflight only; never counted as scientific evidence",
     "FORMAL": "frozen scientific runs only; requires signed preflight and authorized evaluator/executor"
@@ -23,6 +30,7 @@
   "completion_semantics": {
     "execution_completed": "the operation returned and all declared artifacts/receipts were persisted, even if a scientific gate failed",
     "scientific_valid": "the preregistered scientific condition passed",
+    "scientific_evidence_field": "a config/backend declaration is not completion evidence; only immutable run records plus applicable endpoint/E1 gates qualify a claim",
     "terminal_invalid": "MATCHING_FAILED is a completed endpoint audit; skip A1/plasticity and produce an INVALID summary"
   },
   "execution_capabilities": {
@@ -39,7 +47,7 @@
     "proposed_a1_checkpoints_pending_preflight": [0, 8, 32, 128, 256]
   },
   "code_facts": {
-    "github_main_at_audit": "90cf38bb632c0e6ca861596a59dec4acba23f8ba",
+    "github_main_at_audit": "67c90f05f788a549f4abb1489989c47a25a995be",
     "github_harness_commits": {
       "interfaces": "3bc1d4b5d0df7446202bcf4aacd53c89320a6aae",
       "intervention_and_statistics_tests": "1279f18c877d56f178a3e8a2051ee8d155430f17",
@@ -56,9 +64,11 @@
       "status": "FETCHED_AND_SOURCE_AUDITED; selected project commits integrated, continuous queue excluded"
     },
     "observed_limitations": [
-      "repair_runner, parameterized reload CLI and a benign DEV recipe are tracked; GPU execution/reload remain unverified on the 4090",
+      "repair runner/reload and DEV recipe are tracked; reported 4090 receipts are gitignored and not independently verified in this checkout",
+      "the earlier B/R_cal DEV receipt is invalid for arm comparison because the generator did not guarantee model-state isolation; rerun only with the audited fresh-base implementation",
+      "HarmBench native SentencePiece tokenization is range/special-token checked, but token-ID equivalence to a pinned reference implementation is not established",
       "FormalE1Backend remains a hook seam: no real A0, A1, content evaluator or formal plasticity implementation is tracked",
-      "continuous external-job code was audited but intentionally not integrated because it has no tracked consumer and adds no execution capability",
+      "continuous external-job code remains frozen because it has no tracked consumer and adds no E1 scientific capability",
       "formal repair recipe/checkpoint stage and A1 grid remain pending preflight freeze",
       "benign LocalModelSmokeBackend and v6_repair_dev.json are DEV-only and never formal recipes"
     ]
@@ -167,8 +177,8 @@
       "resource": "NETWORK_CPU_STORAGE",
       "outputs": ["artifacts/runtime/v6_e1/model_manifest.json", "local cache"],
       "completion": ["revision and tokenizer resolve", "file hashes recorded", "license/model card snapshot recorded"],
-      "current_status": "READY_NETWORK_REQUIRED",
-      "missing": ["4090 cache path", "materialized hashes"],
+      "current_status": "DEVELOPER_REPORTED_CACHED_NOT_INDEPENDENTLY_VERIFIED",
+      "missing": ["repository-visible immutable model manifest or on-host independent verification"],
       "owner": "Luna",
       "todo_clause": "P2"
     },
@@ -438,8 +448,8 @@
       "resource": "GPU_4090",
       "outputs": ["artifacts/v6_e1/DEV/runtime_smoke/gate_state.json", "benign adapters", "throughput/VRAM receipt"],
       "completion": ["model load succeeds", "benign LoRA artifact saves", "DEV scientific_evidence=false", "actual throughput/VRAM recorded"],
-      "current_status": "BLOCKED_MODEL_CACHE_AND_GPU_RUN",
-      "missing": ["4090 model cache", "4090 environment lock and execution receipt"],
+      "current_status": "DEVELOPER_REPORTED_COMPLETE_RECEIPT_NOT_IN_GIT",
+      "missing": ["independent verification of on-host runtime receipt"],
       "owner": "Luna",
       "todo_clause": "P2/P5"
     },
@@ -456,13 +466,13 @@
       "entrypoint": "python -m src.execution.repair_runner followed by python -m scripts.reload_repair_artifact; exact argv in command_templates",
       "command_templates": {
         "train": ["python", "-m", "src.execution.repair_runner", "--config", "configs/execution/v6_repair_dev.json", "--parent-model", "${V6_MODEL_PATH}", "--output", "artifacts/v6_e1/DEV/repair_gpu_smoke/s17/a01", "--device", "cuda", "--execution-sha", "${EXECUTION_SHA}", "--task-id", "V6.E1.DEV.REPAIR_GPU_SMOKE", "--run-id", "V6.E1.DEV.REPAIR_GPU_SMOKE.s17", "--attempt-id", "V6.E1.DEV.REPAIR_GPU_SMOKE.s17.a01"],
-        "reload": ["python", "-m", "scripts.reload_repair_artifact", "--base", "${V6_MODEL_PATH}", "--adapter", "artifacts/v6_e1/DEV/repair_gpu_smoke/s17/a01/adapter", "--device", "cuda", "--dtype", "float16", "--receipt", "artifacts/v6_e1/DEV/repair_gpu_smoke/s17/a01/reload_receipt.json"]
+        "reload": ["python", "-m", "scripts.reload_repair_artifact", "--base", "${V6_MODEL_PATH}", "--adapter", "artifacts/v6_e1/DEV/repair_gpu_smoke/s17/a01/adapter", "--device", "cuda", "--dtype", "float16", "--reference", "artifacts/v6_e1/DEV/repair_gpu_smoke/s17/a01/memory_reference_logits.pt", "--receipt", "artifacts/v6_e1/DEV/repair_gpu_smoke/s17/a01/reload_receipt.json"]
       },
       "resource": "GPU_4090",
       "outputs": ["repair_result.json", "checkpoint adapters at 0/1/2", "final adapter", "tokenizer", "reload_receipt.json"],
       "completion": ["process exits zero", "execution_completed=true", "scientific_evidence=false", "config/data/code/parent/run/attempt identity recorded", "all losses finite", "reload_pass=true"],
-      "current_status": "BLOCKED_MODEL_CACHE_AND_GPU_RUN",
-      "missing": ["4090 model cache and execution receipt"],
+      "current_status": "DEVELOPER_REPORTED_COMPLETE_RECEIPT_NOT_IN_GIT",
+      "missing": ["independent verification of on-host repair_result/reload receipt"],
       "owner": "Luna may execute benign DEV task",
       "todo_clause": "P2/P5 engineering validation only"
     },
@@ -479,7 +489,7 @@
       "entrypoint": "repair side implemented by src.execution.repair_runner; A0 model runner remains missing and authorized-executor-only",
       "resource": "GPU_4090",
       "outputs": ["DEV C/P/A0 artifacts", "throughput", "lineage", "repair-stage feasibility receipt"],
-      "completion": ["P parent is actual A0 artifact", "C/P recipe hash identical", "parameter distance recorded not matched"],
+      "completion": ["P parent is actual A0 artifact", "C/P training_recipe_sha256 identical while full lineage-aware config hashes differ", "parameter distance recorded not matched"],
       "current_status": "BLOCKED_UPSTREAM",
       "missing": ["A0 runner/capable authorized executor", "locked pilot repair/A0 candidates", "D_repair/D_A0_loc"],
       "owner": "Luna prepares repair inputs; authorized A0 executor runs the joint task",
@@ -606,13 +616,13 @@
       "run_id_template": "V6.E1.FORMAL.P_REPAIR.s{seed}",
       "instances_ref": "formal_seeds",
       "depends_on": ["V6.E1.FORMAL.P_A0"],
-      "conditions": ["recipe hash and checkpoint stage equal C_REPAIR"],
+      "conditions": ["training_recipe_sha256 and checkpoint stage equal C_REPAIR; lineage-aware full config hash may differ"],
       "inputs": ["actual A0 artifact", "same repair recipe object as C", "D_repair"],
       "operation": "P = attack(Base) -> same repair",
-      "entrypoint": "src.execution.repair_runner with the same final recipe hash as C_REPAIR",
+      "entrypoint": "src.execution.repair_runner with the same final training_recipe_sha256 as C_REPAIR",
       "resource": "GPU_4090_OR_A800",
       "outputs": ["P checkpoint/adapter", "parent lineage to A0", "cost ledger"],
-      "completion": ["parent artifact ID equals A0 output", "C/P recipe hash identical", "common stage emitted", "save/reload passes"],
+      "completion": ["parent artifact ID equals A0 output", "C/P training_recipe_sha256 identical", "common stage emitted", "save/reload passes"],
       "current_status": "BLOCKED_PREFLIGHT",
       "missing": ["final frozen repair recipe", "authorized A0 parent artifact", "formal GPU authorization"],
       "owner": "Authorized repair executor; P parent must be the authorized A0 artifact",

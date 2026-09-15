@@ -1,7 +1,13 @@
 import json
 from pathlib import Path
 import pytest
-from src.execution.repair_runner import _require_executable, build_parser, load_jsonl_repair_data, run_repair
+from src.execution.repair_runner import (
+    _require_executable,
+    build_parser,
+    load_jsonl_repair_data,
+    run_repair,
+    training_recipe_sha256,
+)
 
 
 def test_repair_runner_requires_frozen_config(tmp_path):
@@ -50,3 +56,15 @@ def test_repair_cli_requires_distinct_run_identity():
         "--run-id", "V6.E1.DEV.REPAIR_GPU_SMOKE.s17", "--attempt-id", "V6.E1.DEV.REPAIR_GPU_SMOKE.s17.a01",
     ])
     assert args.run_id != args.attempt_id
+
+
+def test_cp_training_recipe_hash_ignores_only_lineage_and_output():
+    config = json.loads(Path("configs/execution/v6_repair_pilot.json").read_text())
+    p_config = json.loads(json.dumps(config))
+    p_config["lineage"] = {
+        "parent_artifact_id": "a0", "arm": "P", "repair_stage": "same",
+    }
+    p_config["output"] = {"directory": "different"}
+    assert training_recipe_sha256(config) == training_recipe_sha256(p_config)
+    p_config["optimizer"]["learning_rate"] *= 2
+    assert training_recipe_sha256(config) != training_recipe_sha256(p_config)

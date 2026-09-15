@@ -40,7 +40,14 @@ class FormalE1Backend:
         self.hooks = hooks or MissingExecutorHooks()
 
     def _result(self, stage, valid, **extra):
-        return {"stage": stage, "valid": valid, "scientific_evidence": True, **extra}
+        return {
+            "stage": stage,
+            "valid": valid,
+            "scientific_evidence": False,
+            "scientific_evidence_declared": True,
+            "scientific_qualification": "PENDING_FINAL_HUMAN_REVIEW",
+            **extra,
+        }
 
     def _prior(self, context, stage):
         return context.state.get("stages", {}).get(stage, {}).get("result", {})
@@ -62,9 +69,17 @@ class FormalE1Backend:
         p = self.hooks.run_repair(context, "P", a0)
         result = {"B": base, "C": c, "P": p, "A0": a0}
         same_stage = c.get("repair_stage") == p.get("repair_stage") and c.get("repair_stage") is not None
-        valid = all(isinstance(x, dict) and x.get("valid", False) for x in (a0, c, p)) and same_stage
+        same_recipe = (
+            c.get("training_recipe_sha256") == p.get("training_recipe_sha256")
+            and c.get("training_recipe_sha256") is not None
+        )
+        valid = (
+            all(isinstance(x, dict) and x.get("valid", False) for x in (a0, c, p))
+            and same_stage and same_recipe
+        )
         return self._result(
             "construct", valid, endpoints=result, same_repair_stage=same_stage,
+            same_training_recipe=same_recipe,
             classification=None if valid else "CONSTRUCTION_INVALID",
         )
 
@@ -122,7 +137,7 @@ class FormalE1Backend:
             verdict = "V6_E1_INVALID"
         else:
             verdict = self._classify(curves)
-        return self._result("verdict", True, verdict=verdict, curves=curves, scientific_evidence=True)
+        return self._result("verdict", True, verdict=verdict, curves=curves)
 
     @staticmethod
     def _classify(curves):

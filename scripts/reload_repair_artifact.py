@@ -50,6 +50,7 @@ def validate_reload(base: Path, adapter: Path, device: str, dtype: str, referenc
             "reloaded_output": generated, "logits_max_abs_diff": max_diff,
             "logits_tolerance": 1e-5, "within_tolerance": max_diff <= 1e-5,
         }
+        result["reload_pass"] = bool(result["reload_pass"] and max_diff <= 1e-5)
     return result
 
 

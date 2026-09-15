@@ -1,5 +1,7 @@
 # V6 Engineering Handoff
 
+> **ARCHIVED TRANSPORT SNAPSHOT.** Kept in place because `TODO.md` links to it and it records historical provenance. GitHub work branches are now the collaboration path; this file is not an execution-status source.
+
 ## Authoritative GitHub base SHA
 
 ```text

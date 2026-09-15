@@ -23,6 +23,15 @@ def _hash_json(value: Any) -> str:
     return hashlib.sha256(payload).hexdigest()
 
 
+def training_recipe_sha256(config: dict[str, Any]) -> str:
+    """Hash the common C/P recipe while excluding arm lineage and output paths."""
+    fields = (
+        "model", "data", "validation", "objective", "trainable", "optimizer",
+        "schedule", "seed",
+    )
+    return _hash_json({field: config.get(field) for field in fields})
+
+
 def _full_sha(value: str, field: str) -> None:
     if len(value) != 40 or any(c not in "0123456789abcdef" for c in value.lower()):
         raise ValueError(f"{field} must be a full 40-character git SHA")
@@ -162,10 +171,14 @@ def run_repair(
     task_id: str,
     run_id: str,
     attempt_id: str,
+    repo: Path | None = None,
 ) -> dict[str, Any]:
     config = json.loads(config_path.read_text())
     _require_executable(config)
+    repo = (repo or Path.cwd()).resolve()
     data_path = Path(config["data"]["path"])
+    if not data_path.is_absolute():
+        data_path = repo / data_path
     if _sha256(data_path) != config["data"]["file_sha256"]:
         raise ValueError("D_REPAIR_HASH_MISMATCH")
     rows = load_jsonl_repair_data(data_path)
@@ -176,7 +189,9 @@ def run_repair(
     identity = {
         "experiment_id": "V6.E1", "task_id": task_id, "run_id": run_id,
         "attempt_id": attempt_id, "execution_sha": execution_sha,
-        "config_sha256": _sha256(config_path), "data_sha256": _sha256(data_path),
+        "config_sha256": _sha256(config_path),
+        "training_recipe_sha256": training_recipe_sha256(config),
+        "data_sha256": _sha256(data_path),
         "parent_artifact_id": config["lineage"]["parent_artifact_id"],
     }
     identity_hash = _hash_json(identity)
@@ -202,8 +217,11 @@ def run_repair(
     validation_rows = []
     validation_path = config.get("validation", {}).get("path")
     if validation_path:
-        validation_rows = load_jsonl_repair_data(Path(validation_path))
-        validation_sha = _sha256(Path(validation_path))
+        validation_path = Path(validation_path)
+        if not validation_path.is_absolute():
+            validation_path = repo / validation_path
+        validation_rows = load_jsonl_repair_data(validation_path)
+        validation_sha = _sha256(validation_path)
         if validation_sha != config["validation"]["file_sha256"]:
             raise ValueError("D_REPAIR_VALIDATION_HASH_MISMATCH")
         if _hash_json([row["id"] for row in validation_rows]) != config["validation"]["ids_sha256"]:
@@ -266,11 +284,22 @@ def run_repair(
     model.save_pretrained(adapter_dir)
     tokenizer_dir = output_dir / "tokenizer"
     tokenizer.save_pretrained(tokenizer_dir)
+    optimizer_state_artifact = None
+    if config.get("output", {}).get("save_optimizer_state") is True:
+        optimizer_state_path = output_dir / "optimizer_state.pt"
+        torch.save(
+            {"step": int(config["schedule"]["steps"]), "state_dict": optimizer.state_dict()},
+            optimizer_state_path,
+        )
+        optimizer_state_artifact = str(optimizer_state_path)
     elapsed = time.time() - started
     peak_memory_bytes = int(torch.cuda.max_memory_allocated()) if torch.cuda.is_available() else 0
     result = {
-        "status": "SUCCEEDED", "execution_completed": True,
-        "scientific_evidence": bool(config["scientific_evidence"]),
+        "status": "SUCCEEDED", "execution_completed": True, "valid": True,
+        # The config declares intended use. Qualification belongs to endpoint/E1 gates.
+        "scientific_evidence": False,
+        "scientific_evidence_declared": bool(config["scientific_evidence"]),
+        "scientific_qualification": "NOT_DETERMINED_BY_REPAIR_RUNNER",
         "artifact_role": "V6_REPAIR_CHECKPOINT", **identity,
         "run_identity_sha256": identity_hash,
         "parent_model_path": str(parent_model_path),
@@ -285,6 +314,9 @@ def run_repair(
         "memory_reference": memory_reference,
         "adapter_dir": str(adapter_dir),
         "checkpoint_artifacts": checkpoint_artifacts, "lineage": config["lineage"],
+        "optimizer_state_artifact": optimizer_state_artifact,
+        "arm": config["lineage"]["arm"],
+        "repair_stage": config["lineage"].get("repair_stage"),
     }
     prior_result.write_text(json.dumps(result, sort_keys=True, indent=2))
     return result
@@ -312,6 +344,7 @@ def main(argv: list[str] | None = None) -> int:
             args.config, args.parent_model, args.output, args.device,
             execution_sha=args.execution_sha, task_id=args.task_id,
             run_id=args.run_id, attempt_id=args.attempt_id,
+            repo=args.repo,
         )
         print(json.dumps(result, sort_keys=True, indent=2))
         return 0
