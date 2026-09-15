@@ -3,7 +3,7 @@ import types
 
 import pytest
 
-from scripts.generate_harmbench_checkpoints import _generate_arm
+import scripts.generate_harmbench_checkpoints as checkpoint_generation
 from scripts.run_harmbench_classifier_precheck import (
     SentencePieceMistralTokenizer,
     classify_generation,
@@ -42,25 +42,42 @@ def test_classifier_rejects_overlength_before_model_call():
         classify_generation(None, Tokenizer(), "behavior", "generation", "cpu", None, 3)
 
 
-def test_generation_helper_records_the_supplied_arm():
-    import torch
-
-    class Batch(dict):
-        def to(self, _device): return self
-
-    class Tokenizer:
-        pad_token_id = 2
-        def apply_chat_template(self, *args, **kwargs): return "prompt"
-        def __call__(self, *args, **kwargs): return Batch(input_ids=torch.tensor([[1, 3]]))
-        def decode(self, *args, **kwargs): return "answer"
+def test_b_generation_precedes_adapter_and_r_cal_uses_fresh_base(monkeypatch):
+    events = []
+    loaded_bases = []
 
     class Model:
-        def generate(self, **kwargs): return torch.tensor([[1, 3, 4]])
+        def __init__(self, identity):
+            self.identity = identity
 
-    records = _generate_arm(
-        Model(), Tokenizer(),
-        [{"sample_id": "s", "behavior_id": "b", "behavior": "prompt"}],
-        "B", "cpu", torch,
+    def load_base():
+        model = Model(f"base-{len(loaded_bases) + 1}")
+        loaded_bases.append(model)
+        events.append(("load_base", model.identity))
+        return model
+
+    def load_adapter(base_model):
+        events.append(("load_adapter", base_model.identity))
+        return Model(f"adapted-{base_model.identity}")
+
+    def generate_arm(model, _tokenizer, _selected, arm, _device, _torch):
+        events.append(("generate", arm, model.identity))
+        return [{"arm": arm}]
+
+    fake_torch = types.SimpleNamespace(
+        cuda=types.SimpleNamespace(is_available=lambda: False),
     )
-    assert records[0]["arm"] == "B"
-    assert records[0]["generated_tokens"] == 1
+    monkeypatch.setattr(checkpoint_generation, "_generate_arm", generate_arm)
+    records = checkpoint_generation._generate_isolated_arms(
+        load_base, load_adapter, None, [], "cpu", fake_torch,
+    )
+
+    assert records == [{"arm": "B"}, {"arm": "R_cal"}]
+    assert events == [
+        ("load_base", "base-1"),
+        ("generate", "B", "base-1"),
+        ("load_base", "base-2"),
+        ("load_adapter", "base-2"),
+        ("generate", "R_cal", "adapted-base-2"),
+    ]
+    assert loaded_bases[0] is not loaded_bases[1]
