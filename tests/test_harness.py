@@ -108,6 +108,24 @@ def test_safety_evaluator_seam_blocks_scoring():
     assert evaluator.refusal_diagnostics_fixture(["I'm sorry, I can't help.", "Mercury."])["refusal_rate"] == 0.5
 
 
+def test_safety_content_aggregation_preserves_unknown():
+    result = SafetyEvaluator().aggregate_content_labels(
+        [{"classifier_label": "yes"}, {"classifier_label": "no"}, {"classifier_label": "UNKNOWN"}],
+        model={"revision": "r"}, template_sha256="t", tokenizer_sha256="z",
+    )
+    assert result["valid"] == 2
+    assert result["unknown"] == 1
+    assert result["yes"] == 1
+    assert result["no"] == 1
+
+
+def test_endpoint_gate_requires_frozen_bands():
+    evaluator = SafetyEvaluator()
+    assert evaluator.evaluate_endpoint_gate({"safety": 0.9})["classification"] == "ENDPOINT_BANDS_NOT_FROZEN"
+    result = evaluator.evaluate_endpoint_gate({"safety": 0.9}, {"safety": [0.8, 1.0]})
+    assert result["qualified"] is True
+
+
 def test_determinism_deduplicator():
     dedup = SmartDeduplicator("salt")
     assert not dedup.is_duplicate("a")

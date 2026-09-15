@@ -51,16 +51,35 @@
 - Scoring summary: B 3 yes / 13 no / 0 UNKNOWN / 16 valid; R_cal 3 yes / 13 no / 0 UNKNOWN / 16 valid. Each arm had 3 generations at max length 256. All 16 paired labels were identical; no pair changed.
 - This is a small DEV behavior diagnostic only. It is not endpoint equivalence, repair success, E1, or tamper-resistance evidence.
 
-## E1 capability table
+## V6 E1 formal preparation
 
-| Capability | Actual entry point | State | Minimal next delivery |
+- Current phase: `4/7 — FORMAL E1 PREPARATION`
+- Latest code/report commit before this preparation: `7b30edfa7e7326b54e037908662f8ee948a4728c`.
+- DEV repair execution SHA: `39251df2ec3676e39a0479af336f22e9ca5b66fa`.
+- HarmBench precheck and Base/R_cal diagnostic execution SHA: `18e8307ed733cd07e8d967759e7c7d0593dd3a2f`.
+- Formal-preparation code SHA is the next local commit after these changes; no formal scientific task was run.
+
+### New executable preparation entries
+
+- `src/execution/formal_repair_entry.py`: reuses `src.execution.repair_runner.run_repair`; requires `mode=FORMAL`, `scientific_evidence=true`, C/P lineage alignment, explicit parent/config/data/output identity. It does not create a second training loop and cannot run while formal config/data are absent.
+- `SafetyEvaluator.aggregate_content_labels(...)`: preserves yes/no/UNKNOWN and model/template/tokenizer identity for DEV content diagnostics.
+- `SafetyEvaluator.evaluate_endpoint_gate(...)`: parameterized endpoint-band check; missing bands return `ENDPOINT_BANDS_NOT_FROZEN`, missing metrics return `ENDPOINT_METRICS_MISSING`, and no thresholds are guessed.
+- Minimal validation: 22 targeted tests passed; compileall passed.
+
+### Formal path audit
+
+| Path | Actual state | Concrete blocker | Next executable action |
 |---|---|---|---|
-| A0 direct intervention | `src/harness/direction.py` math primitives only; no model runner | Missing implementation and authorized executor | A bounded model-level A0 runner plus artifact/export receipt from authorized executor |
-| A1 fresh parameter attack | No executable A1 entry point; `FormalE1Backend` is a hook seam | Missing implementation and authorized executor | Independent A1 runner, frozen config/data, and authorized execution path |
-| Content-level evaluator | Direct DEV classifier now executes with pinned classifier/tokenizer and official prompt | DEV precheck and small B/R_cal diagnostic complete; formal handler absent | Endpoint match/audit datasets, restricted handler, authorized evaluator and formal latency receipt |
-| Formal C/P | Repair runner exists; formal recipe and common stage absent | Missing configuration/scientific freeze | PI-frozen recipe/data manifest and common-stage rule |
+| `D_repair` | DEV materialized only | formal split hash/source/target construction not frozen | freeze formal manifest and write `v6_e1_repair_recipe.json` |
+| Other seven formal splits | no authorized local manifest | source/revision/sealing/family rules absent | materialize and hash each split under restricted store |
+| Repair C/P | runner exists; formal wrapper now exists | formal config/common stage absent | invoke `formal_repair_entry` twice with same recipe/data hash and distinct arm lineage |
+| A0 | direction math only | model-level intervention runner and authorized executor absent | deliver bounded A0 implementation/artifact from authorized executor |
+| Fresh A1 | no executable runner | attack implementation and authorized executor absent | deliver independent A1 runner/config/data/execution path |
+| Endpoint qualification | orchestration hook + parameterized gate only | endpoint bands, match/audit data and evaluator handler absent | freeze metric bands and bind restricted evaluator handler |
+| Benign plasticity | no formal runner/recipe | `D_plasticity` source/categories/curve rule absent | freeze data and minimal learning-curve fields |
+| Summary/failure | `FormalE1Backend` has MATCHING_FAILED→INVALID path | cannot receive real stage outputs until above paths exist | run only after qualified hooks return real receipts |
 
-Do not infer formal endpoint qualification or E1 conclusions from this DEV diagnostic.
+A0/A1 are still formally non-runnable. The hook seam and pending jobs are not counted as implementations.
 
 ## Collaboration transport (current)
 

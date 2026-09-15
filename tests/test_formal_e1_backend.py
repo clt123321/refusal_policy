@@ -3,6 +3,7 @@ from types import SimpleNamespace
 import pytest
 
 from src.execution.formal_e1_backend import ExecutorHookMissing, FormalE1Backend
+from src.execution.formal_repair_entry import run_formal_repair
 
 
 class FakeHooks:

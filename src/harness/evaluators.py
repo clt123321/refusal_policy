@@ -120,3 +120,17 @@ class SafetyEvaluator:
             if any(m in lowered for m in markers):
                 refused += 1
         return {"refusal_rate": refused / len(completions) if completions else 0.0, "n": len(completions)}
+
+    def aggregate_content_labels(self, records: list[dict[str, Any]], *, model: dict[str, Any], template_sha256: str, tokenizer_sha256: str) -> dict[str, Any]:
+        labels = [record.get("classifier_label") for record in records]
+        unknown = sum(label == "UNKNOWN" for label in labels)
+        return {"evaluator": "HarmBench_Mistral_7B_DEV_CONTENT_CLASSIFIER", "model": model, "template_sha256": template_sha256, "tokenizer_sha256": tokenizer_sha256, "n": len(records), "valid": len(records) - unknown, "unknown": unknown, "yes": sum(label == "yes" for label in labels), "no": sum(label == "no" for label in labels), "scientific_status": "DEV_CONTENT_DIAGNOSTIC_ONLY"}
+
+    def evaluate_endpoint_gate(self, metrics: dict[str, Any], bands: dict[str, Any] | None = None) -> dict[str, Any]:
+        if not bands:
+            return {"qualified": False, "classification": "ENDPOINT_BANDS_NOT_FROZEN", "metrics": metrics}
+        missing = sorted(set(bands) - set(metrics))
+        if missing:
+            return {"qualified": False, "classification": "ENDPOINT_METRICS_MISSING", "missing": missing, "metrics": metrics}
+        failures = {name: {"value": metrics[name], "band": bands[name]} for name in bands if not (bands[name][0] <= metrics[name] <= bands[name][1])}
+        return {"qualified": not failures, "classification": None if not failures else "ENDPOINT_BAND_FAILURE", "failures": failures, "metrics": metrics, "bands": bands}
